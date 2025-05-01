@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const buttonPage = () => {
+const PaymentButton = () => {
   useEffect(() => {
     // Load PayPal SDK only once
     const script = document.createElement("script");
@@ -11,9 +11,9 @@ const buttonPage = () => {
     script.async = true;
 
     script.onload = () => {
-      // @ts-ignore - PayPal global not typed
+      // @ts-expect-error - PayPal global not typed
       if (window.paypal?.HostedButtons) {
-        // @ts-ignore
+        // @ts-expect-error - PayPal global not typed
         window.paypal.HostedButtons({
           hostedButtonId: "EGGDXES2VWUWY"
         }).render("#paypal-container-EGGDXES2VWUWY");
@@ -30,4 +30,4 @@ const buttonPage = () => {
   );
 };
 
-export default buttonPage;
+export default PaymentButton;
