@@ -1,6 +1,6 @@
 "use client"
 
-import PaymentButton from "@/app/buttonPage/PaymentButton.component";
+import PaymentButton from "@/app/payment-button/PaymentButton.component";
 
 export default function ButtonPage() {
     return <div>
