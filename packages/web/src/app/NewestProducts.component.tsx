@@ -1,23 +1,9 @@
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import Image from "next/image";
 import Link from "next/link";
+import {rubberDuckData} from "@/data/data";
 
-const products: RubberDuck[] = [
-    {
-        id: 1,
-        name: 'Classic Duck',
-        color: "red",
-        price: 19.99,
-        brand: "Classic",
-        description: "A classic rubber duck with a bright red color.",
-        material: "rubber",
-        origin: "China",
-        producer: "Classic Toys",
-        size: "m",
-        weight: 0.2
-    },
-    // More products...
-]
+const products: RubberDuck[] = rubberDuckData;
 
 export default function NewestProducts() {
     return <div className="bg-white">
@@ -38,11 +24,11 @@ export default function NewestProducts() {
                         role="list"
                         className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0"
                     >
-                        {products.map((product) => (
+                        {products.slice(0, 4).map((product) => (
                             <li key={product.id} className="inline-flex w-64 flex-col text-center lg:w-auto">
                                 <div className="group relative">
                                     <Image
-                                        src={"https://picsum.photos/800/450"}
+                                        src={`https://picsum.photos/800/450?random=${product.id}`}
                                         height={450}
                                         width={800}
                                         alt={product.name}
@@ -56,7 +42,9 @@ export default function NewestProducts() {
                                                 {product.name}
                                             </Link>
                                         </h3>
-                                        <p className="mt-1 text-gray-900">{product.price}</p>
+                                        <p className="mt-1 text-gray-900">
+                                            {product.price} €
+                                        </p>
                                     </div>
                                 </div>
                             </li>
