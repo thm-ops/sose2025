@@ -12,10 +12,10 @@ export const RubberDuckSchema = z.object({
     origin: z.string().min(3),
     producer: z.string().min(3),
     weight: z.number(),
-    description: z.string().min(3)
+    description: z.string().min(3),
 });
-  
-  // extract the inferred type like this
+
+// extract the inferred type like this
 type RubberDuck = z.infer<typeof RubberDuckSchema>;
 
 export default RubberDuck;
