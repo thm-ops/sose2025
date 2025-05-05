@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import {rubberDuckData} from "@/data/data";
+import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 
-const products = rubberDuckData;
+const products: RubberDuck[] = rubberDuckData;
 
 export default function NewestProducts() {
     return <div className="bg-white">
