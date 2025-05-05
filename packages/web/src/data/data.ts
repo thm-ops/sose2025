@@ -1,4 +1,6 @@
-export const rubberDuckData = [
+import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+
+export const rubberDuckData: RubberDuck[] = [
         {
             id: 1,
             name: "Classic Duck",
