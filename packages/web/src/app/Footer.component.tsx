@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const navigation = [
     {
-        name: 'Facebook',
-        href: '#',
+        name: "Facebook",
+        href: "#",
         icon: (props: React.SVGProps<SVGSVGElement>) => (
             <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                 <path
@@ -16,8 +16,8 @@ const navigation = [
         ),
     },
     {
-        name: 'Instagram',
-        href: '#',
+        name: "Instagram",
+        href: "#",
         icon: (props: React.SVGProps<SVGSVGElement>) => (
             <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                 <path
@@ -29,8 +29,8 @@ const navigation = [
         ),
     },
     {
-        name: 'GitHub',
-        href: '#',
+        name: "GitHub",
+        href: "#",
         icon: (props: React.SVGProps<SVGSVGElement>) => (
             <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                 <path
@@ -40,8 +40,8 @@ const navigation = [
                 />
             </svg>
         ),
-    }
-]
+    },
+];
 
 export default function Footer() {
     return (
@@ -60,5 +60,5 @@ export default function Footer() {
                 </p>
             </div>
         </footer>
-    )
+    );
 }
