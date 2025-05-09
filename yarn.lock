@@ -150,6 +150,11 @@
   resolved "https://registry.npmjs.org/@cspell/dict-data-science/-/dict-data-science-2.0.8.tgz"
   integrity sha512-uyAtT+32PfM29wRBeAkUSbkytqI8bNszNfAz2sGPtZBRmsZTYugKMEO9eDjAIE/pnT9CmbjNuoiXhk+Ss4fCOg==
 
+"@cspell/dict-de-de@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@cspell/dict-de-de/-/dict-de-de-4.1.0.tgz#caec8d64327110ff1b5a06822f0bdd114a147efc"
+  integrity sha512-BF1ouiRbZ+YmzTGu1JZkrzYCFBisxADJvoouNI7C7KZzx9gmRvezKgDWTXQ1tD4ZtNOoX5rdpXTWxf6sXnmBew==
+
 "@cspell/dict-django@^4.1.4":
   version "4.1.4"
   resolved "https://registry.npmjs.org/@cspell/dict-django/-/dict-django-4.1.4.tgz"

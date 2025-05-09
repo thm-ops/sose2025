@@ -6,7 +6,7 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "lint": "tsc --project tsconfig.json --noemit && next lint && prettier --check . --config .prettierrc",
+        "lint": "tsc --project tsconfig.json --noemit && next lint --max-warnings=0 && prettier --check . --config .prettierrc",
         "format": "prettier --write . --config .prettierrc"
     },
     "dependencies": {
@@ -16,6 +16,7 @@
         "zod": "^3.24.3"
     },
     "devDependencies": {
+        "@cspell/dict-de-de": "^4.1.0",
         "@cspell/eslint-plugin": "^8.19.3",
         "@eslint/eslintrc": "^3",
         "@tailwindcss/postcss": "^4",

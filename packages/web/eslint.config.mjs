@@ -28,7 +28,16 @@ const eslintConfig = [
             "linebreak-style": ["error", "unix"],
             "@typescript-eslint/no-explicit-any": "error",
             camelcase: "error",
-            "@cspell/spellchecker": "error",
+            "@cspell/spellchecker": [
+                "error",
+                {
+                    cspell: {
+                        import: ["@cspell/dict-de-de/cspell-ext.json"],
+                        language: "en-US,de-DE",
+                        words: ["Gurkistan"],
+                    },
+                },
+            ],
         },
     },
 ];

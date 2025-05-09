@@ -282,7 +282,6 @@ export const rubberDuckData: RubberDuck[] = [
         material: "Carbon Fiber",
         size: "xxl",
         brand: "Special Toys",
-        // eslint-disable-next-line @cspell/spellchecker
         origin: "Gurkistan",
         producer: "Special Toys Inc.",
         weight: 15.5,
