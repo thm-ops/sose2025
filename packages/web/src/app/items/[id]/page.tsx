@@ -1,6 +1,7 @@
-import { rubberDuckData } from '@/data/data';
-import { RubberDuckSchema } from '@/lib/model/rubberduck/Rubberduck.type';
-import { notFound } from 'next/navigation';
+import { rubberDuckData } from "@/data/data";
+import { RubberDuckSchema } from "@/lib/model/rubberduck/Rubberduck.type";
+import { notFound } from "next/navigation";
+import Image from "next/image";
 
 // Extract DuckId from slugs ( example: http://localhost:3000/items/1 )
 export default async function ItemsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -19,7 +20,7 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
             <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden grid md:grid-cols-2">
                 {/* Image section */}
                 <div className="flex flex-col items-center justify-center p-10 bg-gray-50">
-                    <img
+                    <Image
                         src="https://placehold.co/400x400?text=Rubber+Duck"
                         alt={`Bild von ${duck.name}`}
                         className="w-80 h-80 object-contain mb-6 rounded-xl"
@@ -39,13 +40,27 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 mb-8">
-                        <div><strong>Farbe:</strong> {duck.color}</div>
-                        <div><strong>Größe:</strong> {duck.size.toUpperCase()}</div>
-                        <div><strong>Material:</strong> {duck.material}</div>
-                        <div><strong>Marke:</strong> {duck.brand ?? '—'}</div>
-                        <div><strong>Herkunft:</strong> {duck.origin}</div>
-                        <div><strong>Hersteller:</strong> {duck.producer}</div>
-                        <div><strong>Gewicht:</strong> {duck.weight} kg</div>
+                        <div>
+                            <strong>Farbe:</strong> {duck.color}
+                        </div>
+                        <div>
+                            <strong>Größe:</strong> {duck.size.toUpperCase()}
+                        </div>
+                        <div>
+                            <strong>Material:</strong> {duck.material}
+                        </div>
+                        <div>
+                            <strong>Marke:</strong> {duck.brand ?? "—"}
+                        </div>
+                        <div>
+                            <strong>Herkunft:</strong> {duck.origin}
+                        </div>
+                        <div>
+                            <strong>Hersteller:</strong> {duck.producer}
+                        </div>
+                        <div>
+                            <strong>Gewicht:</strong> {duck.weight} kg
+                        </div>
                     </div>
 
                     <div className="flex items-center gap-3 mb-6">

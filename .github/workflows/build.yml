@@ -22,7 +22,7 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
       run: yarn
+    - name: Build
+      run: yarn build
     - name: Test
       run: yarn lint
-    - name: build
-      run: yarn build

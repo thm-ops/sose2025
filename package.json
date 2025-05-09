@@ -6,11 +6,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "dev:web": "yarn workspace @sose2025/web run dev",
     "build": "yarn workspaces run build",
-    "lint":  "yarn workspaces run lint",
     "build:web": "yarn workspace @sose2025/web run build",
     "start:web": "yarn workspace @sose2025/web run start",
-    "dev:web": "yarn workspace @sose2025/web run dev"
+    "lint":  "yarn workspaces run lint",
+    "format":  "yarn workspaces run format"
   },
   "workspaces": [
     "packages/*"

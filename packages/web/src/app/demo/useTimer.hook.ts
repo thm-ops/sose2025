@@ -9,7 +9,7 @@ export default function useTimer(): [number, () => void] {
         const id = setInterval(() => setTime(Date.now), 2000);
 
         return () => clearInterval(id);
-    }, [])
+    }, []);
 
     return [time, () => setTime(0)];
 }
