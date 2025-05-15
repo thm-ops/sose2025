@@ -29,7 +29,6 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                                        relatedProducts = [],
                                                        total
                                                    }) => {
-    // Client-side rendering hook to prevent hydration mismatch
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -89,7 +88,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                                     name={`quantity-${idx}`}
                                                     aria-label={`Quantity, ${product.name}`}
                                                     className="col-start-1 row-start-1 appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                                    {[...Array(8)].map((_, i) => (
+                                                    {Array.from({ length: 8 }, (_, i) => (
                                                         <option key={i} value={i + 1}>
                                                             {i + 1}
                                                         </option>
