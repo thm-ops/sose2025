@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from "react";
-import { FaCheck, FaClock, FaChevronDown, FaQuestionCircle, FaTimes } from "react-icons/fa";
 import { CartItem } from "@/app/cart/page";
 
 type Product = {
@@ -9,7 +8,7 @@ type Product = {
     name: string;
     href: string;
     color: string;
-    size?: string;
+    size: string;
     price: string;
     imageSrc: string;
     imageAlt: string;
@@ -58,7 +57,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                     <img
                                         alt={product.imageAlt}
                                         src={product.imageSrc}
-                                        className="size-24 rounded-md object-cover sm:size-48"
+                                        className="size-10 rounded-md object-cover sm:size-25"
                                     />
                                 </div>
 
@@ -82,41 +81,10 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                         </div>
 
                                         <div className="mt-4 sm:mt-0 sm:pr-9">
-                                            <div className="inline-grid w-full max-w-16 grid-cols-1 relative">
-                                                <select
-                                                    id={`quantity-${idx}`}
-                                                    name={`quantity-${idx}`}
-                                                    aria-label={`Quantity, ${product.name}`}
-                                                    className="col-start-1 row-start-1 appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                                                    {Array.from({ length: 8 }, (_, i) => (
-                                                        <option key={i} value={i + 1}>
-                                                            {i + 1}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                                <FaChevronDown
-                                                    aria-hidden="true"
-                                                    className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 size-4"
-                                                />
-                                            </div>
-
                                             <div className="absolute top-0 right-0">
-                                                <button type="button" className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
-                                                    <span className="sr-only">Remove</span>
-                                                    <FaTimes aria-hidden="true" className="size-5" />
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <p className="mt-4 flex space-x-2 text-sm text-gray-700">
-                                        {product.inStock ? (
-                                            <FaCheck className="size-5 shrink-0 text-green-500" aria-hidden="true" />
-                                        ) : (
-                                            <FaClock className="size-5 shrink-0 text-gray-300" aria-hidden="true" />
-                                        )}
-                                        <span>{product.inStock ? "In stock" : `Ships in ${product.leadTime}`}</span>
-                                    </p>
                                 </div>
                             </li>
                         ))}
@@ -143,7 +111,6 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                 <span>Shipping estimate</span>
                                 <a href="#" className="ml-2 shrink-0 text-gray-400 hover:text-gray-500">
                                     <span className="sr-only">Learn more about how shipping is calculated</span>
-                                    <FaQuestionCircle className="size-5" />
                                 </a>
                             </dt>
                             {/* Shipping is fixed, can render consistently */}
@@ -156,7 +123,6 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                 <span>Tax estimate</span>
                                 <a href="#" className="ml-2 shrink-0 text-gray-400 hover:text-gray-500">
                                     <span className="sr-only">Learn more about how tax is calculated</span>
-                                    <FaQuestionCircle className="size-5" />
                                 </a>
                             </dt>
                             {/* Render null on server, formatted value on client */}
