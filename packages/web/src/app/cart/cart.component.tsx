@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { CartItem } from "@/app/cart/page";
+import Image from 'next/image';
 
 type Product = {
     id: string;
@@ -57,6 +58,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                     <Image
                                         alt={product.imageAlt}
                                         src={product.imageSrc}
+                                        width={100}
+                                        height={100}
                                         className="size-10 rounded-md object-cover sm:size-25"
                                     />
                                 </div>
@@ -161,6 +164,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                 <Image
                                     alt={product.imageAlt}
                                     src={product.imageSrc}
+                                    height={100}
+                                    width={100}
                                     className="aspect-square w-full rounded-md object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
                                 />
                                 <div className="mt-4 flex justify-between">

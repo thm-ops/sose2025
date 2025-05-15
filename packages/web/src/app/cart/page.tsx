@@ -17,7 +17,7 @@ const exampleCartItem: CartItem = {
     price: 29.99,
     size: "M",
     quantity: 2,
-    image: "https://www.placeholderimage.online/placeholder/420/310/f3f4f6/1f2937?font=Lato.svg", // Dummy-Bild
+    image: "https://picsum.photos/800/450", // Dummy-Bild
 };
 
 
