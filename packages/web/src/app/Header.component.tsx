@@ -1,5 +1,5 @@
 "use client";
-import React, {FunctionComponent} from "react";
+import React, { FunctionComponent } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "@sose2025/web/public/logo.webp";
@@ -14,7 +14,7 @@ const navigation = [
     // { name: 'Placeholder', href: '#' }
 ];
 
-const Header: FunctionComponent<HeaderProps> = ({absolute = false, dark = false}) => {
+const Header: FunctionComponent<HeaderProps> = ({ absolute = false, dark = false }) => {
     return (
         <header className={`${absolute && "absolute inset-x-0 top-0 z-50"} ${!dark && "bg-gray-100/50"}`}>
             <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
@@ -44,6 +44,6 @@ const Header: FunctionComponent<HeaderProps> = ({absolute = false, dark = false}
             </nav>
         </header>
     );
-}
+};
 
 export default Header;

@@ -1,13 +1,12 @@
-import {rubberDuckData} from "@/data/data";
-import {RubberDuckSchema} from "@/lib/model/rubberduck/Rubberduck.type";
-import {notFound} from "next/navigation";
+import { rubberDuckData } from "@/data/data";
+import { RubberDuckSchema } from "@/lib/model/rubberduck/Rubberduck.type";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/Header.component";
 
-
 // Extract DuckId from slugs ( example: http://localhost:3000/items/1 )
-export default async function ItemsPage({params}: { params: Promise<{ id: string }> }) {
-    const {id} = await params;
+export default async function ItemsPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const duckId = parseInt(id, 10);
     const rawDuck = rubberDuckData.find((duck) => duck.id === duckId);
 
@@ -77,8 +76,7 @@ export default async function ItemsPage({params}: { params: Promise<{ id: string
 
                         {/*A shopping cart button for future functionality*/}
                         <div className="flex gap-4">
-                            <button
-                                className="px-6 py-3 bg-black text-white font-semibold rounded-xl hover:bg-gray-900">
+                            <button className="px-6 py-3 bg-black text-white font-semibold rounded-xl hover:bg-gray-900">
                                 In den Warenkorb
                             </button>
                         </div>
