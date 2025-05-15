@@ -22,7 +22,7 @@ export default function NewestProducts() {
                         <ul
                             role="list"
                             className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
-                            {products.slice(0, 4).map((product) => (
+                            {products.map((product) => (
                                 <li key={product.id} className="inline-flex w-64 flex-col text-center lg:w-auto">
                                     <div className="group relative">
                                         <Image
