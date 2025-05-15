@@ -51,10 +51,10 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                     </h2>
 
                     <ul role="list" className="divide-y divide-gray-200 border-t border-b border-gray-200">
-                        {products.map((product, idx) => (
+                        {products.map((product) => (
                             <li key={product.id} className="flex py-6 sm:py-10">
                                 <div className="shrink-0">
-                                    <img
+                                    <Image
                                         alt={product.imageAlt}
                                         src={product.imageSrc}
                                         className="size-10 rounded-md object-cover sm:size-25"
@@ -158,7 +158,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                     <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                         {relatedProducts.map((product) => (
                             <div key={product.id} className="group relative">
-                                <img
+                                <Image
                                     alt={product.imageAlt}
                                     src={product.imageSrc}
                                     className="aspect-square w-full rounded-md object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
