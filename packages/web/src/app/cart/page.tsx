@@ -21,20 +21,16 @@ const exampleCartItem: CartItem = {
 };
 
 
-type ShoppingCartPageProps = {
-    cartItems?: [];
-};
+const ShoppingCartPage: React.FC = () => {
+    const cartItems: CartItem[] = [exampleCartItem];
 
-
-const ShoppingCartPage: React.FC<ShoppingCartPageProps> = ({ cartItems = [exampleCartItem] }) => {
     const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    // Convert CartItems to Products for the ShoppingCart component
     const products = cartItems.map(item => ({
         id: item.id.toString(),
         name: item.name,
         href: '#',
-        color: '',
+        color: 'Grau',
         size: item.size,
         price: `$${item.price.toFixed(2)}`,
         imageSrc: item.image,
@@ -44,7 +40,12 @@ const ShoppingCartPage: React.FC<ShoppingCartPageProps> = ({ cartItems = [exampl
     }));
 
     return (
-        <ShoppingCart products={products} cartItems={cartItems} total={total} relatedProducts={[]} />
+        <ShoppingCart
+            products={products}
+            cartItems={cartItems}
+            total={total}
+            relatedProducts={[]}
+        />
     );
 };
 
