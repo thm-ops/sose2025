@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { CartItem } from "@/app/cart/page";
-import Image from 'next/image';
+import Image from "next/image";
 
 type Product = {
     id: string;
@@ -24,11 +24,7 @@ type ShoppingCartProps = {
     total: number;
 };
 
-const ShoppingCart: React.FC<ShoppingCartProps> = ({
-                                                       products = [],
-                                                       relatedProducts = [],
-                                                       total
-                                                   }) => {
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [], relatedProducts = [], total }) => {
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -37,7 +33,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 
     // Calculate subtotal, tax and shipping for display
     const subtotal = total;
-    const shipping = 5.00;
+    const shipping = 5.0;
     const tax = total * 0.08; // Assuming 8% tax
     const orderTotal = subtotal + shipping + tax;
 
@@ -84,8 +80,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                         </div>
 
                                         <div className="mt-4 sm:mt-0 sm:pr-9">
-                                            <div className="absolute top-0 right-0">
-                                            </div>
+                                            <div className="absolute top-0 right-0"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -105,9 +100,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                         <div className="flex items-center justify-between">
                             <dt className="text-sm text-gray-600">Subtotal</dt>
                             {/* Render null on server, formatted value on client */}
-                            <dd className="text-sm font-medium text-gray-900">
-                                {isClient ? `$${subtotal.toFixed(2)}` : null}
-                            </dd>
+                            <dd className="text-sm font-medium text-gray-900">{isClient ? `$${subtotal.toFixed(2)}` : null}</dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="flex items-center text-sm text-gray-600">
@@ -117,9 +110,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                 </a>
                             </dt>
                             {/* Shipping is fixed, can render consistently */}
-                            <dd className="text-sm font-medium text-gray-900">
-                                ${shipping.toFixed(2)}
-                            </dd>
+                            <dd className="text-sm font-medium text-gray-900">${shipping.toFixed(2)}</dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="flex text-sm text-gray-600">
@@ -129,16 +120,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
                                 </a>
                             </dt>
                             {/* Render null on server, formatted value on client */}
-                            <dd className="text-sm font-medium text-gray-900">
-                                {isClient ? `$${tax.toFixed(2)}` : null}
-                            </dd>
+                            <dd className="text-sm font-medium text-gray-900">{isClient ? `$${tax.toFixed(2)}` : null}</dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="text-base font-medium text-gray-900">Order total</dt>
                             {/* Render null on server, formatted value on client */}
-                            <dd className="text-base font-medium text-gray-900">
-                                {isClient ? `$${orderTotal.toFixed(2)}` : null}
-                            </dd>
+                            <dd className="text-base font-medium text-gray-900">{isClient ? `$${orderTotal.toFixed(2)}` : null}</dd>
                         </div>
                     </dl>
 
