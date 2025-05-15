@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function Hero() {
     return (
         <div className="bg-gray-900">
-            <Header />
+            <Header dark absolute />
             <div className="relative isolate overflow-hidden pt-14 min-h-screen flex justify-center items-center">
                 <Image
                     alt=""
