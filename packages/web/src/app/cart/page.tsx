@@ -1,44 +1,59 @@
 import React from "react";
 import ShoppingCart from "@/app/cart/cart.component";
+import Header from "@/app/Header.component";
+import Footer from "@/app/Footer.component";
+import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 
-export type CartItem = {
-    id: number;
-    name: string;
-    price: number;
-    size: string;
+
+export type ShoppingCartItem = RubberDuck & {
     quantity: number;
-    image: string;
-};
+    inStock: boolean;
+}
 
-// Example CartItem for demonstration purposes
-const exampleCartItem: CartItem = {
+// Example CartItems for demonstration purposes
+
+const exampleCartItem: ShoppingCartItem = {
     id: 1,
     name: "Test Produkt",
     price: 29.99,
-    size: "M",
-    quantity: 2,
-    image: "https://picsum.photos/800/450", // Dummy-Bild
+    color: "red",
+    origin: "test",
+    producer: "test",
+    weight: 20,
+    size: "m",
+    description: "",
+    material: "",
+    quantity: 1,
+    inStock: true,
+};
+
+const exampleCartItem2: ShoppingCartItem = {
+    id: 2,
+    name: "Test Produkt2",
+    price: 9.99,
+    color: "yellow",
+    origin: "test",
+    producer: "test",
+    weight: 20,
+    size: "m",
+    description: "",
+    material: "",
+    quantity: 1,
+    inStock: true,
 };
 
 const ShoppingCartPage: React.FC = () => {
-    const cartItems: CartItem[] = [exampleCartItem];
+    const cartItems: ShoppingCartItem[] = [exampleCartItem,exampleCartItem2];
 
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-    const products = cartItems.map((item) => ({
-        id: item.id.toString(),
-        name: item.name,
-        href: "#",
-        color: "Grau",
-        size: item.size,
-        price: `$${item.price.toFixed(2)}`,
-        imageSrc: item.image,
-        imageAlt: item.name,
-        inStock: true,
-        leadTime: "Ships in 3-5 days",
-    }));
+    return(
+        <div>
+            <Header />
+            <ShoppingCart products={cartItems} cartItems={cartItems} />
+            <Footer/>
+        </div>
 
-    return <ShoppingCart products={products} cartItems={cartItems} total={total} relatedProducts={[]} />;
+    );
 };
 
 export default ShoppingCartPage;
