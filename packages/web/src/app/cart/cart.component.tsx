@@ -14,12 +14,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
     const [items, setItems] = useState<ShoppingCartItem[]>(products);
 
     const handleQuantityChange = (id: number, delta: number) => {
-        setItems(prevItems =>
-            prevItems.map(item =>
+        setItems((prevItems) =>
+            prevItems.map((item) =>
                 item.id === id
                     ? { ...item, quantity: Math.max(1, item.quantity + delta) } // mind. 1
-                    : item
-            )
+                    : item,
+            ),
         );
     };
 
@@ -28,7 +28,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
     }, []);
 
     // Calculate subtotal, tax and shipping for display
-    const subtotal =  items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const shipping = 5.0;
     const tax = subtotal * 0.14; // Assuming 14% tax
     const orderTotal = subtotal + shipping + tax;
@@ -61,7 +61,9 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                                         <div>
                                             <div className="flex justify-between">
                                                 <h3 className="text-sm">
-                                                    <a href={"/items/"+product.id} className="font-medium text-gray-700 hover:text-gray-800">
+                                                    <a
+                                                        href={"/items/" + product.id}
+                                                        className="font-medium text-gray-700 hover:text-gray-800">
                                                         {product.name}
                                                     </a>
                                                 </h3>
@@ -74,23 +76,23 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                                             </div>
                                             <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
                                             <div className="mt-1 flex text-sm">
-                                                    <div key={product.id} className="flex items-center gap-2 mb-4">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => handleQuantityChange(product.id, -1)}
-                                                            className="btn btn-blue text-sm"
-                                                        >
-                                                            -
-                                                        </button>
-                                                        <p key={"q"+product.id} className="text-sm font-medium text-gray-900">x{product.quantity}</p>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => handleQuantityChange(product.id, 1)}
-                                                            className="btn btn-blue text-sm"
-                                                        >
-                                                            +
-                                                        </button>
-                                                    </div>
+                                                <div key={product.id} className="flex items-center gap-2 mb-4">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleQuantityChange(product.id, -1)}
+                                                        className="btn btn-blue text-sm">
+                                                        -
+                                                    </button>
+                                                    <p key={"q" + product.id} className="text-sm font-medium text-gray-900">
+                                                        x{product.quantity}
+                                                    </p>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleQuantityChange(product.id, 1)}
+                                                        className="btn btn-blue text-sm">
+                                                        +
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 

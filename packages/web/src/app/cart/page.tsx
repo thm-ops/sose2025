@@ -4,11 +4,10 @@ import Header from "@/app/Header.component";
 import Footer from "@/app/Footer.component";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 
-
 export type ShoppingCartItem = RubberDuck & {
     quantity: number;
     inStock: boolean;
-}
+};
 
 // Example CartItems for demonstration purposes
 
@@ -43,16 +42,14 @@ const exampleCartItem2: ShoppingCartItem = {
 };
 
 const ShoppingCartPage: React.FC = () => {
-    const cartItems: ShoppingCartItem[] = [exampleCartItem,exampleCartItem2];
+    const cartItems: ShoppingCartItem[] = [exampleCartItem, exampleCartItem2];
 
-
-    return(
+    return (
         <div>
             <Header />
             <ShoppingCart products={cartItems} cartItems={cartItems} />
-            <Footer/>
+            <Footer />
         </div>
-
     );
 };
 
