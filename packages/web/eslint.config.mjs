@@ -1,4 +1,3 @@
-import ts from "typescript-eslint";
 import cspellRecommended from "@cspell/eslint-plugin/recommended";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -34,7 +33,7 @@ const eslintConfig = [
                     cspell: {
                         import: ["@cspell/dict-de-de/cspell-ext.json"],
                         language: "en-US,de-DE",
-                        words: ["Gurkistan"],
+                        words: ["Gurkistan", "paypal", "PayPal"],
                     },
                 },
             ],
