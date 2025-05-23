@@ -13,8 +13,8 @@ export default function Hero() {
                     alt=""
                     width={2830}
                     height={1857}
-                    src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply"
-                    className="absolute inset-0 -z-10 size-full object-cover"
+                    src="https://images.unsplash.com/photo-1710306973761-717ec384efd3?q=80&w=3088&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    className="absolute inset-0 -z-10 size-full object-cover filter brightness-25"
                 />
                 <div aria-hidden="true" className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
                     <div
@@ -35,12 +35,9 @@ export default function Hero() {
                             </p>
                             <div className="mt-10 flex items-center justify-center gap-x-6">
                                 <Link
-                                    href="#"
+                                    href="#productsList"
                                     className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
                                     Produkte ansehen
-                                </Link>
-                                <Link href="#" className="text-sm/6 font-semibold text-white">
-                                    Mehr erfahren <span aria-hidden="true">→</span>
                                 </Link>
                             </div>
                         </div>

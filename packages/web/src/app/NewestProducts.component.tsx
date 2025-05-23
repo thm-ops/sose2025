@@ -8,31 +8,37 @@ const products: RubberDuck[] = rubberDuckData;
 export default function NewestProducts() {
     return (
         <div className="bg-white">
-            <div className="py-16 sm:py-24 lg:mx-auto lg:max-w-7xl lg:px-8">
-                <div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
+            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8" id="productsList">
+                {/* Sichtbarer Titel */}
+                <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900">Neueste Produkte</h2>
                 </div>
 
-                <div className="relative mt-10 px-4 sm:px-6 lg:px-0">
-                    <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <div className="mt-10">
+                    <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                         {products.map((product) => (
-                            <li
-                                key={product.id}
-                                className="bg-gray-50 rounded-2xl shadow transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg">
-                                <Link href={`/items/${product.id}`}>
-                                    <div className="group block">
+                            <li key={product.id} className="group transition-transform duration-200 hover:scale-105">
+                                <Link
+                                    href={`/items/${product.id}`}
+                                    className="block rounded-lg overflow-hidden bg-white transition-colors duration-200 group-hover:bg-gray-100">
+                                    {/* Bild ohne Padding */}
+                                    <div className="aspect-square w-full">
                                         <Image
-                                            src={`https://picsum.photos/800/450?random=${product.id}`}
-                                            height={450}
-                                            width={800}
+                                            src={`https://picsum.photos/800/800?random=${product.id}`}
                                             alt={product.name}
-                                            className="w-full h-48 object-cover rounded-t-2xl"
+                                            width={800}
+                                            height={800}
+                                            className="object-cover"
                                         />
-                                        <div className="p-4">
-                                            <p className="text-sm text-gray-500">{product.producer}</p>
-                                            <h3 className="mt-1 font-semibold text-gray-800 group-hover:underline">{product.name}</h3>
-                                            <p className="mt-1 text-gray-900 font-medium">{product.price.toFixed(2)} €</p>
+                                    </div>
+
+                                    {/* Text mit Padding */}
+                                    <div className="p-4">
+                                        <div className="flex items-center justify-between text-base font-medium text-gray-900">
+                                            <h3>{product.name.length > 30 ? product.name.slice(0, 30) + "…" : product.name}</h3>
+                                            <p>{product.price.toFixed(2)} €</p>
                                         </div>
+                                        <p className="mt-1 text-sm text-gray-500">{product.producer}</p>
                                     </div>
                                 </Link>
                             </li>

@@ -4,47 +4,43 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/Header.component";
 
-// Extract DuckId from slugs ( example: http://localhost:3000/items/1 )
 export default async function ItemsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const duckId = parseInt(id, 10);
     const rawDuck = rubberDuckData.find((duck) => duck.id === duckId);
-
-    // Error in case no valid product is requested
     if (!rawDuck) notFound();
-
-    // Check if the object matches our schema
     const duck = RubberDuckSchema.parse(rawDuck);
 
     return (
-        <div className={"min-h-screen"}>
+        <div className="min-h-screen bg-white">
             <Header />
-            <main className="h-full bg-gradient-to-br from-gray-100 to-white py-10 px-6">
-                <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden grid md:grid-cols-2">
-                    {/* Image section */}
-                    <div className="flex flex-col items-center justify-center p-10 bg-gray-50">
+            <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                {/* Grid mit vertikaler Zentrierung */}
+                <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-8">
+                    {/* Image */}
+                    <div className="w-full overflow-hidden rounded-lg sm:rounded-lg">
                         <Image
-                            src={`https://picsum.photos/800/450?random=${duck.id}`}
+                            src={`https://picsum.photos/800/800?random=${duck.id}`}
                             alt={`Bild von ${duck.name}`}
                             width={800}
-                            height={450}
-                            className="w-full h-auto object-cover mb-6 rounded-2xl shadow"
+                            height={800}
+                            className="aspect-square w-full object-cover"
                         />
                     </div>
 
-                    {/* Display Duck Infos */}
-                    <div className="p-10">
-                        <p className="text-sm text-gray-500 uppercase tracking-wide mb-1">Rubber Duck</p>
-                        <h1 className="text-3xl font-bold text-gray-800 mb-4">{duck.name}</h1>
+                    {/* Produkt-Infos ohne Top-Margin */}
+                    <div className="px-4 sm:px-0">
+                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">{duck.name}</h1>
 
-                        <p className="text-gray-600 mb-6">{duck.description}</p>
-
-                        <div className="flex items-center gap-4 mb-6">
-                            <span className="text-2xl font-semibold text-gray-900">{duck.price} €</span>
-                            <span className="text-green-500 font-medium text-sm">Auf Lager</span>
+                        <div className="mt-3">
+                            <p className="text-3xl tracking-tight text-gray-900">{duck.price} €</p>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 mb-8">
+                        <div className="mt-6 space-y-6 text-base text-gray-700">
+                            <p>{duck.description}</p>
+                        </div>
+
+                        <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-700">
                             <div>
                                 <strong>Farbe:</strong> {duck.color}
                             </div>
@@ -55,7 +51,7 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                                 <strong>Material:</strong> {duck.material}
                             </div>
                             <div>
-                                <strong>Marke:</strong> {duck.brand ?? "—"}
+                                <strong>Marke:</strong> {duck.brand ?? "–"}
                             </div>
                             <div>
                                 <strong>Herkunft:</strong> {duck.origin}
@@ -68,18 +64,25 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3 mb-6">
-                            <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded">-</button>
-                            <span className="w-6 text-center">1</span>
-                            <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded">+</button>
-                        </div>
+                        <form className="mt-10">
+                            <div className="flex items-center gap-3">
+                                <button type="button" className="rounded-md bg-gray-200 px-3 py-1 text-gray-700 hover:bg-gray-300">
+                                    –
+                                </button>
+                                <span className="w-6 text-center">1</span>
+                                <button type="button" className="rounded-md bg-gray-200 px-3 py-1 text-gray-700 hover:bg-gray-300">
+                                    +
+                                </button>
+                            </div>
 
-                        {/*A shopping cart button for future functionality*/}
-                        <div className="flex gap-4">
-                            <button className="px-6 py-3 bg-black text-white font-semibold rounded-xl hover:bg-gray-900">
-                                In den Warenkorb
-                            </button>
-                        </div>
+                            <div className="mt-6">
+                                <button
+                                    type="submit"
+                                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+                                    In den Warenkorb
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </main>
