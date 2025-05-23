@@ -19,8 +19,8 @@ const Header: FunctionComponent<HeaderProps> = ({ absolute = false, dark = false
         <header className={`${absolute && "absolute inset-x-0 top-0 z-50"} ${!dark && "bg-gray-100/50"}`}>
             <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
-                    <Link href="#" className="-m-1.5 p-1.5">
-                        <span className="sr-only">Your Company</span>
+                    <Link href="/" className="-m-1.5 p-1.5">
+                        <span className="sr-only">Rubber Ducking</span>
                         <Image alt="" height={512} width={512} src={Logo} className="h-8 w-auto" />
                     </Link>
                 </div>
