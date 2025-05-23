@@ -8,7 +8,6 @@ export default function DemoPage() {
             <div>
                 <Timer />
             </div>
-
             <SimpleCart />
             <SimpleCart />
         </div>
