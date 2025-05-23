@@ -45,12 +45,12 @@ export default function useCart(
             CartSchema.parse(cart);
             window.localStorage.setItem(storeName, JSON.stringify(cart));
             window.postMessage(postChannel);
-        } catch(e) {
+        } catch (e) {
             console.warn(e);
         }
     }
-    
-    //On change indicated by message or store event
+
+    // On change indicated by message or store event
     useEffect(() => {
         if (window) setCart(loadCartFromStore(storeName));
         function messageListener(event: MessageEvent<string>) {
@@ -68,7 +68,7 @@ export default function useCart(
             window.removeEventListener("message", messageListener);
             window.removeEventListener("storage", storageListener);
         };
-    }, []);
+    }, [storeName, postChannel]);
 
     return [cart, setCartWrapper];
 }
