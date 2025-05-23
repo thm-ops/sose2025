@@ -1,3 +1,4 @@
+import SimpleCart from "./SimpleCart.component";
 import Timer from "./Timer.component";
 
 export default function DemoPage() {
@@ -7,6 +8,9 @@ export default function DemoPage() {
             <div>
                 <Timer />
             </div>
+
+            <SimpleCart />
+            <SimpleCart />
         </div>
     );
 }

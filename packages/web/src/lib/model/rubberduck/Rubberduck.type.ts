@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // all properties are required by default
 export const RubberDuckSchema = z.object({
-    id: z.number().min(1),
+    id: z.number().int().min(1),
     name: z.string().min(3),
     price: z.number().min(0.01),
     color: z.enum(["red", "yellow", "green", "blue"]),
