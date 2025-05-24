@@ -14,7 +14,7 @@ export type ShoppingCartItem = RubberDuck & {
 const exampleCartItem: ShoppingCartItem = {
     id: 1,
     name: "Test Produkt",
-    price: 29.99,
+    price: 2999,
     color: "red",
     origin: "test",
     producer: "test",
@@ -29,7 +29,7 @@ const exampleCartItem: ShoppingCartItem = {
 const exampleCartItem2: ShoppingCartItem = {
     id: 2,
     name: "Test Produkt2",
-    price: 9.99,
+    price: 999,
     color: "yellow",
     origin: "test",
     producer: "test",
