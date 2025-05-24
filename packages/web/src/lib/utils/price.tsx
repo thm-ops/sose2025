@@ -15,7 +15,7 @@ export abstract class Price {
      * @param locale - The locale for formatting (default: "de-DE").
      * @returns The formatted price string.
      */
-    static display(priceInCents: number, currency: string = "EUR", locale: string = "EUR"): string {
+    static display(priceInCents: number, currency: string = "EUR", locale: string = "de-DE"): string {
         return new Intl.NumberFormat(locale, {
             style: "currency",
             currency: currency,
