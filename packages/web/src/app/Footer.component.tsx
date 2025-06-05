@@ -4,14 +4,14 @@ import Link from "next/link";
 interface FooterLinkProps {
     name: string;
     href: string;
-    icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+    icon: (props: React.SVGProps<SVGSVGElement>) => React.JSX.Element;
 }
 
 const navigation: FooterLinkProps[] = [
     {
         name: "Facebook",
         href: "#",
-        icon: () => (
+        icon: (props: React.SVGProps<SVGSVGElement>) => (
             <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                 <path
                     fillRule="evenodd"
@@ -24,7 +24,7 @@ const navigation: FooterLinkProps[] = [
     {
         name: "Instagram",
         href: "#",
-        icon: () => (
+        icon: (props: React.SVGProps<SVGSVGElement>) => (
             <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                 <path
                     fillRule="evenodd"
@@ -37,7 +37,7 @@ const navigation: FooterLinkProps[] = [
     {
         name: "GitHub",
         href: "https://github.com/thm-ops/sose2025",
-        icon: () => (
+        icon: (props: React.SVGProps<SVGSVGElement>) => (
             <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                 <path
                     fillRule="evenodd"
@@ -59,7 +59,7 @@ function Footer() {
             <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
                 <div className="flex justify-center gap-x-6 md:order-2">
                     {navigation.map((item) => (
-                        <FooterLink key={item.name} item={item}/>
+                        <FooterLink key={item.name} item={item} />
                     ))}
                 </div>
                 <p className="mt-8 text-center text-sm/6 text-gray-600 md:order-1 md:mt-0">
@@ -75,11 +75,11 @@ function Footer() {
  * @description A link component for the footer, displaying an icon and a name.
  * @param item - The footer link item containing name, href, and icon.
  */
-function FooterLink({item}: { item: FooterLinkProps }) {
+function FooterLink({ item }: { item: FooterLinkProps }) {
     return (
         <Link key={item.name} href={item.href} className="text-gray-600 hover:text-gray-800">
             <span className="sr-only">{item.name}</span>
-            <item.icon aria-hidden="true" className="size-6"/>
+            <item.icon aria-hidden="true" className="size-6" />
         </Link>
     );
 }
