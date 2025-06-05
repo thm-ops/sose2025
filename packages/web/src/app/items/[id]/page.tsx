@@ -20,7 +20,7 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                     {/* Image */}
                     <div className="w-full overflow-hidden rounded-lg sm:rounded-lg">
                         <Image
-                            src={`https://picsum.photos/800/800?random=${duck.id}`}
+                            src={`https://picsum.photos/seed/${duck.id}/800/800`}
                             alt={`Bild von ${duck.name}`}
                             width={800}
                             height={800}

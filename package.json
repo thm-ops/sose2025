@@ -10,8 +10,8 @@
     "build": "yarn workspaces run build",
     "build:web": "yarn workspace @sose2025/web run build",
     "start:web": "yarn workspace @sose2025/web run start",
-    "lint":  "yarn workspaces run lint",
-    "format":  "yarn workspaces run format"
+    "lint": "yarn workspaces run lint",
+    "format": "yarn workspaces run format"
   },
   "workspaces": [
     "packages/*"
