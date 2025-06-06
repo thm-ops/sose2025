@@ -7,15 +7,16 @@
   "private": true,
   "scripts": {
     "build": "npm run build --workspaces",
-    "lint":  "npm run lint --workspaces",
-    "format":  "npm run format --workspaces",
-
+    "lint": "npm run lint --workspaces",
+    "format": "npm run format --workspaces",
     "dev:web": "npm run dev --workspace=@sose2025/web",
     "build:web": "npm run build --workspace=@sose2025/web",
     "start:web": "npm run start --workspace=@sose2025/web"
   },
-  
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@headlessui/react": "^2.2.4"
+  }
 }
