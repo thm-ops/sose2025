@@ -34,6 +34,9 @@ export default function SimpleCart() {
                     Add
                 </button>
             </div>
+            <div>
+                <a href="/demo/checkout">Checkout</a>
+            </div>
         </div>
     );
 }

@@ -29,7 +29,7 @@ export default function NewestProducts() {
                                     {/* Bild ohne Padding */}
                                     <div className="aspect-square w-full">
                                         <Image
-                                            src={`https://picsum.photos/800/800?random=${product.id}`}
+                                            src={`https://picsum.photos/seed/${product.id}/800/800`}
                                             alt={product.name}
                                             width={800}
                                             height={800}

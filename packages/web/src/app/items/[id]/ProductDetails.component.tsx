@@ -1,4 +1,5 @@
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+
 interface ProductDetailsProps {
     duck: RubberDuck;
 }

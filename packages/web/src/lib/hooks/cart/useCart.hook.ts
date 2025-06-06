@@ -1,3 +1,5 @@
+"use client";
+
 import Cart, { CartSchema } from "@/lib/model/cart/Cart.model";
 import { useEffect, useState } from "react";
 
