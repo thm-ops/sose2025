@@ -14,6 +14,12 @@ const navigation = [
     // { name: 'Placeholder', href: '#' }
 ];
 
+/**
+ * @component Header
+ * @description The Header component serves as the top navigation bar of the application.
+ * @param absolute - Determines if the header should be positioned absolutely at the top of the page.
+ * @param dark - Determines if the header should have a dark background.
+ */
 const Header: FunctionComponent<HeaderProps> = ({ absolute = false, dark = false }) => {
     return (
         <header className={`${absolute && "absolute inset-x-0 top-0 z-50"} ${!dark && "bg-gray-100/50"}`}>
