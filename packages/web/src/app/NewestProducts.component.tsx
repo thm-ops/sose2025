@@ -6,6 +6,10 @@ import { Utils } from "@/lib/utils/mod";
 
 const products: RubberDuck[] = rubberDuckData;
 
+/**
+ * @component NewestProducts
+ * @description Displays a list of the newest products in a grid layout.
+ */
 export default function NewestProducts() {
     return (
         <div className="bg-white">
