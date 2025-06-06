@@ -11,6 +11,7 @@ import {
 } from "@paypal/paypal-server-sdk";
 import Cart from "./model/cart/Cart.model";
 import { rubberDuckData } from "@/data/data";
+import { Utils } from "./utils/mod";
 
 export class PayPalApiService {
     private static instance: Client;
@@ -53,22 +54,12 @@ export class PayPalApiService {
         const client = PayPalApiService.getClient();
         const ordersController = new OrdersController(client);
 
-        function formatPrice(cents: number): string {
-            return (
-                Math.floor(cents / 100).toString() +
-                "." +
-                Math.round(cents % 100)
-                    .toString()
-                    .padStart(2, "0")
-            );
-        }
-
         const items: Item[] = [];
         let total = 0;
         for (const entry of cart) {
             const item = rubberDuckData.find((x) => x.id == entry.id);
             if (item) {
-                total += Math.round(item.price * entry.qty * 100);
+                total += item.price * entry.qty;
                 items.push({
                     name: item.name,
                     quantity: entry.qty.toString(),
@@ -77,7 +68,7 @@ export class PayPalApiService {
                     imageUrl: "https://picsum.photos/seed/" + item.id.toString() + "/800/800.jpg",
                     unitAmount: {
                         currencyCode: "EUR",
-                        value: formatPrice(item.price * 100),
+                        value: Utils.price.toString(item.price),
                     },
                 });
             }
@@ -90,11 +81,11 @@ export class PayPalApiService {
                     {
                         amount: {
                             currencyCode: "EUR",
-                            value: formatPrice(total),
+                            value: Utils.price.toString(total),
                             breakdown: {
                                 itemTotal: {
                                     currencyCode: "EUR",
-                                    value: formatPrice(total),
+                                    value: Utils.price.toString(total),
                                 },
                             },
                         },
