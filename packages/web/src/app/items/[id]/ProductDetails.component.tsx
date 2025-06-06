@@ -7,7 +7,6 @@ export default function ProductDetails({ duck }: ProductDetailsProps) {
     return (
         <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-700 px-4 sm:px-0">
             {" "}
-            {/* Adjust padding if necessary */}
             <div>
                 <strong>Color:</strong> {duck.color}
             </div>
