@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function AddToCartForm(/*{ productId }: AddToCartFormProps*/) {
+export default function AddToCartForm() {
     const [quantity, setQuantity] = useState(1);
 
     const handleDecrement = () => {
