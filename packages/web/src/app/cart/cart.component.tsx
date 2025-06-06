@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ShoppingCartItem } from "@/app/cart/page";
 import Image from "next/image";
+import { Utils } from "@/lib/utils/mod";
 
 type ShoppingCartProps = {
     products?: ShoppingCartItem[];
@@ -29,7 +30,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
 
     // Calculate subtotal, tax and shipping for display
     const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 5.0;
+    const shipping = 500;
     const tax = subtotal * 0.14; // Assuming 14% tax
     const orderTotal = subtotal + shipping + tax;
 
@@ -74,7 +75,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                                                     <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{product.size}</p>
                                                 )}
                                             </div>
-                                            <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
+                                            <p className="mt-1 text-sm font-medium text-gray-900">{Utils.price.display(product.price)}</p>
                                             <div className="mt-1 flex text-sm">
                                                 <div key={product.id} className="flex items-center gap-2 mb-4">
                                                     <button
@@ -117,7 +118,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                         <div className="flex items-center justify-between">
                             <dt className="text-sm text-gray-600">Zwischensumme</dt>
                             {/* Render null on server, formatted value on client */}
-                            <dd className="text-sm font-medium text-gray-900">{isClient ? `$${subtotal.toFixed(2)}` : null}</dd>
+                            <dd className="text-sm font-medium text-gray-900">{isClient ? Utils.price.display(subtotal) : null}</dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="flex items-center text-sm text-gray-600">
@@ -127,7 +128,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                                 </a>
                             </dt>
                             {/* Shipping is fixed, can render consistently */}
-                            <dd className="text-sm font-medium text-gray-900">${shipping.toFixed(2)}</dd>
+                            <dd className="text-sm font-medium text-gray-900">{Utils.price.display(shipping)}</dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="flex text-sm text-gray-600">
@@ -137,12 +138,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                                 </a>
                             </dt>
                             {/* Render null on server, formatted value on client */}
-                            <dd className="text-sm font-medium text-gray-900">{isClient ? `$${tax.toFixed(2)}` : null}</dd>
+                            <dd className="text-sm font-medium text-gray-900">{isClient ? Utils.price.display(tax) : null}</dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="text-base font-medium text-gray-900">Summe</dt>
                             {/* Render null on server, formatted value on client */}
-                            <dd className="text-base font-medium text-gray-900">{isClient ? `$${orderTotal.toFixed(2)}` : null}</dd>
+                            <dd className="text-base font-medium text-gray-900">{isClient ? Utils.price.display(orderTotal) : null}</dd>
                         </div>
                     </dl>
 

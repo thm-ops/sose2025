@@ -3,6 +3,7 @@ import { RubberDuckSchema } from "@/lib/model/rubberduck/Rubberduck.type";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/Header.component";
+import { Utils } from "@/lib/utils/mod";
 
 export default async function ItemsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -33,7 +34,7 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">{duck.name}</h1>
 
                         <div className="mt-3">
-                            <p className="text-3xl tracking-tight text-gray-900">{duck.price} €</p>
+                            <p className="text-3xl tracking-tight text-gray-900">{Utils.price.display(duck.price)}</p>
                         </div>
 
                         <div className="mt-6 space-y-6 text-base text-gray-700">
