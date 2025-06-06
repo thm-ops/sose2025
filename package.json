@@ -6,17 +6,16 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev:web": "yarn workspace @sose2025/web run dev",
-    "build": "yarn workspaces run build",
-    "build:web": "yarn workspace @sose2025/web run build",
-    "start:web": "yarn workspace @sose2025/web run start",
-    "lint": "yarn workspaces run lint",
-    "format": "yarn workspaces run format"
+    "build": "npm run build --workspaces",
+    "lint":  "npm run lint --workspaces",
+    "format":  "npm run format --workspaces",
+
+    "dev:web": "npm run dev --workspace=@sose2025/web",
+    "build:web": "npm run build --workspace=@sose2025/web",
+    "start:web": "npm run start --workspace=@sose2025/web"
   },
+  
   "workspaces": [
     "packages/*"
-  ],
-  "devDependencies": {
-    "yarn": "^1.22.22"
-  }
+  ]
 }

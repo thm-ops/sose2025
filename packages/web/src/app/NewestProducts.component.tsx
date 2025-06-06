@@ -2,9 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { rubberDuckData } from "@/data/data";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+import { Utils } from "@/lib/utils/mod";
 
 const products: RubberDuck[] = rubberDuckData;
 
+/**
+ * @component NewestProducts
+ * @description Displays a list of the newest products in a grid layout.
+ */
 export default function NewestProducts() {
     return (
         <div className="bg-white">
@@ -36,7 +41,7 @@ export default function NewestProducts() {
                                     <div className="p-4">
                                         <div className="flex items-center justify-between text-base font-medium text-gray-900">
                                             <h3>{product.name.length > 30 ? product.name.slice(0, 30) + "…" : product.name}</h3>
-                                            <p>{product.price.toFixed(2)} €</p>
+                                            <p>{Utils.price.display(product.price)}</p>
                                         </div>
                                         <p className="mt-1 text-sm text-gray-500">{product.producer}</p>
                                     </div>

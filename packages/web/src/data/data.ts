@@ -4,7 +4,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 1,
         name: "Classic Duck",
-        price: 9.99,
+        price: 999,
         color: "yellow",
         material: "PVC",
         size: "m",
@@ -17,7 +17,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 2,
         name: "Red Duck",
-        price: 11.99,
+        price: 1199,
         color: "red",
         material: "PVC",
         size: "m",
@@ -30,7 +30,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 3,
         name: "Green Duck",
-        price: 12.99,
+        price: 1299,
         color: "green",
         material: "PVC",
         size: "m",
@@ -43,7 +43,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 4,
         name: "Blue Duck",
-        price: 13.99,
+        price: 1399,
         color: "blue",
         material: "PVC",
         size: "m",
@@ -56,7 +56,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 5,
         name: "Large Duck",
-        price: 18.49,
+        price: 1849,
         color: "yellow",
         material: "TPE",
         size: "xl",
@@ -69,7 +69,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 6,
         name: "Small Duck",
-        price: 7.99,
+        price: 799,
         color: "yellow",
         material: "PVC",
         size: "s",
@@ -82,7 +82,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 7,
         name: "Extra Large Duck",
-        price: 25.99,
+        price: 2599,
         color: "yellow",
         material: "TPE",
         size: "xxl",
@@ -95,7 +95,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 8,
         name: "Small Red Duck",
-        price: 8.99,
+        price: 899,
         color: "red",
         material: "PVC",
         size: "s",
@@ -108,7 +108,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 9,
         name: "Large Green Duck",
-        price: 19.99,
+        price: 1999,
         color: "green",
         material: "TPE",
         size: "xl",
@@ -121,7 +121,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 10,
         name: "Blue Duck with Hat",
-        price: 14.49,
+        price: 1449,
         color: "blue",
         material: "PVC",
         size: "m",
@@ -134,7 +134,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 11,
         name: "Yellow Duck with Sunglasses",
-        price: 12.99,
+        price: 1299,
         color: "yellow",
         material: "PVC",
         size: "s",
@@ -147,7 +147,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 12,
         name: "Giant Green Duck",
-        price: 29.99,
+        price: 2999,
         color: "green",
         material: "PP",
         size: "xxl",
@@ -160,7 +160,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 13,
         name: "Hoodie Duck",
-        price: 15.99,
+        price: 1599,
         color: "yellow",
         material: "PS",
         size: "l",
@@ -173,7 +173,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 14,
         name: "King Duck",
-        price: 14.99,
+        price: 1499,
         color: "red",
         material: "PVC",
         size: "m",
@@ -186,7 +186,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 15,
         name: "Heart Duck",
-        price: 13.99,
+        price: 1399,
         color: "red",
         material: "PS",
         size: "m",
@@ -199,7 +199,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 16,
         name: "Pirate Duck",
-        price: 9.99,
+        price: 999,
         color: "yellow",
         material: "PVC",
         size: "s",
@@ -212,7 +212,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 17,
         name: "Keychain Duck",
-        price: 4.99,
+        price: 499,
         color: "blue",
         material: "PVC",
         size: "s",
@@ -225,7 +225,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 18,
         name: "Screaming Duck",
-        price: 10.99,
+        price: 1099,
         color: "green",
         material: "ABS",
         size: "l",
@@ -238,7 +238,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 19,
         name: "Giant Glowing Duck",
-        price: 35.99,
+        price: 3599,
         color: "blue",
         material: "TPE",
         size: "xxl",
@@ -251,7 +251,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 20,
         name: "Unicorn Duck",
-        price: 17.49,
+        price: 1749,
         color: "yellow",
         material: "PVC",
         size: "xl",
@@ -264,7 +264,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 21,
         name: "Hippy Duck",
-        price: 14.99,
+        price: 1499,
         color: "green",
         material: "PP",
         size: "m",
@@ -277,7 +277,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 22,
         name: "Flying Pirate Programming Duck with Hat on a Broom",
-        price: 199.99,
+        price: 19999,
         color: "blue",
         material: "Carbon Fiber",
         size: "xxl",
@@ -291,7 +291,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 23,
         name: "Fly Duck",
-        price: 5.45,
+        price: 545,
         color: "green",
         material: "PS",
         size: "s",
@@ -304,7 +304,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 24,
         name: "Duck with Wings",
-        price: 12.99,
+        price: 1299,
         color: "yellow",
         material: "PVC",
         size: "m",
@@ -317,7 +317,7 @@ export const rubberDuckData: RubberDuck[] = [
     {
         id: 25,
         name: "Drinking Duck",
-        price: 45.99,
+        price: 4599,
         color: "red",
         material: "PVC",
         size: "xl",
