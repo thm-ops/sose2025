@@ -13,13 +13,27 @@ import Cart from "./model/cart/Cart.model";
 import { rubberDuckData } from "@/data/data";
 import { Utils } from "./utils/mod";
 
+/**
+ * A service class for interacting with the PayPal API using a singleton client instance.
+ */
 export class PayPalApiService {
     private static instance: Client;
 
+    /**
+     * Initializes the PayPal client when an instance of the service is created.
+     */
     constructor() {
         PayPalApiService.getClient();
     }
 
+    /**
+     * Returns the singleton instance of the PayPal client.
+     * If the client has not been initialized yet, it creates a new one using
+     * environment variables for authentication.
+     * 
+     * @returns {Client} A configured instance of the PayPal client.
+     * @throws {Error} If the client ID or secret is not set in the environment variables.
+     */
     public static getClient(): Client {
         if (!PayPalApiService.instance) {
             const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
@@ -50,6 +64,15 @@ export class PayPalApiService {
         return PayPalApiService.instance;
     }
 
+    /**
+     * Creates a PayPal order based on the provided cart data.
+     * 
+     * Each item in the cart is mapped to a PayPal `Item` object, and the total price
+     * is calculated. Shipping options are also included in the order.
+     * 
+     * @param {Cart} cart - The shopping cart containing product IDs and quantities.
+     * @returns {Promise<Order>} A promise that resolves to the created PayPal order.
+     */
     public async createOrder(cart: Cart): Promise<Order> {
         const client = PayPalApiService.getClient();
         const ordersController = new OrdersController(client);
@@ -142,6 +165,14 @@ export class PayPalApiService {
         return order.result;
     }
 
+    /**
+     * Captures a previously created PayPal order by its ID.
+     * 
+     * This method finalizes the payment for an approved order.
+     * 
+     * @param {string} id - The PayPal order ID to be captured.
+     * @returns {Promise<Order>} A promise that resolves to the captured order result.
+     */
     public async captureOrder(id: string): Promise<Order> {
         const client: Client = PayPalApiService.getClient();
         const ordersController = new OrdersController(client);
