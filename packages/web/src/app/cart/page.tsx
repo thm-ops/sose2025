@@ -47,7 +47,7 @@ const ShoppingCartPage: React.FC = () => {
     return (
         <div>
             <Header />
-            <ShoppingCart products={cartItems} cartItems={cartItems} />
+            <ShoppingCart initialProducts={cartItems} />
             <Footer />
         </div>
     );
