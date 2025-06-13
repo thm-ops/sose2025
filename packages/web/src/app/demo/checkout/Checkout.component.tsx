@@ -8,7 +8,7 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
  * Renders the checkout page with PayPal integration.
  *
  * This component uses the PayPalScriptProvider and PayPalButtons to get the necessary
- * PayPal scripts and buttons for handling the checkout process. 
+ * PayPal scripts and buttons for handling the checkout process.
  *
  * @returns {JSX.Element} The rendered checkout component.
  */

@@ -30,7 +30,7 @@ export class PayPalApiService {
      * Returns the singleton instance of the PayPal client.
      * If the client has not been initialized yet, it creates a new one using
      * environment variables for authentication.
-     * 
+     *
      * @returns {Client} A configured instance of the PayPal client.
      * @throws {Error} If the client ID or secret is not set in the environment variables.
      */
@@ -66,10 +66,10 @@ export class PayPalApiService {
 
     /**
      * Creates a PayPal order based on the provided cart data.
-     * 
+     *
      * Each item in the cart is mapped to a PayPal `Item` object, and the total price
      * is calculated. Shipping options are also included in the order.
-     * 
+     *
      * @param {Cart} cart - The shopping cart containing product IDs and quantities.
      * @returns {Promise<Order>} A promise that resolves to the created PayPal order.
      */
@@ -167,9 +167,9 @@ export class PayPalApiService {
 
     /**
      * Captures a previously created PayPal order by its ID.
-     * 
+     *
      * This method finalizes the payment for an approved order.
-     * 
+     *
      * @param {string} id - The PayPal order ID to be captured.
      * @returns {Promise<Order>} A promise that resolves to the captured order result.
      */
