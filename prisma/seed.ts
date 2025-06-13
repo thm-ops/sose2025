@@ -1,9 +1,8 @@
-import { Color, Size } from './../src/app/generated/prisma/index.d';
-import { rubberDuckData } from "./../src/app/data/data";
+import { Color, Size } from '../packages/web/src/app/generated/prisma/index.d';
+import { rubberDuckData } from '../packages/web/src/data/data';
 
 // prisma/seed.ts
-
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '../packages/web/src/app/generated/prisma';
 
 const prisma = new PrismaClient();
 

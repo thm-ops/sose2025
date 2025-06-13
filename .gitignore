@@ -1,5 +1,4 @@
 node_modules
 .next
 dist
-.env
-/app/generated/prisma
+/packages/web/src/app/generated
