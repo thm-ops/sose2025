@@ -1,4 +1,9 @@
 node_modules
 .next
 dist
-/packages/web/src/app/generated
+.env*
+!.env.example
+
+# misc
+.DS_Store
+*.pem
