@@ -11,7 +11,7 @@
         "prisma:generate": "prisma generate",
         "prisma:migrate": "prisma migrate dev",
         "prisma:seed": "tsx prisma/seed.ts",
-        "prepare": "npm run prisma:generate && npm run prisma:migrate"
+        "prepare": "npm run prisma:generate"
     },
     "dependencies": {
         "@headlessui/react": "^2.2.4",
