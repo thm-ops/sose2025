@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum Size {
+    s
+    m
+    l
+    xl
+    xxl
+}
+
+enum Color {
+    red
+    green
+    blue
+    yellow
+    black
+    white
+}
+
+model Producer {
+    id      Int     @id @default(autoincrement())
+    name    String  @unique
+    email   String  @unique
+    phone   String?
+    address String?
+
+    ducks Duck[]
+}
+
+model Brand {
+    id          Int     @id @default(autoincrement())
+    name        String  @unique
+    description String?
+
+    ducks Duck[]
+}
+
+model Origin {
+    id    Int    @id @default(autoincrement())
+    name  String @unique
+    ducks Duck[]
+}
+
+// Duck model created from the schema provided in lib/model
+// Attributes like color, size, material brand, etc. are provided as relations - may be changed to strings for simplicity
+model Duck {
+    id          Int    @id @default(autoincrement())
+    name        String @unique
+    price       Int
+    color       Color
+    material    String
+    size        Size
+    brandId     Int?
+    originId    Int
+    producerId  Int
+    weight      Float
+    description String
+
+    brand    Brand?   @relation(fields: [brandId], references: [id])
+    origin   Origin   @relation(fields: [originId], references: [id])
+    producer Producer @relation(fields: [producerId], references: [id])
+
+    orderItems OrderItem[]
+
+    // for filtering by attributes, indexes may be expanded
+    @@index([material])
+    @@index([size])
+    @@index([color])
+}
+
+model Order {
+    id          Int         @id @default(autoincrement())
+    createdAt   DateTime    @default(now())
+    totalPrice  Int
+    isCompleted Boolean     @default(false)
+    items       OrderItem[]
+    customerId  Int         @unique
+
+    customer Customer @relation(fields: [customerId], references: [id])
+
+    paypalTransaction PaypalTransaction?
+
+    // for performance when ordering by creation date or completion status
+    @@index([createdAt])
+    @@index([isCompleted])
+}
+
+// Subtable of Order to store customer information for delievery; not intended to be used for authentication
+model Customer {
+    id        Int    @id @default(autoincrement())
+    firstName String
+    lastName  String
+    email     String
+    phone     String
+    address   String
+
+    order Order?
+}
+
+// table of PayPal transactionIds
+model PaypalTransaction {
+    id            Int    @id @default(autoincrement())
+    orderId       Int    @unique
+    transactionId String @unique // Unique identifier for the transaction from PayPal
+
+    order Order @relation(fields: [orderId], references: [id])
+
+    // for performance when querying by order or status
+    @@index([orderId])
+}
+
+model OrderItem {
+    id       Int @id @default(autoincrement())
+    orderId  Int
+    duckId   Int
+    quantity Int @default(1)
+
+    order Order @relation(fields: [orderId], references: [id])
+    duck  Duck  @relation(fields: [duckId], references: [id])
+}
