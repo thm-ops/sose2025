@@ -208,7 +208,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\danyl\\OneDrive\\Desktop\\Study\\THM\\sose2025\\ops\\sose2025\\packages\\web\\src\\generated\\prisma",
+      "value": "C:\\Users\\danyl\\OneDrive\\Desktop\\Study\\THM\\sose2025\\ops\\ducks-test-clone\\sose2025\\packages\\web\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -222,7 +222,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\danyl\\OneDrive\\Desktop\\Study\\THM\\sose2025\\ops\\sose2025\\packages\\web\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\danyl\\OneDrive\\Desktop\\Study\\THM\\sose2025\\ops\\ducks-test-clone\\sose2025\\packages\\web\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -236,7 +236,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
