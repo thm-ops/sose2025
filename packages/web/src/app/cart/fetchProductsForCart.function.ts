@@ -7,18 +7,16 @@ const rubberDucks = rubberDuckData;
 
 /**
  * Fetching products for given Cart
- * 
- * @param cart 
- * @returns 
+ *
+ * @param cart
+ * @returns
  */
-export async function fetchProductsForCart(cart: Cart): Promise<ShoppingCartItem[]> {
-    return await Promise.all(
-        cart.map(async (item) => {
-            return {
-                ...rubberDucks.find((duck)=>duck.id === item.id) as RubberDuck,
-                quantity: item.qty,
-                inStock: true
-            }
-        })
-    )
+export function fetchProductsForCart(cart: Cart): ShoppingCartItem[] {
+    return cart.map((item) => {
+        return {
+            ...(rubberDucks.find((duck) => duck.id === item.id) as RubberDuck),
+            quantity: item.qty,
+            inStock: true,
+        };
+    });
 }

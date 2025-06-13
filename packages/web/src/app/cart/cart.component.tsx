@@ -13,7 +13,7 @@ export type ShoppingCartItem = RubberDuck & {
 };
 
 export default function ShoppingCart() {
-    const [cart, _setCart] = useCart();
+    const [cart] = useCart();
     const [isClient, setIsClient] = useState(false);
     const [items, setItems] = useState<ShoppingCartItem[]>([]);
 
@@ -31,9 +31,8 @@ export default function ShoppingCart() {
      * Update on cart change
      */
     useEffect(() => {
-        fetchProductsForCart(cart)
-            .then(setItems)
-    }, [cart])
+        setItems(fetchProductsForCart(cart));
+    }, [cart]);
 
     useEffect(() => {
         setIsClient(true);
@@ -171,4 +170,4 @@ export default function ShoppingCart() {
             </form>
         </main>
     );
-};
+}

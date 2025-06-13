@@ -20,14 +20,11 @@ export default function AddToCartForm({ id }: { id: number }) {
         console.log(`Product added to cart: Quantity ${quantity}`);
     };
 
-    async function addToCart() {
-        const existingEntry = cart.find((item => item.id === id));
+    function addToCart() {
+        const existingEntry = cart.find((item) => item.id === id);
 
         if (existingEntry !== undefined) {
-            setCart([
-                ...cart.filter(item => item.id !== id),
-                { id, qty: existingEntry.qty + quantity }
-            ])
+            setCart([...cart.filter((item) => item.id !== id), { id, qty: existingEntry.qty + quantity }]);
             return;
         } else {
             setCart([...cart, { id, qty: quantity }]);
