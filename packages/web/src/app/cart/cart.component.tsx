@@ -1,18 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { ShoppingCartItem } from "@/app/cart/page";
+import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import { Utils } from "@/lib/utils/mod";
+import useCart from "@/lib/hooks/cart/useCart.hook";
+import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+import { fetchProductsForCart } from "./fetchProductsForCart.function";
 
-type ShoppingCartProps = {
-    products?: ShoppingCartItem[];
-    cartItems: ShoppingCartItem[];
+export type ShoppingCartItem = RubberDuck & {
+    quantity: number;
+    inStock: boolean;
 };
 
-const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
+export default function ShoppingCart() {
+    const [cart, _setCart] = useCart();
     const [isClient, setIsClient] = useState(false);
-    const [items, setItems] = useState<ShoppingCartItem[]>(products);
+    const [items, setItems] = useState<ShoppingCartItem[]>([]);
 
     const handleQuantityChange = (id: number, delta: number) => {
         setItems((prevItems) =>
@@ -23,6 +26,14 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
             ),
         );
     };
+
+    /**
+     * Update on cart change
+     */
+    useEffect(() => {
+        fetchProductsForCart(cart)
+            .then(setItems)
+    }, [cart])
 
     useEffect(() => {
         setIsClient(true);
@@ -37,7 +48,9 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
     return (
         <main className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Warenkorb</h1>
-
+            <hr />
+            <div>{JSON.stringify(cart)}</div>
+            <hr />
             <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
                 <section aria-labelledby="cart-heading" className="lg:col-span-7">
                     <h2 id="cart-heading" className="sr-only">
@@ -159,5 +172,3 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
         </main>
     );
 };
-
-export default ShoppingCart;

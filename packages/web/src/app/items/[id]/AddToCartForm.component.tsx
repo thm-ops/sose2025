@@ -1,8 +1,10 @@
 "use client";
+import useCart from "@/lib/hooks/cart/useCart.hook";
 import { useState } from "react";
 
-export default function AddToCartForm() {
+export default function AddToCartForm({ id }: { id: number }) {
     const [quantity, setQuantity] = useState(1);
+    const [cart, setCart] = useCart();
 
     const handleDecrement = () => {
         setQuantity((prev) => Math.max(1, prev - 1));
@@ -17,6 +19,22 @@ export default function AddToCartForm() {
         // Implement logic for adding to cart here
         console.log(`Product added to cart: Quantity ${quantity}`);
     };
+
+    async function addToCart() {
+        const existingEntry = cart.find((item => item.id === id));
+
+        if (existingEntry !== undefined) {
+            setCart([
+                ...cart.filter(item => item.id !== id),
+                { id, qty: existingEntry.qty + quantity }
+            ])
+            return;
+        } else {
+            setCart([...cart, { id, qty: quantity }]);
+        }
+
+        setQuantity(1);
+    }
 
     return (
         <form className="mt-10 px-4 sm:px-0" onSubmit={handleSubmit}>
@@ -42,6 +60,7 @@ export default function AddToCartForm() {
             </div>
             <div className="mt-6">
                 <button
+                    onClick={addToCart}
                     type="submit"
                     className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
                     Add to cart
