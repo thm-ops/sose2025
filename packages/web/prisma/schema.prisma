@@ -34,7 +34,7 @@ enum Color {
 model Producer {
     id      Int     @id @default(autoincrement())
     name    String  @unique
-    email   String  @unique
+    email   String  @unique @db.VarChar(130)
     phone   String?
     address String?
 

@@ -153,3 +153,7 @@ ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("or
 
 -- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_duckId_fkey" FOREIGN KEY ("duckId") REFERENCES "Duck"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- Limit the length of the email
+ALTER TABLE "Producer" ALTER COLUMN "email" TYPE VARCHAR(130);
+
