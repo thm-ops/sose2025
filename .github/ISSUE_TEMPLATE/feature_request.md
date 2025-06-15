@@ -2,9 +2,8 @@
 name: Feature request
 about: Making progress
 title: "[feature]"
-labels: ''
-assignees: ''
-
+labels: ""
+assignees: ""
 ---
 
 **Context**
