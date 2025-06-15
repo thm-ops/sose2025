@@ -12,6 +12,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+    globalIgnores(["src/generated"]),
     ...ts.configs.recommendedTypeChecked,
     {
         languageOptions: {
