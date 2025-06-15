@@ -1,10 +1,10 @@
 services:
-    postgres:
-        image: "postgres:latest"
-        container_name: "ducks_postgres"
-        environment:
-            - "POSTGRES_DB=ducks_db"
-            - "POSTGRES_PASSWORD=ducks_secret"
-            - "POSTGRES_USER=ducks_user"
-        ports:
-            - "5432:5432"
+  postgres:
+    image: "postgres:latest"
+    container_name: "ducks_postgres"
+    environment:
+      - "POSTGRES_DB=ducks_db"
+      - "POSTGRES_PASSWORD=ducks_secret"
+      - "POSTGRES_USER=ducks_user"
+    ports:
+      - "5432:5432"

@@ -77,15 +77,12 @@ export class PayPalApiService {
         const client = PayPalApiService.getClient();
         const ordersController = new OrdersController(client);
 
-
         const items: Item[] = [];
         let total = 0;
         for (const entry of cart) {
-            const item = await prisma.duck.findUnique(
-                {
-                    where : { id : entry.id}
-                }
-            );
+            const item = await prisma.duck.findUnique({
+                where: { id: entry.id },
+            });
             if (item) {
                 total += item.price * entry.qty;
                 items.push({

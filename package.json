@@ -16,7 +16,6 @@
     "prisma:migrate": "npm run prisma:migrate --workspace=@sose2025/web",
     "prisma:seed": "npm run prisma:seed --workspace=@sose2025/web",
     "prepare": "npm run prepare --workspace=@sose2025/web"
-
   },
   "workspaces": [
     "packages/*"
