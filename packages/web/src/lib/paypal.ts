@@ -10,8 +10,8 @@ import {
     ShippingType,
 } from "@paypal/paypal-server-sdk";
 import Cart from "./model/cart/Cart.model";
-import { rubberDuckData } from "@/data/data";
 import { Utils } from "./utils/mod";
+import prisma from "./prisma";
 
 /**
  * A service class for interacting with the PayPal API using a singleton client instance.
@@ -80,7 +80,9 @@ export class PayPalApiService {
         const items: Item[] = [];
         let total = 0;
         for (const entry of cart) {
-            const item = rubberDuckData.find((x) => x.id == entry.id);
+            const item = await prisma.duck.findUnique({
+                where: { id: entry.id },
+            });
             if (item) {
                 total += item.price * entry.qty;
                 items.push({
