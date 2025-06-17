@@ -15,6 +15,7 @@
     "prisma:generate": "npm run prisma:generate --workspace=@sose2025/web",
     "prisma:migrate": "npm run prisma:migrate --workspace=@sose2025/web",
     "prisma:seed": "npm run prisma:seed --workspace=@sose2025/web",
+    "prisma:studio": "npm run prisma:studio --workspace=@sose2025/web",
     "prepare": "npm run prepare --workspace=@sose2025/web"
   },
   "workspaces": [
