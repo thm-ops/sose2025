@@ -13,7 +13,9 @@ export const RubberDuckSchema = z.object({
     producer: z.string().min(3),
     weight: z.number(),
     description: z.string().min(3),
+    image: z.string().min(1),
 });
+
 
 // extract the inferred type like this
 type RubberDuck = z.infer<typeof RubberDuckSchema>;

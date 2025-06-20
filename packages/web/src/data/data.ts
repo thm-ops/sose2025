@@ -13,6 +13,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Classic Toys Inc.",
         weight: 0.5,
         description: "A classic yellow rubber duck",
+        image: "/media/products/1_classic-duck.png",
     },
     {
         id: 2,
@@ -26,6 +27,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Classic Toys Inc.",
         weight: 0.5,
         description: "A red rubber duck",
+        image: "/media/products/2_red-duck.png",
     },
     {
         id: 3,
@@ -39,6 +41,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Classic Toys Inc.",
         weight: 0.5,
         description: "A green rubber duck",
+        image: "/media/products/3_green-duck.png",
     },
     {
         id: 4,
@@ -52,6 +55,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Classic Toys Inc.",
         weight: 0.5,
         description: "A blue rubber duck",
+        image: "/media/products/4_blue-duck.png",
     },
     {
         id: 5,
@@ -65,6 +69,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Giant Toys Co.",
         weight: 1.5,
         description: "A large yellow rubber duck",
+        image: "/media/products/5_large-duck.png",
     },
     {
         id: 6,
@@ -78,6 +83,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Tiny Toys Inc.",
         weight: 0.3,
         description: "A small yellow rubber duck",
+        image: "/media/products/6_small-duck.png",
     },
     {
         id: 7,
@@ -91,6 +97,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Giant Toys Co.",
         weight: 2.5,
         description: "An extra large yellow rubber duck",
+        image: "/media/products/7_extra-large-duck.png",
     },
     {
         id: 8,
@@ -104,6 +111,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Tiny Toys Inc.",
         weight: 0.3,
         description: "A small red rubber duck",
+        image: "/media/products/8_small-red-duck.png",
     },
     {
         id: 9,
@@ -117,6 +125,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Giant Toys Co.",
         weight: 1.5,
         description: "A large green rubber duck",
+        image: "/media/products/9_large-green-duck.png",
     },
     {
         id: 10,
@@ -130,6 +139,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Classic Toys Inc.",
         weight: 0.5,
         description: "A blue rubber duck with a hat",
+        image: "/media/products/10_blue-duck-with-hat.png",
     },
     {
         id: 11,
@@ -143,6 +153,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Best Toys Inc.",
         weight: 0.4,
         description: "A yellow rubber duck with sunglasses",
+        image: "/media/products/11_yellow-duck-with-sunglasses.png",
     },
     {
         id: 12,
@@ -156,6 +167,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Giant Toys Co.",
         weight: 3.0,
         description: "A giant green rubber duck",
+        image: "/media/products/12_giant-green-duck.png",
     },
     {
         id: 13,
@@ -169,6 +181,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Cool Toys Inc.",
         weight: 0.8,
         description: "A yellow rubber duck with a hoodie",
+        image: "/media/products/13_hoodie-duck.png",
     },
     {
         id: 14,
@@ -182,6 +195,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Classic Toys Inc.",
         weight: 0.5,
         description: "A red rubber duck with a crown",
+        image: "/media/products/14_king-duck.png",
     },
     {
         id: 15,
@@ -195,6 +209,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Best Toys Inc.",
         weight: 0.6,
         description: "A red rubber duck with a heart design in the chest",
+        image: "/media/products/15_heart-duck.png",
     },
     {
         id: 16,
@@ -208,6 +223,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Cool Toys Inc.",
         weight: 0.4,
         description: "A yellow rubber duck dressed as a pirate",
+        image: "/media/products/16_pirate-duck.png",
     },
     {
         id: 17,
@@ -221,6 +237,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Tiny Toys Inc.",
         weight: 0.2,
         description: "A small blue rubber duck keychain",
+        image: "/media/products/17_keychain-duck.png",
     },
     {
         id: 18,
@@ -234,6 +251,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Cool Toys Inc.",
         weight: 0.7,
         description: "A green rubber duck that screams when squeezed",
+        image: "/media/products/18_screaming-duck.png",
     },
     {
         id: 19,
@@ -247,6 +265,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Giant Toys Co.",
         weight: 4.0,
         description: "A giant blue rubber duck that glows in the dark",
+        image: "/media/products/19_giant-glowing-duck.png",
     },
     {
         id: 20,
@@ -260,6 +279,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Giant Toys Co.",
         weight: 2.2,
         description: "A big yellow rubber duck with a unicorn horn",
+        image: "/media/products/20_unicorn-duck.png",
     },
     {
         id: 21,
@@ -273,6 +293,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Best Toys Inc.",
         weight: 0.5,
         description: "A green rubber duck with a hippy design",
+        image: "/media/products/21_hippy-duck.png",
     },
     {
         id: 22,
@@ -287,6 +308,7 @@ export const rubberDuckData: RubberDuck[] = [
         weight: 15.5,
         description:
             "A blue rubber duck dressed as a pirate, flying on a broom with a hat programming in Python. It is a special edition duck for programmers.",
+        image: "/media/products/22_flying-pirate-programming-duck-with-hat-on-a-broom.png",
     },
     {
         id: 23,
@@ -300,6 +322,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Tiny Toys Inc.",
         weight: 0.3,
         description: "A small green rubber duck that can fly",
+        image: "/media/products/23_fly-duck.png",
     },
     {
         id: 24,
@@ -313,6 +336,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Classic Toys Inc.",
         weight: 0.5,
         description: "A yellow rubber duck with wings",
+        image: "/media/products/24_duck-with-wings.png",
     },
     {
         id: 25,
@@ -326,6 +350,7 @@ export const rubberDuckData: RubberDuck[] = [
         producer: "Giant Toys Co.",
         weight: 2.5,
         description: "A red rubber duck that can drinking Vodka (Bottle included)",
+        image: "/media/products/25_drinking-duck.png",
     },
     // Add more ducks if needed
 ];
