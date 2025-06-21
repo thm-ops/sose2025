@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { rubberDuckData } from "@/data/data";
+import {useMemo, useState} from "react";
+import {rubberDuckData} from "@/data/data";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import ProductTable from "./ProductTable.component";
 import PageHeader from "./PageHeader.component";
 import AddProductModal from "./AddProductModal.component";
 import EditProductModal from "./EditProductModal.component";
 import DeleteProductModal from "./DeleteProductModal.component";
+import AdminHeader from "@/app/admin/AdminHeader.component";
 
 type SortKey = keyof RubberDuck;
 type SortDirection = "asc" | "desc";
@@ -75,34 +76,39 @@ export default function ProductManagementPage() {
     }, [searchTerm, sortKey, sortDirection]);
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="p-4 sm:p-6 lg:p-8">
-                <PageHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} onAddProduct={() => setIsAddModalOpen(true)} />
-                <main className="mt-8">
-                    <ProductTable
-                        products={sortedAndFilteredProducts}
-                        sortKey={sortKey}
-                        sortDirection={sortDirection}
-                        onSort={handleSort}
-                        onEdit={handleOpenEditModal}
-                        onDelete={handleOpenDeleteModal}
-                    />
-                </main>
-            </div>
+        <div>
+            <AdminHeader />
+            <div className="min-h-screen pt-[64px] bg-gray-50">
+                <div className="p-4 sm:p-6 lg:p-8">
+                    <PageHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm}
+                                onAddProduct={() => setIsAddModalOpen(true)}/>
+                    <main className="mt-8">
+                        <ProductTable
+                            products={sortedAndFilteredProducts}
+                            sortKey={sortKey}
+                            sortDirection={sortDirection}
+                            onSort={handleSort}
+                            onEdit={handleOpenEditModal}
+                            onDelete={handleOpenDeleteModal}
+                        />
+                    </main>
+                </div>
 
-            <AddProductModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onAdd={handleAddProduct} />
-            <EditProductModal
-                isOpen={isEditModalOpen}
-                onClose={() => setIsEditModalOpen(false)}
-                onEdit={handleEditProduct}
-                product={selectedProduct}
-            />
-            <DeleteProductModal
-                isOpen={isDeleteModalOpen}
-                onClose={() => setIsDeleteModalOpen(false)}
-                onDelete={handleDeleteProduct}
-                product={selectedProduct}
-            />
+                <AddProductModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}
+                                 onAdd={handleAddProduct}/>
+                <EditProductModal
+                    isOpen={isEditModalOpen}
+                    onClose={() => setIsEditModalOpen(false)}
+                    onEdit={handleEditProduct}
+                    product={selectedProduct}
+                />
+                <DeleteProductModal
+                    isOpen={isDeleteModalOpen}
+                    onClose={() => setIsDeleteModalOpen(false)}
+                    onDelete={handleDeleteProduct}
+                    product={selectedProduct}
+                />
+            </div>
         </div>
     );
 }

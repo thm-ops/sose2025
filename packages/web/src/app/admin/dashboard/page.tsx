@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AdminHeader from "@/app/admin/dashboard/AdminHeader.component";
+import AdminHeader from "@/app/admin/AdminHeader.component";
 import AdminTimeSelect from "@/app/admin/dashboard/AdminTimespanSelect.component";
 import AdminStats from "@/app/admin/dashboard/AdminStats.component";
 import AdminRecentOrders from "@/app/admin/dashboard/AdminRecentOrders.component";
