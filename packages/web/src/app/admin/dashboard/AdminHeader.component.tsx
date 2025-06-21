@@ -12,9 +12,9 @@ import Image from "next/image";
  * @description Contains the names and links of the navigation items displayed in the header.
  */
 const navigation = [
-    { name: "Dashboard", href: "#" },
-    { name: "Bestellungen", href: "#" },
-    { name: "Produkte", href: "#" },
+    { name: "Dashboard", href: "/admin/dashboard" },
+    { name: "Bestellungen", href: "/admin/orders" },
+    { name: "Produkte", href: "/admin/products" },
 ];
 
 /**
