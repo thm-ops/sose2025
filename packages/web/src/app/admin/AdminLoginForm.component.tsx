@@ -65,6 +65,27 @@ function PasswordField() {
 }
 
 /**
+ * @component TwoFA
+ * @description The Two-Factor Authentication Field of the AdminLoginPage
+ */
+function TwoFA() {
+    return (
+        <div className="space-y-2">
+            <label htmlFor="2fa-code" className="font-medium text-gray-700">Bestätigungscode</label>
+            <input
+                id="2fa-code"
+                name="2fa-code"
+                type="text"
+                autoComplete="one-time-code"
+                required
+                placeholder="123456"
+                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 transition-all duration-300 placeholder:text-gray-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/50"
+            />
+        </div>
+    )
+}
+
+/**
  * @component AdminLoginButton
  * @description The Login Button of the AdminLoginPage
  */
@@ -90,6 +111,7 @@ function LoginForm() {
         <form className="mt-8 space-y-6">
             <EmailField />
             <PasswordField />
+            <TwoFA />
             <LoginButton />
         </form>
     );
