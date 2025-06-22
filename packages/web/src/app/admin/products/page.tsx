@@ -1,7 +1,7 @@
 "use client";
 
-import {useMemo, useState} from "react";
-import {rubberDuckData} from "@/data/data";
+import { useMemo, useState } from "react";
+import { rubberDuckData } from "@/data/data";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import ProductTable from "./ProductTable.component";
 import PageHeader from "./PageHeader.component";
@@ -80,8 +80,7 @@ export default function ProductManagementPage() {
             <AdminHeader />
             <div className="min-h-screen pt-[64px] bg-gray-50">
                 <div className="p-4 sm:p-6 lg:p-8">
-                    <PageHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm}
-                                onAddProduct={() => setIsAddModalOpen(true)}/>
+                    <PageHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} onAddProduct={() => setIsAddModalOpen(true)} />
                     <main className="mt-8">
                         <ProductTable
                             products={sortedAndFilteredProducts}
@@ -94,8 +93,7 @@ export default function ProductManagementPage() {
                     </main>
                 </div>
 
-                <AddProductModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}
-                                 onAdd={handleAddProduct}/>
+                <AddProductModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onAdd={handleAddProduct} />
                 <EditProductModal
                     isOpen={isEditModalOpen}
                     onClose={() => setIsEditModalOpen(false)}
