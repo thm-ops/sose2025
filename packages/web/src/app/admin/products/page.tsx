@@ -6,7 +6,6 @@ import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import ProductTable from "./ProductTable.component";
 import PageHeader from "./PageHeader.component";
 import AddProductModal from "./AddProductModal.component";
-import EditProductModal from "./EditProductModal.component";
 import DeleteProductModal from "./DeleteProductModal.component";
 import AdminHeader from "@/app/admin/AdminHeader.component";
 
@@ -20,13 +19,12 @@ export default function ProductManagementPage() {
 
     const [selectedProduct, setSelectedProduct] = useState<RubberDuck | null>(null);
 
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-    const handleOpenEditModal = (product: RubberDuck) => {
+    const handleOpenModal = (product: RubberDuck | null) => {
         setSelectedProduct(product);
-        setIsEditModalOpen(true);
+        setIsModalOpen(true);
     };
 
     const handleOpenDeleteModal = (product: RubberDuck) => {
@@ -34,14 +32,13 @@ export default function ProductManagementPage() {
         setIsDeleteModalOpen(true);
     };
 
-    const handleAddProduct = (formData: Partial<RubberDuck>) => {
-        console.log("Adding product:", formData);
-        setIsAddModalOpen(false);
-    };
-
-    const handleEditProduct = (formData: Partial<RubberDuck>) => {
-        console.log("Editing product:", selectedProduct?.id, formData);
-        setIsEditModalOpen(false);
+    const handleSaveProduct = (formData: Partial<RubberDuck>) => {
+        if (selectedProduct) {
+            console.log("Editing product:", selectedProduct.id, formData);
+        } else {
+            console.log("Adding product:", formData);
+        }
+        setIsModalOpen(false);
         setSelectedProduct(null);
     };
 
@@ -79,25 +76,25 @@ export default function ProductManagementPage() {
         <div>
             <AdminHeader />
             <div className="min-h-screen pt-[64px] bg-gray-50">
-                <div className="p-4 sm:p-6 lg:p-8">
-                    <PageHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} onAddProduct={() => setIsAddModalOpen(true)} />
+                {/* This container now has max-width and is centered */}
+                <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
+                    <PageHeader searchTerm={searchTerm} setSearchTerm={setSearchTerm} onAddProduct={() => handleOpenModal(null)} />
                     <main className="mt-8">
                         <ProductTable
                             products={sortedAndFilteredProducts}
                             sortKey={sortKey}
                             sortDirection={sortDirection}
                             onSort={handleSort}
-                            onEdit={handleOpenEditModal}
+                            onEdit={handleOpenModal}
                             onDelete={handleOpenDeleteModal}
                         />
                     </main>
                 </div>
 
-                <AddProductModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onAdd={handleAddProduct} />
-                <EditProductModal
-                    isOpen={isEditModalOpen}
-                    onClose={() => setIsEditModalOpen(false)}
-                    onEdit={handleEditProduct}
+                <AddProductModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={handleSaveProduct}
                     product={selectedProduct}
                 />
                 <DeleteProductModal

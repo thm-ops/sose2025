@@ -38,6 +38,8 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
     const [formData, setFormData] = useState<Partial<RubberDuck>>(initialFormData);
     // State to hold the URL for the image preview.
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    // State to track if a file is being dragged over the dropzone.
+    const [isDragging, setIsDragging] = useState(false);
 
     // Effect to populate the form when a product is passed for editing.
     useEffect(() => {
@@ -92,6 +94,18 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
         }
     };
 
+    // Handler for the drop event to process the dropped file.
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsDragging(false);
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            const file = e.dataTransfer.files[0];
+            if (file.type.startsWith("image/")) {
+                setImagePreview(URL.createObjectURL(file));
+            }
+        }
+    };
+
     // Handler to remove the current image preview and show the upload field again.
     const handleRemoveImage = () => {
         setImagePreview(null);
@@ -123,7 +137,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                 </div>
 
@@ -152,7 +166,20 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                             </div>
                         ) : (
                             // Otherwise, show the file upload dropzone.
-                            <div className="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                            <div
+                                className={`flex justify-center rounded-lg border border-dashed px-6 py-10 transition-all duration-200 ${
+                                    isDragging ? "border-2 border-indigo-600 bg-indigo-50" : "border-gray-900/25"
+                                }`}
+                                onDragEnter={(e) => {
+                                    e.preventDefault();
+                                    setIsDragging(true);
+                                }}
+                                onDragOver={(e) => e.preventDefault()}
+                                onDragLeave={(e) => {
+                                    e.preventDefault();
+                                    setIsDragging(false);
+                                }}
+                                onDrop={handleDrop}>
                                 <div className="text-center">
                                     <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
                                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
@@ -191,7 +218,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                             value={formData.price}
                             onChange={handleChange}
                             required
-                            className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                     </div>
                     <div>
@@ -206,7 +233,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                             value={formData.weight}
                             onChange={handleChange}
                             required
-                            className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -222,7 +249,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                             name="color"
                             value={formData.color}
                             onChange={handleChange}
-                            className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                             <option>yellow</option>
                             <option>red</option>
                             <option>green</option>
@@ -238,7 +265,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                             name="size"
                             value={formData.size}
                             onChange={handleChange}
-                            className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                             <option>s</option>
                             <option>m</option>
                             <option>l</option>
@@ -260,7 +287,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                         value={formData.material}
                         onChange={handleChange}
                         required
-                        className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                 </div>
                 <div>
@@ -274,7 +301,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                         value={formData.producer}
                         onChange={handleChange}
                         required
-                        className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                 </div>
 
@@ -289,7 +316,7 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                         value={formData.description}
                         onChange={handleChange}
                         rows={3}
-                        className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                 </div>
             </div>
 

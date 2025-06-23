@@ -5,20 +5,23 @@ import { Dialog, Transition } from "@headlessui/react";
 import ProductForm from "./ProductForm.component";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 
-interface AddProductModalProps {
+interface ProductModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onAdd: (formData: Partial<RubberDuck>) => void;
+    onSubmit: (formData: Partial<RubberDuck>) => void;
+    product: RubberDuck | null; // Product is passed in edit mode
 }
 
 /**
  * @component AddProductModal
- * @description A modal dialog for adding a new product, using Headless UI.
+ * @description A modal dialog for adding or editing a product, using Headless UI.
  */
-export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductModalProps) {
+export default function AddProductModal({ isOpen, onClose, onSubmit, product }: ProductModalProps) {
+    const isEditMode = !!product;
+
     return (
         <Transition.Root show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={onClose}>
+            <Dialog as="div" className="relative z-50" onClose={onClose}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -41,10 +44,10 @@ export default function AddProductModal({ isOpen, onClose, onAdd }: AddProductMo
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                             <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6">
                                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900 border-b border-gray-200 pb-4">
-                                    Neues Produkt erstellen
+                                    {isEditMode ? "Produkt bearbeiten" : "Neues Produkt erstellen"}
                                 </Dialog.Title>
                                 <div className="mt-5">
-                                    <ProductForm onSubmit={onAdd} onCancel={onClose} />
+                                    <ProductForm product={product} onSubmit={onSubmit} onCancel={onClose} />
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

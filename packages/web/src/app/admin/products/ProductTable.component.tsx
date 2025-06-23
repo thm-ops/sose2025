@@ -23,28 +23,75 @@ interface ProductTableProps {
 }
 
 /**
+ * @component SortIndicatorIcon
+ * @description Displays an SVG icon indicating the sort status (unsorted, ascending, or descending).
+ */
+function SortIndicatorIcon({ isSorted, direction }: { isSorted: boolean; direction: "ascending" | "descending" }) {
+    if (!isSorted) {
+        return (
+            <span className="ml-1.5 opacity-20 group-hover:opacity-50">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    data-slot="icon"
+                    className="h-5 w-5">
+                    <path
+                        fillRule="evenodd"
+                        d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Zm-3.75 9.75a.75.75 0 0 1 1.06 0L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 0 1 0-1.06Z"
+                        clipRule="evenodd"></path>
+                </svg>
+            </span>
+        );
+    }
+    return (
+        <span className="ml-1.5 opacity-80">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                data-slot="icon"
+                className="h-5 w-5">
+                {direction === "ascending" ? (
+                    <path
+                        fillRule="evenodd"
+                        d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Z"
+                        clipRule="evenodd"
+                    />
+                ) : (
+                    <path
+                        fillRule="evenodd"
+                        d="M12.53 19.78a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 1 1 1.06-1.06L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75Z"
+                        clipRule="evenodd"
+                    />
+                )}
+            </svg>
+        </span>
+    );
+}
+
+/**
  * @component ProductTable
  * @description Renders a sortable table of products with a styled Headless UI dropdown menu.
  */
 export default function ProductTable({ products, sortKey, sortDirection, onSort, onEdit, onDelete }: ProductTableProps) {
     return (
-        // Main container with overflow handling for responsiveness on small screens.
         <div className="mt-8 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                    <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                        {/* The main table structure. */}
-                        <table className="min-w-full divide-y divide-gray-300">
-                            {/* Table header with sortable columns. */}
+                    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+                        <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    {/* A sortable header for each column. */}
                                     <SortableHeader
                                         label="Name"
                                         sortKey="name"
                                         currentSortKey={sortKey}
                                         sortDirection={sortDirection}
                                         onSort={onSort}
+                                        Icon={SortIndicatorIcon}
                                     />
                                     <SortableHeader
                                         label="Preis"
@@ -52,6 +99,7 @@ export default function ProductTable({ products, sortKey, sortDirection, onSort,
                                         currentSortKey={sortKey}
                                         sortDirection={sortDirection}
                                         onSort={onSort}
+                                        Icon={SortIndicatorIcon}
                                     />
                                     <SortableHeader
                                         label="Farbe"
@@ -59,6 +107,7 @@ export default function ProductTable({ products, sortKey, sortDirection, onSort,
                                         currentSortKey={sortKey}
                                         sortDirection={sortDirection}
                                         onSort={onSort}
+                                        Icon={SortIndicatorIcon}
                                     />
                                     <SortableHeader
                                         label="Größe"
@@ -66,6 +115,7 @@ export default function ProductTable({ products, sortKey, sortDirection, onSort,
                                         currentSortKey={sortKey}
                                         sortDirection={sortDirection}
                                         onSort={onSort}
+                                        Icon={SortIndicatorIcon}
                                     />
                                     <SortableHeader
                                         label="Material"
@@ -73,6 +123,7 @@ export default function ProductTable({ products, sortKey, sortDirection, onSort,
                                         currentSortKey={sortKey}
                                         sortDirection={sortDirection}
                                         onSort={onSort}
+                                        Icon={SortIndicatorIcon}
                                     />
                                     <SortableHeader
                                         label="Hersteller"
@@ -80,20 +131,19 @@ export default function ProductTable({ products, sortKey, sortDirection, onSort,
                                         currentSortKey={sortKey}
                                         sortDirection={sortDirection}
                                         onSort={onSort}
+                                        Icon={SortIndicatorIcon}
                                     />
-                                    {/* A visually hidden header for the actions column. */}
-                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                        <span className="sr-only">Actions</span>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Aktionen
                                     </th>
                                 </tr>
                             </thead>
-                            {/* Table body where product rows are rendered. */}
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {/* Map over the products array to create a row for each one. */}
                                 {products.map((product) => (
-                                    <tr key={product.id}>
-                                        {/* Cell for the product's image, name, and brand. */}
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                    <tr key={product.id} className="hover:bg-gray-50 transition-colors duration-200">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
                                             <div className="flex items-center">
                                                 <div className="h-10 w-10 flex-shrink-0">
                                                     <Image
@@ -110,29 +160,23 @@ export default function ProductTable({ products, sortKey, sortDirection, onSort,
                                                 </div>
                                             </div>
                                         </td>
-                                        {/* Cells for other product details. */}
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {Utils.price.display(product.price)}
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 capitalize">{product.color}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 uppercase">{product.size}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.material}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.producer}</td>
-                                        {/* Cell for the action menu (edit/delete). */}
-                                        <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                            {/* Headless UI Menu component for the dropdown. */}
-                                            <Menu>
-                                                {/* The button that triggers the dropdown menu. */}
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{product.color}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 uppercase">{product.size}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.material}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.producer}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-right">
+                                            <Menu as="div" className="relative inline-block text-left">
                                                 <MenuButton className="flex items-center rounded-full bg-gray-100 p-1 text-gray-400 hover:text-gray-600 focus:outline-none data-[active]:bg-gray-200 data-[open]:bg-gray-200">
                                                     <span className="sr-only">Open options</span>
                                                     <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
                                                 </MenuButton>
-                                                {/* The container for the menu items with transition effects. */}
                                                 <MenuItems
                                                     transition
                                                     anchor="bottom end"
-                                                    className="absolute z-10 w-40 origin-top-right rounded-xl bg-white p-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 transition duration-100 ease-out focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
-                                                    {/* Menu item for the "Edit" action. */}
+                                                    className="absolute z-10 mt-2 w-40 origin-top-right rounded-xl bg-white p-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 transition duration-100 ease-out focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0">
                                                     <MenuItem>
                                                         <button
                                                             onClick={() => onEdit(product)}
@@ -141,7 +185,6 @@ export default function ProductTable({ products, sortKey, sortDirection, onSort,
                                                             Bearbeiten
                                                         </button>
                                                     </MenuItem>
-                                                    {/* Menu item for the "Delete" action. */}
                                                     <MenuItem>
                                                         <button
                                                             onClick={() => onDelete(product)}
