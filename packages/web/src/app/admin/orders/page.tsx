@@ -1,127 +1,137 @@
-import React from "react";
+"use client";
+
+import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import AdminHeader from "@/app/admin/AdminHeader.component";
 
 /**
  * @interface Order
- * @description Represents an order in the order management system.
- * @property {string} orderId - Unique identifier for the order.
- * @property {string} customerName - Name of the customer who placed the order.
- * @property {string} orderDate - Date when the order was placed, stored as a string for simplicity.
- * @property {number} totalAmount - Total amount of the order in cents.
- * @property {"Pending" | "Shipped" | "Delivered" | "Cancelled"} status - Current status of the order.
+ * @description Defines the structure for an order object.
+ * @property {string} orderId - The unique identifier for the order.
+ * @property {string} customerName - The name of the customer.
+ * @property {string} orderDate - The date the order was placed (YYYY-MM-DD).
+ * @property {number} totalAmount - The total cost of the order in cents.
+ * @property {"Pending" | "Shipped" | "Delivered" | "Cancelled"} status - The current status of the order.
  */
 interface Order {
     orderId: string;
     customerName: string;
-    orderDate: string; // Storing as string for simplicity, could be Date object
-    totalAmount: number; // In cents
+    orderDate: string;
+    totalAmount: number;
     status: "Pending" | "Shipped" | "Delivered" | "Cancelled";
 }
 
 /**
+ * @type SortableOrderKeys
+ * @description Defines the keys of the Order interface that are allowed to be sorted.
+ */
+type SortableOrderKeys = keyof Omit<Order, 'status'>;
+
+/**
+ * @type SortConfig
+ * @description Defines the structure for the sorting configuration object.
+ * @property {SortableOrderKeys | null} key - The key of the order object to sort by.
+ * @property {'ascending' | 'descending'} direction - The direction of the sort.
+ */
+type SortConfig = {
+    key: SortableOrderKeys | null;
+    direction: 'ascending' | 'descending';
+};
+
+/**
  * @constant ordersData
- * @type {Array<Order>}
- * @description Contains a list of orders with details such as order ID, customer name, order date, total amount, and status.
+ * @description A mock dataset of orders for demonstration purposes.
+ * @type {Order[]}
  */
 const ordersData: Order[] = [
-    {
-        orderId: "ORD001",
-        customerName: "Alice Smith",
-        orderDate: "2025-06-15",
-        totalAmount: 15999,
-        status: "Shipped",
-    },
-    {
-        orderId: "ORD002",
-        customerName: "Bob Johnson",
-        orderDate: "2025-06-14",
-        totalAmount: 7550,
-        status: "Pending",
-    },
-    {
-        orderId: "ORD003",
-        customerName: "Charlie Brown",
-        orderDate: "2025-06-12",
-        totalAmount: 22000,
-        status: "Delivered",
-    },
-    {
-        orderId: "ORD004",
-        customerName: "Diana Prince",
-        orderDate: "2025-06-10",
-        totalAmount: 4999,
-        status: "Cancelled",
-    },
-    {
-        orderId: "ORD005",
-        customerName: "Clark Kent",
-        orderDate: "2025-06-16",
-        totalAmount: 12500,
-        status: "Pending",
-    },
-    {
-        orderId: "ORD006",
-        customerName: "Bruce Wayne",
-        orderDate: "2025-06-13",
-        totalAmount: 30000,
-        status: "Shipped",
-    },
+    { orderId: "ORD001", customerName: "Alice Smith", orderDate: "2025-06-15", totalAmount: 15999, status: "Shipped" },
+    { orderId: "ORD002", customerName: "Bob Johnson", orderDate: "2025-06-14", totalAmount: 7550, status: "Pending" },
+    { orderId: "ORD003", customerName: "Charlie Brown", orderDate: "2025-06-12", totalAmount: 22000, status: "Delivered" },
+    { orderId: "ORD004", customerName: "Diana Prince", orderDate: "2025-06-10", totalAmount: 4999, status: "Cancelled" },
+    { orderId: "ORD005", customerName: "Clark Kent", orderDate: "2025-06-16", totalAmount: 12500, status: "Pending" },
+    { orderId: "ORD006", customerName: "Bruce Wayne", orderDate: "2025-06-13", totalAmount: 30000, status: "Shipped" },
 ];
 
 /**
  * @function formatPrice
- * @description Formats a price in cents to a human-readable currency string
- * @param {number} priceInCents - The price in cents to format.
- * @return {string} The formatted price string in Euro currency format.
- * @example
- * formatPrice(15999); // "159,99 €"
+ * @description Formats a number in cents into a German Euro currency string.
+ * @param {number} priceInCents - The price in cents.
+ * @returns {string} The formatted currency string (e.g., "159,99 €").
  */
-const formatPrice = (priceInCents: number): string => {
-    return (priceInCents / 100).toLocaleString("de-DE", {
-        style: "currency",
-        currency: "EUR",
-    });
-};
+const formatPrice = (priceInCents: number): string => (priceInCents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
 /**
  * @function formatDate
- * @description Formats a date string to a more readable format.
- * @param {string} dateString - The date string to format.
- * @return {string} The formatted date string.
- * @example
- * formatDate("2025-06-15"); // "15. Juni 2025"
+ * @description Formats a date string into a long German date format.
+ * @param {string} dateString - The date string to format (e.g., "2025-06-15").
+ * @returns {string} The formatted date string (e.g., "15. Juni 2025").
  */
-const formatDate = (dateString: string): string => {
-    const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "short", day: "numeric" };
-    return new Date(dateString).toLocaleDateString("de-DE", options);
-};
+const formatDate = (dateString: string): string => new Date(dateString).toLocaleDateString("de-DE", { year: "numeric", month: "long", day: "numeric" });
 
 /**
  * @function getStatusStyles
- * @description Returns the appropriate Tailwind CSS classes based on the order status.
- * @param {string} status - The status of the order.
- * @return {string} The Tailwind CSS classes for the given status.
+ * @description Returns Tailwind CSS classes based on the order status for styling.
+ * @param {Order["status"]} status - The status of the order.
+ * @returns {string} A string of Tailwind CSS classes.
  */
 const getStatusStyles = (status: Order["status"]): string => {
     switch (status) {
-        case "Pending":
-            return "bg-yellow-100 text-yellow-800";
-        case "Shipped":
-            return "bg-blue-100 text-blue-800";
-        case "Delivered":
-            return "bg-green-100 text-green-800";
-        case "Cancelled":
-            return "bg-red-100 text-red-800";
-        default:
-            return "bg-gray-100 text-gray-800";
+        case "Pending": return "bg-yellow-100 text-yellow-800";
+        case "Shipped": return "bg-blue-100 text-blue-800";
+        case "Delivered": return "bg-green-100 text-green-800";
+        case "Cancelled": return "bg-red-100 text-red-800";
+        default: return "bg-gray-100 text-gray-800";
     }
 };
 
 /**
  * @component OrderManagementPage
- * @description The main component for the Order Management page, displaying a list of orders in a table format.
+ * @description The main page component for managing orders. It handles sorting logic and renders the order table.
  */
 const OrderManagementPage = () => {
+    /**
+     * @state {SortConfig} sortConfig - Holds the current sorting state (key and direction).
+     */
+    const [sortConfig, setSortConfig] = useState<SortConfig>({
+        key: 'orderDate',
+        direction: 'descending',
+    });
+
+    /**
+     * @memo sortedOrders
+     * @description Memoizes the sorted orders array. It re-sorts the data only when the sortConfig changes.
+     * @returns {Order[]} The sorted array of orders.
+     */
+    const sortedOrders = useMemo(() => {
+        const sortableItems = [...ordersData];
+        if (sortConfig.key) {
+            sortableItems.sort((a, b) => {
+                if (a[sortConfig.key!] < b[sortConfig.key!]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key!] > b[sortConfig.key!]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableItems;
+    }, [sortConfig]);
+
+    /**
+     * @function handleSort
+     * @description Handles the sorting logic when a table header is clicked.
+     * It toggles the sort direction or sets a new sort key.
+     * @param {SortableOrderKeys} key - The key of the column to sort by.
+     */
+    const handleSort = (key: SortableOrderKeys) => {
+        let direction: 'ascending' | 'descending' = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
     return (
         <div>
             <AdminHeader />
@@ -131,8 +141,8 @@ const OrderManagementPage = () => {
                     <div className="bg-white shadow-md rounded-lg overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
-                                <OrderPageTableHead />
-                                <OrderPageTableBody />
+                                <OrderPageTableHead onSort={handleSort} sortConfig={sortConfig} />
+                                <OrderPageTableBody orders={sortedOrders} />
                             </table>
                         </div>
                     </div>
@@ -144,36 +154,27 @@ const OrderManagementPage = () => {
 
 /**
  * @component SortIndicatorIcon
- * @description Displays a sort indicator icon used in table headers to indicate sortable columns.
+ * @description Displays an SVG icon indicating the sort status (unsorted, ascending, or descending).
+ * @param {{ isSorted: boolean, direction: 'ascending' | 'descending' }} props - The component props.
  */
-function SortIndicatorIcon() {
+function SortIndicatorIcon({ isSorted, direction }: { isSorted: boolean; direction: 'ascending' | 'descending' }) {
+    if (!isSorted) {
+        return (
+            <span className="ml-1.5 opacity-20 group-hover:opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="h-5 w-5">
+                    <path fillRule="evenodd" d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Zm-3.75 9.75a.75.75 0 0 1 1.06 0L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 0 1 0-1.06Z" clipRule="evenodd"></path>
+                </svg>
+            </span>
+        );
+    }
     return (
-        <span className="ml-1.5 opacity-60">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="inline-block">
-                <path d="m18 15-6-6-6 6" />
-            </svg>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="inline-block -mt-2">
-                <path d="m6 9 6 6 6-6" />
+        <span className="ml-1.5 opacity-80">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="h-5 w-5">
+                {direction === 'ascending' ? (
+                    <path fillRule="evenodd" d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Z" clipRule="evenodd" />
+                ) : (
+                    <path fillRule="evenodd" d="M12.53 19.78a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 1 1 1.06-1.06L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75Z" clipRule="evenodd" />
+                )}
             </svg>
         </span>
     );
@@ -181,121 +182,141 @@ function SortIndicatorIcon() {
 
 /**
  * @component OrderPageHeader
- * @description Renders the header for the Order Management page, including the title and description.
+ * @description Renders the main header for the order management page.
  */
-function OrderPageHeader() {
-    return (
-        <div className="mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Order Management</h1>
-            <p className="text-sm text-gray-600 mt-1">View and manage all customer orders.</p>
-        </div>
-    );
+const OrderPageHeader = () => (
+    <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Order Management</h1>
+        <p className="text-sm text-gray-600 mt-1">Alle Orders zum anschauen oder bearbeiten.</p>
+    </div>
+);
+
+/**
+ * @interface OrderPageSortableTableHeadItemProps
+ * @description Defines the props for the OrderPageSortableTableHeadItem component.
+ */
+interface OrderPageSortableTableHeadItemProps {
+    name: string;
+    sortKey: SortableOrderKeys;
+    onSort: (key: SortableOrderKeys) => void;
+    sortConfig: SortConfig;
 }
 
 /**
  * @component OrderPageSortableTableHeadItem
- * @description Renders a sortable table header cell with the given name.
- * @param {Object} name - The name to display in the header cell.
+ * @description Renders a single sortable table header cell.
+ * @param {OrderPageSortableTableHeadItemProps} props - The component props.
  */
-function OrderPageSortableTableHeadItem({ name }: { name: string }) {
+function OrderPageSortableTableHeadItem({ name, sortKey, onSort, sortConfig }: OrderPageSortableTableHeadItemProps) {
+    const isSorted = sortConfig.key === sortKey;
     return (
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer group" onClick={() => onSort(sortKey)}>
             <div className="flex items-center">
                 {name}
-                <SortIndicatorIcon />
+                <SortIndicatorIcon isSorted={isSorted} direction={sortConfig.direction} />
             </div>
         </th>
     );
 }
 
 /**
- * @component OrderPageTableHead
- * @description Renders the table header for the Order Management page.
+ * @interface OrderPageTableHeadProps
+ * @description Defines the props for the OrderPageTableHead component.
  */
-function OrderPageTableHead() {
+interface OrderPageTableHeadProps {
+    onSort: (key: SortableOrderKeys) => void;
+    sortConfig: SortConfig;
+}
+
+/**
+ * @component OrderPageTableHead
+ * @description Renders the entire table header (`<thead>`) with sortable columns.
+ * @param {OrderPageTableHeadProps} props - The component props.
+ */
+function OrderPageTableHead({ onSort, sortConfig }: OrderPageTableHeadProps) {
+    const headers: { name: string; key: SortableOrderKeys }[] = [
+        { name: "Bestellnummer", key: "orderId" },
+        { name: "Kundenname", key: "customerName" },
+        { name: "Bestelldatum", key: "orderDate" },
+        { name: "Gesamtbetrag", key: "totalAmount" },
+    ];
+
     return (
         <thead className="bg-gray-50">
-            <tr>
-                <OrderPageSortableTableHeadItem name="Bestellnummer" />
-                <OrderPageSortableTableHeadItem name="Kundenname" />
-                <OrderPageSortableTableHeadItem name="Bestelldatum" />
-                <OrderPageSortableTableHeadItem name="Gesamtbetrag" />
-                <OrderPageSortableTableHeadItem name="Status" />
-                <th scope="col" className="py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <div className="flex items-center">Aktionen</div>
-                </th>
-            </tr>
+        <tr>
+            {headers.map(header => (
+                <OrderPageSortableTableHeadItem key={header.key} name={header.name} sortKey={header.key} onSort={onSort} sortConfig={sortConfig} />
+            ))}
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+            <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aktionen</th>
+        </tr>
         </thead>
     );
 }
 
 /**
  * @component OrderPageTableRowData
- * @description Renders a table row item for displaying order data such as order ID, customer name, etc.
- * @param {Object} name - The name of the data item to display in the row.
+ * @description Renders a standard data cell (`<td>`) in the table.
+ * @param {{ name: string }} props - The component props.
  */
-function OrderPageTableRowData({ name }: { name: string }) {
-    return <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">{name}</td>;
-}
+const OrderPageTableRowData = ({ name }: { name: string }) => <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{name}</td>;
 
 /**
  * @component OrderPageTableRowStatus
- * @description Renders the status of an order in the table row, applying appropriate styles based on the status.
- * @param {Object} status - The status of the order to display in the row.
+ * @description Renders a styled status badge cell (`<td>`) for the order.
+ * @param {{ status: Order["status"] }} props - The component props.
  */
-function OrderPageTableRowStatus({ status }: { status: Order["status"] }) {
-    const statusStyles = getStatusStyles(status);
-    return (
-        <td className="px-6 py-4 whitespace-nowrap text-sm">
-            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusStyles}`}>{status}</span>
-        </td>
-    );
-}
+const OrderPageTableRowStatus = ({ status }: { status: Order["status"] }) => (
+    <td className="px-6 py-4 whitespace-nowrap text-sm">
+        <span className={`px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusStyles(status)}`}>{status}</span>
+    </td>
+);
 
 /**
  * @component OrderPageTableRowActions
- * @description Renders action buttons for each order in the table row.
+ * @description Renders the action links ("Anzeigen", "Bearbeiten") for an order row.
+ * @param {{ orderId: string }} props - The component props.
  */
-function OrderPageTableRowActions() {
+function OrderPageTableRowActions({ orderId }: { orderId: string }) {
     return (
-        <td className="py-4 whitespace-nowrap text-sm font-medium">
-            <a href="#" className="text-indigo-600 hover:text-indigo-900 mr-4">
+        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-right">
+            <Link href={`/admin/orders/${orderId}`} className="text-indigo-600 hover:text-indigo-900 mr-4">
                 Anzeigen
-            </a>
-            <a href="#" className="text-blue-600 hover:text-blue-900">
+            </Link>
+            <Link href={`/admin/orders/${orderId}?edit=true`} className="text-blue-600 hover:text-blue-900">
                 Bearbeiten
-            </a>
+            </Link>
         </td>
     );
 }
 
 /**
  * @component OrderPageTableBody
- * @description Renders the table body for the Order Management page, displaying each order.
+ * @description Renders the table body (`<tbody>`) and maps over the orders to create rows.
+ * @param {{ orders: Order[] }} props - The component props.
  */
-function OrderPageTableBody() {
-    return (
-        <tbody className="bg-white divide-y divide-gray-200">
-            {ordersData.map((order: Order) => (
-                <OrderPageTableRow key={order.orderId} order={order} />
-            ))}
-        </tbody>
-    );
-}
+const OrderPageTableBody = ({ orders }: { orders: Order[] }) => (
+    <tbody className="bg-white divide-y divide-gray-200">
+    {orders.map((order: Order) => (
+        <OrderPageTableRow key={order.orderId} order={order} />
+    ))}
+    </tbody>
+);
 
 /**
  * @component OrderPageTableRow
- * @description Renders a table row for each order, displaying order details and actions.
+ * @description Renders a single table row (`<tr>`) for an order.
+ * @param {{ order: Order }} props - The component props.
  */
 function OrderPageTableRow({ order }: { order: Order }) {
     return (
         <tr className="hover:bg-gray-50 transition-colors duration-200">
-            <OrderPageTableRowData name={order.orderId} />
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">{order.orderId}</td>
             <OrderPageTableRowData name={order.customerName} />
             <OrderPageTableRowData name={formatDate(order.orderDate)} />
             <OrderPageTableRowData name={formatPrice(order.totalAmount)} />
             <OrderPageTableRowStatus status={order.status} />
-            <OrderPageTableRowActions />
+            <OrderPageTableRowActions orderId={order.orderId} />
         </tr>
     );
 }
