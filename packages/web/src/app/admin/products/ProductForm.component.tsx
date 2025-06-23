@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import Button from "./Button.component";
+import Image from "next/image";
 
 // Define specific types for form dropdowns to ensure type safety.
 type DuckColor = "red" | "yellow" | "green" | "blue";
@@ -134,7 +135,13 @@ export default function ProductForm({ product, onSubmit, onCancel }: ProductForm
                         {imagePreview ? (
                             <div>
                                 <div className="w-full max-w-xs overflow-hidden rounded-lg">
-                                    <img src={imagePreview} alt="Produktvorschau" className="h-auto w-full object-cover" />
+                                    <Image
+                                        src={imagePreview}
+                                        width={400}
+                                        height={400}
+                                        alt="Produktvorschau"
+                                        className="h-auto w-full object-cover"
+                                    />
                                 </div>
                                 <button
                                     type="button"

@@ -71,7 +71,9 @@ function PasswordField() {
 function TwoFA() {
     return (
         <div className="space-y-2">
-            <label htmlFor="2fa-code" className="font-medium text-gray-700">Bestätigungscode</label>
+            <label htmlFor="2fa-code" className="font-medium text-gray-700">
+                Bestätigungscode
+            </label>
             <input
                 id="2fa-code"
                 name="2fa-code"
@@ -82,7 +84,7 @@ function TwoFA() {
                 className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 transition-all duration-300 placeholder:text-gray-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/50"
             />
         </div>
-    )
+    );
 }
 
 /**

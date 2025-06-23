@@ -60,8 +60,8 @@ export default function DeleteProductModal({ isOpen, onClose, onDelete, product 
                                             <div className="mt-2">
                                                 {/* Dynamic confirmation message including the product name. */}
                                                 <p className="text-sm text-gray-500">
-                                                    Sind Sie sicher, dass Sie das Produkt &#34;{product.name}&#34; löschen möchten? Diese Aktion
-                                                    kann nicht rückgängig gemacht werden.
+                                                    Sind Sie sicher, dass Sie das Produkt &#34;{product.name}&#34; löschen möchten? Diese
+                                                    Aktion kann nicht rückgängig gemacht werden.
                                                 </p>
                                             </div>
                                         </div>
