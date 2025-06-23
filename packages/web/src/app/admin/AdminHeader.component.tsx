@@ -5,6 +5,7 @@ import { Bars3Icon } from "@heroicons/react/20/solid";
 import { PowerIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Logo from "@sose2025/web/public/logo.webp";
 import Image from "next/image";
+import Link from "next/link";
 
 /**
  * @constant navigation
@@ -44,10 +45,12 @@ const AdminHeader: FunctionComponent = () => {
 function AdminHeaderLogo({ setMobileMenuOpen }: { setMobileMenuOpen: (open: boolean) => void }) {
     return (
         <div className="flex flex-1 items-center gap-x-6">
-            <button type="button" onClick={() => setMobileMenuOpen(true)} className="-m-3 p-3 md:hidden">
-                <Bars3Icon aria-hidden="true" className="size-5 text-gray-900" />
-            </button>
-            <Image alt="Logo" src={Logo} className="h-8 w-auto" />
+            <Link href="/admin/dashboard">
+                <button type="button" onClick={() => setMobileMenuOpen(true)} className="-m-3 p-3 md:hidden">
+                    <Bars3Icon aria-hidden="true" className="size-5 text-gray-900" />
+                </button>
+                <Image alt="Logo" src={Logo} className="h-8 w-auto" />
+            </Link>
         </div>
     );
 }
