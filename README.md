@@ -14,6 +14,7 @@ This is a monorepo project using Next.js, TypeScript, and Prisma ORM. The projec
 sose2025/
 ├── packages/
 │   └── web/           # Next.js web application
+│       ├── public/    # Public files delivered by the web server
 │       ├── prisma/    # Prisma schema and migrations
 │       └── src/       # Application source code
 ├── package.json       # Root package.json for workspace management
@@ -22,46 +23,52 @@ sose2025/
 
 ## Getting Started
 
-1.  Clone the repository:
+1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/thm-ops/sose2025.git
-    cd sose2025
-    ```
+   ```bash
+   git clone https://github.com/thm-ops/sose2025.git
+   cd sose2025
+   ```
 
-2.  Install dependencies:
+2. (Optionally) Edit the database credentials in the file `compose.yaml` (if not using an external database)
 
-    ```bash
-    npm install
-    ```
+3. Create `packages/web/.env` based on `packages/web/.env.example`
 
-3.  Setup database from migrations (creates new migration if there are any changes):
+4. (Optionally) Start the database using Docker:
+    
+   ```bash
+   docker compose up -d
+   ```
 
-    ```bash
-    npm run prisma:migrate
-    ```
+5. Install dependencies:
 
-    or use (fast synchronization with schema.prisma, never creates migrations):
+   ```bash
+   npm install
+   ```
 
-    ```bash
-    npm run prisma:push
-    ```
+6. Setup the database from migrations (creates a new migration if there are any changes):
 
-4.  (Optionally) Fill the database with sample data (provided in @/lib/data):
+   ```bash
+   npm run prisma:migrate
+   ```
 
-    ```bash
-    npm run prisma:seed
-    ```
+   or use (fast synchronization with schema.prisma, never creates migrations):
 
-5.  Start the development environment:
+   ```bash
+   npm run prisma:push
+   ```
 
-    ```bash
-    # Start the database using Docker Compose
-    docker-compose up -d
+7. (Optionally) Fill the database with sample data (provided in @/lib/data):
 
-    # Start the development server
-    npm run dev:web
-    ```
+   ```bash
+   npm run prisma:seed
+   ```
+
+8. Start the development server:
+
+   ```bash
+   npm run dev:web
+   ```
 
 ## Prisma ORM Usage
 
@@ -92,7 +99,7 @@ The project uses Prisma ORM for database management. Here are the main Prisma co
 - Seed the database with initial data:
 
   ```bash
-    npm run prisma:seed
+  npm run prisma:seed
   ```
 
 ### Working with Prisma
@@ -101,11 +108,11 @@ The project uses Prisma ORM for database management. Here are the main Prisma co
 2. After making changes to the schema, run:
 
    ```bash
-   npm run prisma:generate
    npm run prisma:migrate
    ```
 
 3. To view and manage your database, you can use Prisma Studio:
+
    ```bash
    npm run prisma:studio
    ```
@@ -120,16 +127,16 @@ The project uses Prisma ORM for database management. Here are the main Prisma co
 
 ## Docker Support
 
-The project includes Docker Compose configuration for the database. To start the database:
+The project includes a Docker Compose file for the database. To start the database:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 To stop the database:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## License
