@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
 // Beispiel-Daten
 const ordersData = [
@@ -12,8 +12,7 @@ const ordersData = [
     { orderId: "ORD006", customerName: "Bruce Wayne", orderDate: "2025-06-13", totalAmount: 30000, status: "Shipped" },
 ];
 
-const formatPrice = (priceInCents: number): string =>
-    (priceInCents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
+const formatPrice = (priceInCents: number): string => (priceInCents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
 const formatDate = (dateString: string): string =>
     new Date(dateString).toLocaleDateString("de-DE", { year: "numeric", month: "long", day: "numeric" });
@@ -29,7 +28,9 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
         return (
             <div className="p-6">
                 <h1 className="text-xl font-bold">Order not found</h1>
-                <a href="/admin" className="text-blue-500 underline mt-4 block">← Zurück</a>
+                <a href="/admin" className="text-blue-500 underline mt-4 block">
+                    ← Zurück
+                </a>
             </div>
         );
     }
@@ -41,7 +42,9 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
             <p>Datum: {formatDate(order.orderDate)}</p>
             <p>Betrag: {formatPrice(order.totalAmount)}</p>
             <p>Status: {order.status}</p>
-            <a href="/admin" className="text-blue-500 underline mt-4 block">← Zurück</a>
+            <a href="/admin" className="text-blue-500 underline mt-4 block">
+                ← Zurück
+            </a>
         </div>
     );
 };

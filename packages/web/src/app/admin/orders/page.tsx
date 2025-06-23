@@ -25,7 +25,7 @@ interface Order {
  * @type SortableOrderKeys
  * @description Defines the keys of the Order interface that are allowed to be sorted.
  */
-type SortableOrderKeys = keyof Omit<Order, 'status'>;
+type SortableOrderKeys = keyof Omit<Order, "status">;
 
 /**
  * @type SortConfig
@@ -35,7 +35,7 @@ type SortableOrderKeys = keyof Omit<Order, 'status'>;
  */
 type SortConfig = {
     key: SortableOrderKeys | null;
-    direction: 'ascending' | 'descending';
+    direction: "ascending" | "descending";
 };
 
 /**
@@ -66,7 +66,8 @@ const formatPrice = (priceInCents: number): string => (priceInCents / 100).toLoc
  * @param {string} dateString - The date string to format (e.g., "2025-06-15").
  * @returns {string} The formatted date string (e.g., "15. Juni 2025").
  */
-const formatDate = (dateString: string): string => new Date(dateString).toLocaleDateString("de-DE", { year: "numeric", month: "long", day: "numeric" });
+const formatDate = (dateString: string): string =>
+    new Date(dateString).toLocaleDateString("de-DE", { year: "numeric", month: "long", day: "numeric" });
 
 /**
  * @function getStatusStyles
@@ -76,11 +77,16 @@ const formatDate = (dateString: string): string => new Date(dateString).toLocale
  */
 const getStatusStyles = (status: Order["status"]): string => {
     switch (status) {
-        case "Pending": return "bg-yellow-100 text-yellow-800";
-        case "Shipped": return "bg-blue-100 text-blue-800";
-        case "Delivered": return "bg-green-100 text-green-800";
-        case "Cancelled": return "bg-red-100 text-red-800";
-        default: return "bg-gray-100 text-gray-800";
+        case "Pending":
+            return "bg-yellow-100 text-yellow-800";
+        case "Shipped":
+            return "bg-blue-100 text-blue-800";
+        case "Delivered":
+            return "bg-green-100 text-green-800";
+        case "Cancelled":
+            return "bg-red-100 text-red-800";
+        default:
+            return "bg-gray-100 text-gray-800";
     }
 };
 
@@ -93,8 +99,8 @@ const OrderManagementPage = () => {
      * @state {SortConfig} sortConfig - Holds the current sorting state (key and direction).
      */
     const [sortConfig, setSortConfig] = useState<SortConfig>({
-        key: 'orderDate',
-        direction: 'descending',
+        key: "orderDate",
+        direction: "descending",
     });
 
     /**
@@ -107,10 +113,10 @@ const OrderManagementPage = () => {
         if (sortConfig.key) {
             sortableItems.sort((a, b) => {
                 if (a[sortConfig.key!] < b[sortConfig.key!]) {
-                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                    return sortConfig.direction === "ascending" ? -1 : 1;
                 }
                 if (a[sortConfig.key!] > b[sortConfig.key!]) {
-                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                    return sortConfig.direction === "ascending" ? 1 : -1;
                 }
                 return 0;
             });
@@ -125,9 +131,9 @@ const OrderManagementPage = () => {
      * @param {SortableOrderKeys} key - The key of the column to sort by.
      */
     const handleSort = (key: SortableOrderKeys) => {
-        let direction: 'ascending' | 'descending' = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
+        let direction: "ascending" | "descending" = "ascending";
+        if (sortConfig.key === key && sortConfig.direction === "ascending") {
+            direction = "descending";
         }
         setSortConfig({ key, direction });
     };
@@ -157,23 +163,46 @@ const OrderManagementPage = () => {
  * @description Displays an SVG icon indicating the sort status (unsorted, ascending, or descending).
  * @param {{ isSorted: boolean, direction: 'ascending' | 'descending' }} props - The component props.
  */
-function SortIndicatorIcon({ isSorted, direction }: { isSorted: boolean; direction: 'ascending' | 'descending' }) {
+function SortIndicatorIcon({ isSorted, direction }: { isSorted: boolean; direction: "ascending" | "descending" }) {
     if (!isSorted) {
         return (
             <span className="ml-1.5 opacity-20 group-hover:opacity-50">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="h-5 w-5">
-                    <path fillRule="evenodd" d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Zm-3.75 9.75a.75.75 0 0 1 1.06 0L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 0 1 0-1.06Z" clipRule="evenodd"></path>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    data-slot="icon"
+                    className="h-5 w-5">
+                    <path
+                        fillRule="evenodd"
+                        d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Zm-3.75 9.75a.75.75 0 0 1 1.06 0L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 0 1 0-1.06Z"
+                        clipRule="evenodd"></path>
                 </svg>
             </span>
         );
     }
     return (
         <span className="ml-1.5 opacity-80">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon" className="h-5 w-5">
-                {direction === 'ascending' ? (
-                    <path fillRule="evenodd" d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Z" clipRule="evenodd" />
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+                data-slot="icon"
+                className="h-5 w-5">
+                {direction === "ascending" ? (
+                    <path
+                        fillRule="evenodd"
+                        d="M11.47 4.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 6.31 8.78 9.53a.75.75 0 0 1-1.06-1.06l3.75-3.75Z"
+                        clipRule="evenodd"
+                    />
                 ) : (
-                    <path fillRule="evenodd" d="M12.53 19.78a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 1 1 1.06-1.06L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75Z" clipRule="evenodd" />
+                    <path
+                        fillRule="evenodd"
+                        d="M12.53 19.78a.75.75 0 0 1-1.06 0l-3.75-3.75a.75.75 0 1 1 1.06-1.06L12 17.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-3.75 3.75Z"
+                        clipRule="evenodd"
+                    />
                 )}
             </svg>
         </span>
@@ -210,7 +239,10 @@ interface OrderPageSortableTableHeadItemProps {
 function OrderPageSortableTableHeadItem({ name, sortKey, onSort, sortConfig }: OrderPageSortableTableHeadItemProps) {
     const isSorted = sortConfig.key === sortKey;
     return (
-        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer group" onClick={() => onSort(sortKey)}>
+        <th
+            scope="col"
+            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer group"
+            onClick={() => onSort(sortKey)}>
             <div className="flex items-center">
                 {name}
                 <SortIndicatorIcon isSorted={isSorted} direction={sortConfig.direction} />
@@ -243,13 +275,23 @@ function OrderPageTableHead({ onSort, sortConfig }: OrderPageTableHeadProps) {
 
     return (
         <thead className="bg-gray-50">
-        <tr>
-            {headers.map(header => (
-                <OrderPageSortableTableHeadItem key={header.key} name={header.name} sortKey={header.key} onSort={onSort} sortConfig={sortConfig} />
-            ))}
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-            <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aktionen</th>
-        </tr>
+            <tr>
+                {headers.map((header) => (
+                    <OrderPageSortableTableHeadItem
+                        key={header.key}
+                        name={header.name}
+                        sortKey={header.key}
+                        onSort={onSort}
+                        sortConfig={sortConfig}
+                    />
+                ))}
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                </th>
+                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Aktionen
+                </th>
+            </tr>
         </thead>
     );
 }
@@ -268,7 +310,9 @@ const OrderPageTableRowData = ({ name }: { name: string }) => <td className="px-
  */
 const OrderPageTableRowStatus = ({ status }: { status: Order["status"] }) => (
     <td className="px-6 py-4 whitespace-nowrap text-sm">
-        <span className={`px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusStyles(status)}`}>{status}</span>
+        <span className={`px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusStyles(status)}`}>
+            {status}
+        </span>
     </td>
 );
 
@@ -297,9 +341,9 @@ function OrderPageTableRowActions({ orderId }: { orderId: string }) {
  */
 const OrderPageTableBody = ({ orders }: { orders: Order[] }) => (
     <tbody className="bg-white divide-y divide-gray-200">
-    {orders.map((order: Order) => (
-        <OrderPageTableRow key={order.orderId} order={order} />
-    ))}
+        {orders.map((order: Order) => (
+            <OrderPageTableRow key={order.orderId} order={order} />
+        ))}
     </tbody>
 );
 
