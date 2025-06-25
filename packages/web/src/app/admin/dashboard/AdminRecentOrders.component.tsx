@@ -18,7 +18,7 @@ const days = [
         transactions: [
             {
                 id: 1,
-                orderNumber: "00012",
+                orderNumber: "ORD001",
                 amount: "20,99 €",
                 status: "Captured",
                 customer: "Max Mustermann",
@@ -26,7 +26,7 @@ const days = [
             },
             {
                 id: 2,
-                orderNumber: "00011",
+                orderNumber: "ORD002",
                 amount: "15,99 €",
                 status: "Bezahlt",
                 customer: "Tom Cook",
@@ -34,7 +34,7 @@ const days = [
             },
             {
                 id: 3,
-                orderNumber: "00009",
+                orderNumber: "ORD003",
                 amount: "7,99 €",
                 status: "Offen",
                 customer: "Reform Corp.",
@@ -48,7 +48,7 @@ const days = [
         transactions: [
             {
                 id: 4,
-                orderNumber: "00010",
+                orderNumber: "ORD004",
                 amount: "12,99 €",
                 status: "Captured",
                 customer: "Jane Doe",
