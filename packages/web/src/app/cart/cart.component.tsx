@@ -1,4 +1,3 @@
-// packages/web/src/app/cart/cart.component.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -51,7 +50,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                                 <div className="shrink-0">
                                     <Image
                                         alt={product.name}
-                                        src={product.image} // Bildpfad aktualisiert
+                                        src={`/media/products/${product.id}`}
                                         width={100}
                                         height={100}
                                         className="size-10 rounded-md object-cover sm:size-25"

@@ -4,7 +4,7 @@ import { rubberDuckData } from "@/data/data";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import { Utils } from "@/lib/utils/mod";
 
-const products: RubberDuck[] = rubberDuckData;
+const products: Omit<RubberDuck, "image">[] = rubberDuckData;
 
 /**
  * @component NewestProducts
@@ -28,7 +28,13 @@ export default function NewestProducts() {
                                     className="block rounded-lg overflow-hidden bg-white transition-colors duration-200 group-hover:bg-gray-100">
                                     {/* Bild ohne Padding */}
                                     <div className="aspect-square w-full">
-                                        <Image src={product.image} alt={product.name} width={800} height={800} className="object-cover" />
+                                        <Image
+                                            src={`/media/products/${product.id}`}
+                                            alt={product.name}
+                                            width={800}
+                                            height={800}
+                                            className="object-cover"
+                                        />
                                     </div>
 
                                     {/* Text mit Padding */}
