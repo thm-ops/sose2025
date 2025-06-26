@@ -1,3 +1,4 @@
+// packages/web/src/app/cart/cart.component.tsx
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -49,8 +50,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ products = [] }) => {
                             <li key={product.id} className="flex py-6 sm:py-10">
                                 <div className="shrink-0">
                                     <Image
-                                        alt="https://picsum.photos/800/450"
-                                        src="https://picsum.photos/800/450"
+                                        alt={product.name}
+                                        src={product.image} // Bildpfad aktualisiert
                                         width={100}
                                         height={100}
                                         className="size-10 rounded-md object-cover sm:size-25"

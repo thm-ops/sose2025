@@ -24,6 +24,7 @@ const exampleCartItem: ShoppingCartItem = {
     material: "",
     quantity: 1,
     inStock: true,
+    image: "/media/products/1_classic-duck.png",
 };
 
 const exampleCartItem2: ShoppingCartItem = {
@@ -39,6 +40,7 @@ const exampleCartItem2: ShoppingCartItem = {
     material: "",
     quantity: 1,
     inStock: true,
+    image: "/media/products/2_red-duck.png",
 };
 
 const ShoppingCartPage: React.FC = () => {

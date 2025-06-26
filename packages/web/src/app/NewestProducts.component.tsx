@@ -28,13 +28,7 @@ export default function NewestProducts() {
                                     className="block rounded-lg overflow-hidden bg-white transition-colors duration-200 group-hover:bg-gray-100">
                                     {/* Bild ohne Padding */}
                                     <div className="aspect-square w-full">
-                                        <Image
-                                            src={product.image}
-                                            alt={product.name}
-                                            width={800}
-                                            height={800}
-                                            className="object-cover"
-                                        />
+                                        <Image src={product.image} alt={product.name} width={800} height={800} className="object-cover" />
                                     </div>
 
                                     {/* Text mit Padding */}

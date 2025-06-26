@@ -16,7 +16,6 @@ export const RubberDuckSchema = z.object({
     image: z.string().min(1),
 });
 
-
 // extract the inferred type like this
 type RubberDuck = z.infer<typeof RubberDuckSchema>;
 
