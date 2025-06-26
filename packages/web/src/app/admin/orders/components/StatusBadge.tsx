@@ -7,10 +7,11 @@ interface StatusBadgeProps {
 }
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => (
-    <span className={classNames(
-        getStatusStyles(status),
-        "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
-    )}>
+    <span
+        className={classNames(
+            getStatusStyles(status),
+            "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset",
+        )}>
         {status}
     </span>
 );

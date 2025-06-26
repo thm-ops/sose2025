@@ -43,7 +43,7 @@ const OrderManagementPage = () => {
 
     const stats: StatItem[] = [
         { name: "Total Orders", value: ordersData.length.toString() },
-        { name: "Pending Orders", value: ordersData.filter(o => o.status === "Pending").length.toString() },
+        { name: "Pending Orders", value: ordersData.filter((o) => o.status === "Pending").length.toString() },
         { name: "Total Revenue", value: formatPrice(ordersData.reduce((acc, o) => acc + o.totalAmount, 0)) },
         { name: "Success Rate", value: "99.8%" },
     ];
@@ -53,20 +53,13 @@ const OrderManagementPage = () => {
             <main className="py-10">
                 <div className="px-4 sm:px-6 lg:px-8">
                     <PageSection>
-                        <PageHeader
-                            title="Order Management"
-                            description="An overview of all customer orders."
-                        >
+                        <PageHeader title="Order Management" description="An overview of all customer orders.">
                             <LiveIndicator />
                         </PageHeader>
                         <StatsGrid stats={stats} />
                     </PageSection>
 
-                    <OrdersTable
-                        orders={sortedOrders}
-                        onSort={handleSort}
-                        sortConfig={sortConfig}
-                    />
+                    <OrdersTable orders={sortedOrders} onSort={handleSort} sortConfig={sortConfig} />
                 </div>
             </main>
         </div>

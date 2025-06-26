@@ -16,9 +16,9 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ orders, onSort, sortConfig })
                     <table className="min-w-full divide-y divide-gray-300">
                         <TableHeader onSort={onSort} sortConfig={sortConfig} />
                         <tbody className="divide-y divide-gray-200 bg-white">
-                        {orders.map((order) => (
-                            <OrderTableRow key={order.orderId} order={order} />
-                        ))}
+                            {orders.map((order) => (
+                                <OrderTableRow key={order.orderId} order={order} />
+                            ))}
                         </tbody>
                     </table>
                 </div>

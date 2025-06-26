@@ -10,24 +10,17 @@ interface SortableTableHeaderProps {
     sortConfig: SortConfig;
 }
 
-const SortableTableHeader: React.FC<SortableTableHeaderProps> = ({
-                                                                     name,
-                                                                     sortKey,
-                                                                     className = '',
-                                                                     onSort,
-                                                                     sortConfig
-                                                                 }) => (
+const SortableTableHeader: React.FC<SortableTableHeaderProps> = ({ name, sortKey, className = "", onSort, sortConfig }) => (
     <th scope="col" className={classNames(className, "text-left text-sm font-semibold text-gray-900")}>
         <a
             href="#"
-            onClick={(e) => { e.preventDefault(); onSort(sortKey); }}
-            className="group inline-flex"
-        >
+            onClick={(e) => {
+                e.preventDefault();
+                onSort(sortKey);
+            }}
+            className="group inline-flex">
             {name}
-            <SortIndicatorIcon
-                isSorted={sortConfig.key === sortKey}
-                direction={sortConfig.direction}
-            />
+            <SortIndicatorIcon isSorted={sortConfig.key === sortKey} direction={sortConfig.direction} />
         </a>
     </th>
 );

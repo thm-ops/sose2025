@@ -1,4 +1,4 @@
-import { Order } from './types';
+import { Order } from "./types";
 
 export const getStatusStyles = (status: Order["status"]): string => {
     switch (status) {

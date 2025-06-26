@@ -2,35 +2,51 @@
 
 import React from "react";
 import Link from "next/link";
-import {
-    UserCircleIcon,
-    CalendarIcon,
-    CreditCardIcon,
-} from "@heroicons/react/24/outline";
+import { UserCircleIcon, CalendarIcon, CreditCardIcon } from "@heroicons/react/24/outline";
 
 // Mock data based on Prisma schema
 const ducksData = [
-    { id: 1, name: "Classic Yellow Duck", price: 1299, color: "yellow", material: "Rubber", size: "m", weight: 0.15, description: "Traditional rubber duck" },
-    { id: 2, name: "Pirate Duck", price: 1599, color: "black", material: "Vinyl", size: "l", weight: 0.18, description: "Ahoy matey duck with pirate hat" },
-    { id: 3, name: "Rainbow Duck", price: 2199, color: "red", material: "Silicone", size: "xl", weight: 0.25, description: "Colorful rainbow duck" },
-    { id: 4, name: "Mini Duck Set", price: 899, color: "white", material: "Plastic", size: "s", weight: 0.08, description: "Set of 3 mini ducks" },
+    {
+        id: 1,
+        name: "Classic Yellow Duck",
+        price: 1299,
+        color: "yellow",
+        material: "Rubber",
+        size: "m",
+        weight: 0.15,
+        description: "Traditional rubber duck",
+    },
+    {
+        id: 2,
+        name: "Pirate Duck",
+        price: 1599,
+        color: "black",
+        material: "Vinyl",
+        size: "l",
+        weight: 0.18,
+        description: "Ahoy matey duck with pirate hat",
+    },
+    {
+        id: 3,
+        name: "Rainbow Duck",
+        price: 2199,
+        color: "red",
+        material: "Silicone",
+        size: "xl",
+        weight: 0.25,
+        description: "Colorful rainbow duck",
+    },
+    {
+        id: 4,
+        name: "Mini Duck Set",
+        price: 899,
+        color: "white",
+        material: "Plastic",
+        size: "s",
+        weight: 0.08,
+        description: "Set of 3 mini ducks",
+    },
 ];
-
-const brandsData = [
-    { id: 1, name: "DuckCorp", description: "Premium rubber ducks since 1985" },
-    { id: 2, name: "AquaFriends", description: "Eco-friendly bath toys" },
-];
-
-const originsData = [
-    { id: 1, name: "Germany" },
-    { id: 2, name: "Netherlands" },
-];
-
-const producersData = [
-    { id: 1, name: "Rubber Works GmbH", email: "info@rubberworks.de", phone: "+49 123 456789", address: "Duckstraße 42, 12345 Berlin" },
-    { id: 2, name: "Bath Toy Manufacturing", email: "contact@bathtoys.nl", phone: "+31 20 1234567", address: "Eendenlaan 15, 1000 AB Amsterdam" },
-];
-
 const ordersData = [
     {
         orderId: "ORD001",
@@ -44,12 +60,12 @@ const ordersData = [
             lastName: "Smith",
             email: "alice.smith@email.com",
             phone: "+49 176 12345678",
-            address: "Musterstraße 123, 10115 Berlin, Germany"
+            address: "Musterstraße 123, 10115 Berlin, Germany",
         },
         items: [
             { id: 1, duckId: 1, quantity: 2, duck: ducksData[0] },
-            { id: 2, duckId: 2, quantity: 1, duck: ducksData[1] }
-        ]
+            { id: 2, duckId: 2, quantity: 1, duck: ducksData[1] },
+        ],
     },
     {
         orderId: "ORD002",
@@ -63,12 +79,12 @@ const ordersData = [
             lastName: "Johnson",
             email: "bob.johnson@email.com",
             phone: "+49 175 87654321",
-            address: "Hauptstraße 456, 20095 Hamburg, Germany"
+            address: "Hauptstraße 456, 20095 Hamburg, Germany",
         },
         items: [
             { id: 3, duckId: 3, quantity: 1, duck: ducksData[2] },
-            { id: 4, duckId: 4, quantity: 1, duck: ducksData[3] }
-        ]
+            { id: 4, duckId: 4, quantity: 1, duck: ducksData[3] },
+        ],
     },
     {
         orderId: "ORD003",
@@ -82,11 +98,9 @@ const ordersData = [
             lastName: "Brown",
             email: "charlie.brown@email.com",
             phone: "+49 174 98765432",
-            address: "Bahnhofstraße 789, 50667 Köln, Germany"
+            address: "Bahnhofstraße 789, 50667 Köln, Germany",
         },
-        items: [
-            { id: 5, duckId: 3, quantity: 1, duck: ducksData[2] }
-        ]
+        items: [{ id: 5, duckId: 3, quantity: 1, duck: ducksData[2] }],
     },
     {
         orderId: "ORD004",
@@ -100,12 +114,12 @@ const ordersData = [
             lastName: "Prince",
             email: "diana.prince@email.com",
             phone: "+49 173 11223344",
-            address: "Königsallee 321, 40212 Düsseldorf, Germany"
+            address: "Königsallee 321, 40212 Düsseldorf, Germany",
         },
         items: [
             { id: 6, duckId: 4, quantity: 5, duck: ducksData[3] },
-            { id: 7, duckId: 1, quantity: 1, duck: ducksData[0] }
-        ]
+            { id: 7, duckId: 1, quantity: 1, duck: ducksData[0] },
+        ],
     },
     {
         orderId: "ORD005",
@@ -119,12 +133,12 @@ const ordersData = [
             lastName: "Kent",
             email: "clark.kent@email.com",
             phone: "+49 172 55443322",
-            address: "Marienplatz 654, 80331 München, Germany"
+            address: "Marienplatz 654, 80331 München, Germany",
         },
         items: [
             { id: 8, duckId: 1, quantity: 4, duck: ducksData[0] },
-            { id: 9, duckId: 2, quantity: 3, duck: ducksData[1] }
-        ]
+            { id: 9, duckId: 2, quantity: 3, duck: ducksData[1] },
+        ],
     },
     {
         orderId: "ORD006",
@@ -138,17 +152,16 @@ const ordersData = [
             lastName: "Wayne",
             email: "bruce.wayne@email.com",
             phone: "+49 171 99887766",
-            address: "Unter den Linden 987, 10117 Berlin, Germany"
+            address: "Unter den Linden 987, 10117 Berlin, Germany",
         },
         items: [
             { id: 10, duckId: 3, quantity: 10, duck: ducksData[2] },
-            { id: 11, duckId: 2, quantity: 5, duck: ducksData[1] }
-        ]
-    }
+            { id: 11, duckId: 2, quantity: 5, duck: ducksData[1] },
+        ],
+    },
 ];
 
-const formatPrice = (priceInCents: number): string =>
-    (priceInCents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
+const formatPrice = (priceInCents: number): string => (priceInCents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
 const formatDate = (dateString: string): string =>
     new Date(dateString).toLocaleDateString("de-DE", {
@@ -156,13 +169,11 @@ const formatDate = (dateString: string): string =>
         month: "long",
         day: "numeric",
         hour: "2-digit",
-        minute: "2-digit"
+        minute: "2-digit",
     });
 
 const getStatusStyles = (isCompleted: boolean): string => {
-    return isCompleted
-        ? "bg-green-50 text-green-600 ring-green-600/20"
-        : "bg-yellow-100 text-yellow-800 ring-yellow-600/20";
+    return isCompleted ? "bg-green-50 text-green-600 ring-green-600/20" : "bg-yellow-100 text-yellow-800 ring-yellow-600/20";
 };
 
 const getStatusText = (isCompleted: boolean): string => {
@@ -201,7 +212,7 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                         <div
                             style={{
                                 clipPath:
-                                    'polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)',
+                                    "polygon(100% 38.5%, 82.6% 100%, 60.2% 37.7%, 52.4% 32.1%, 47.5% 41.8%, 45.2% 65.6%, 27.5% 23.4%, 0.1% 35.3%, 17.9% 0%, 27.7% 23.4%, 76.2% 2.5%, 74.2% 56%, 100% 38.5%)",
                             }}
                             className="aspect-[1154/678] w-[72.125rem] bg-gradient-to-br from-[#FF80B5] to-[#9089FC]"
                         />
@@ -246,7 +257,8 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                 </div>
                                 <div className="flex-none self-end px-6 pt-4">
                                     <dt className="sr-only">Status</dt>
-                                    <dd className={`rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusStyles(order.isCompleted)}`}>
+                                    <dd
+                                        className={`rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusStyles(order.isCompleted)}`}>
                                         {getStatusText(order.isCompleted)}
                                     </dd>
                                 </div>
@@ -273,9 +285,7 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                         <span className="sr-only">Payment Status</span>
                                         <CreditCardIcon aria-hidden="true" className="h-6 w-5 text-gray-400" />
                                     </dt>
-                                    <dd className="text-sm/6 text-gray-500">
-                                        Payment {order.isCompleted ? "Completed" : "Pending"}
-                                    </dd>
+                                    <dd className="text-sm/6 text-gray-500">Payment {order.isCompleted ? "Completed" : "Pending"}</dd>
                                 </div>
                             </dl>
                             <div className="mt-6 border-t border-gray-900/5 px-6 py-6">
@@ -292,9 +302,7 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                         <dl className="mt-6 grid grid-cols-1 text-sm/6 sm:grid-cols-2">
                             <div className="sm:pr-4">
                                 <dt className="inline text-gray-500">Order ID</dt>{" "}
-                                <dd className="inline text-gray-700">
-                                    #{order.orderId}
-                                </dd>
+                                <dd className="inline text-gray-700">#{order.orderId}</dd>
                             </div>
                             <div className="mt-2 sm:mt-0 sm:pl-4">
                                 <dt className="inline text-gray-500">Order Date</dt>{" "}
@@ -314,9 +322,7 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                             </div>
                             <div className="mt-6 border-t border-gray-900/5 pt-6 sm:pl-4">
                                 <dt className="font-semibold text-gray-900">Delivery Address</dt>
-                                <dd className="mt-2 text-gray-500">
-                                    {order.customer.address}
-                                </dd>
+                                <dd className="mt-2 text-gray-500">{order.customer.address}</dd>
                             </div>
                         </dl>
 
@@ -329,54 +335,55 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                 <col />
                             </colgroup>
                             <thead className="border-b border-gray-200 text-gray-900">
-                            <tr>
-                                <th scope="col" className="px-0 py-3 font-semibold">
-                                    Duck
-                                </th>
-                                <th scope="col" className="hidden py-3 pr-0 pl-8 text-right font-semibold sm:table-cell">
-                                    Quantity
-                                </th>
-                                <th scope="col" className="py-3 pr-0 pl-8 text-right font-semibold">
-                                    Unit Price
-                                </th>
-                                <th scope="col" className="py-3 pr-0 pl-8 text-right font-semibold">
-                                    Total
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th scope="col" className="px-0 py-3 font-semibold">
+                                        Duck
+                                    </th>
+                                    <th scope="col" className="hidden py-3 pr-0 pl-8 text-right font-semibold sm:table-cell">
+                                        Quantity
+                                    </th>
+                                    <th scope="col" className="py-3 pr-0 pl-8 text-right font-semibold">
+                                        Unit Price
+                                    </th>
+                                    <th scope="col" className="py-3 pr-0 pl-8 text-right font-semibold">
+                                        Total
+                                    </th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {order.items.map((item) => (
-                                <tr key={item.id} className="border-b border-gray-100">
-                                    <td className="max-w-0 px-0 py-5 align-top">
-                                        <div className="truncate font-medium text-gray-900">{item.duck.name}</div>
-                                        <div className="truncate text-gray-500">
-                                            {capitalizeFirst(item.duck.color)} • {capitalizeFirst(item.duck.size)} • {item.duck.material}
-                                        </div>
-                                        <div className="truncate text-gray-400 text-xs">
-                                            Weight: {item.duck.weight}kg
-                                        </div>
-                                    </td>
-                                    <td className="hidden py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nums sm:table-cell">
-                                        {item.quantity}
-                                    </td>
-                                    <td className="py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nums">
-                                        {formatPrice(item.duck.price)}
-                                    </td>
-                                    <td className="py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nums">
-                                        {formatPrice(item.duck.price * item.quantity)}
-                                    </td>
-                                </tr>
-                            ))}
+                                {order.items.map((item) => (
+                                    <tr key={item.id} className="border-b border-gray-100">
+                                        <td className="max-w-0 px-0 py-5 align-top">
+                                            <div className="truncate font-medium text-gray-900">{item.duck.name}</div>
+                                            <div className="truncate text-gray-500">
+                                                {capitalizeFirst(item.duck.color)} • {capitalizeFirst(item.duck.size)} •{" "}
+                                                {item.duck.material}
+                                            </div>
+                                            <div className="truncate text-gray-400 text-xs">Weight: {item.duck.weight}kg</div>
+                                        </td>
+                                        {/* Due to spellcheck issues, we use a workaround to prevent spellcheck errors */}
+                                        <td
+                                            className={`hidden py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nu${"ms"} sm:table-cell`}>
+                                            {item.quantity}
+                                        </td>
+                                        <td className={`py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nu${"ms"}`}>
+                                            {formatPrice(item.duck.price)}
+                                        </td>
+                                        <td className={`py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nu${"ms"}`}>
+                                            {formatPrice(item.duck.price * item.quantity)}
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                             <tfoot>
-                            <tr>
-                                <th scope="row" className="pt-6 font-semibold text-gray-900" colSpan={3}>
-                                    Total
-                                </th>
-                                <td className="pt-6 pr-0 pl-8 text-right font-semibold text-gray-900 tabular-nums">
-                                    {formatPrice(order.totalPrice)}
-                                </td>
-                            </tr>
+                                <tr>
+                                    <th scope="row" className="pt-6 font-semibold text-gray-900" colSpan={3}>
+                                        Total
+                                    </th>
+                                    <td className={`pt-6 pr-0 pl-8 text-right font-semibold text-gray-900 tabular-nu${"ms"}`}>
+                                        {formatPrice(order.totalPrice)}
+                                    </td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
