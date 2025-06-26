@@ -9,9 +9,21 @@ export async function GET() {
         // Fetch ducks with related data
         const ducks = await prisma.duck.findMany({
             include: {
-                brand: true,
-                origin: true,
-                producer: true,
+                brand: {
+                    select: {
+                        name: true
+                    }
+                },
+                origin: {
+                    select: {
+                        name: true
+                    }
+                },
+                producer: {
+                    select: {
+                        name: true
+                    }
+                },
             },
         });
 
