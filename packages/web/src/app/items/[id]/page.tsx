@@ -1,4 +1,4 @@
-import { rubberDuckData } from "@/data/data";
+import prisma from "@/lib/prisma";
 import { RubberDuckSchema } from "@/lib/model/rubberduck/Rubberduck.type";
 import { notFound } from "next/navigation";
 import Header from "@/app/Header.component"; // Assumption: Header.component.tsx exists in src/app/
@@ -7,10 +7,12 @@ import ProductInfo from "./ProductInfo.component";
 import ProductDetails from "./ProductDetails.component";
 import AddToCartForm from "./AddToCartForm.component";
 
-export default async function ItemsPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ItemsPage({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
     const { id } = await params;
     const duckId = parseInt(id, 10);
-    const rawDuck = rubberDuckData.find((duck) => duck.id === duckId);
+    const rawDuck = await prisma.duck.findUnique({
+        where: { id: duckId },
+    });
 
     if (!rawDuck) {
         notFound();

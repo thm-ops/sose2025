@@ -1,16 +1,33 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { rubberDuckData } from "@/data/data";
-import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+import { z } from "zod";
+import RubberDuck, { RubberDuckSchema } from "@/lib/model/rubberduck/Rubberduck.type";
 import { Utils } from "@/lib/utils/mod";
+import { useState, useEffect } from "react";
 
-const products: RubberDuck[] = rubberDuckData;
+const DucksArraySchema = z.array(RubberDuckSchema);
 
 /**
  * @component NewestProducts
  * @description Displays a list of the newest products in a grid layout.
  */
 export default function NewestProducts() {
+    const [products, setProducts] = useState<RubberDuck[]>([]);
+
+    useEffect(() => {
+        fetch("/api/ducks")
+            .then((res) => res.json())
+            .then((data) => {
+                setProducts(DucksArraySchema.parse(data));
+            })
+            .catch((error) => {
+                console.error("Error fetching products:", error);
+                setProducts([]); // Set to empty array on error
+            });
+    }, []);
+
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8" id="productsList">
