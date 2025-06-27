@@ -9,7 +9,7 @@ export default function ProductImage({ duck }: ProductImageProps) {
     return (
         <div className="w-full overflow-hidden rounded-lg sm:rounded-lg">
             <Image
-                src={`https://picsum.photos/seed/${duck.id}/800/800`}
+                src={`/media/products/${duck.id}`}
                 alt={`Image of ${duck.name}`}
                 width={800}
                 height={800}

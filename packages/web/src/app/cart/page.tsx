@@ -4,7 +4,7 @@ import Header from "@/app/Header.component";
 import Footer from "@/app/Footer.component";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 
-export type ShoppingCartItem = RubberDuck & {
+export type ShoppingCartItem = Omit<RubberDuck, "image"> & {
     quantity: number;
     inStock: boolean;
 };
