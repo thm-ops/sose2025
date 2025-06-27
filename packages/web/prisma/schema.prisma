@@ -31,7 +31,7 @@ enum Color {
     white
 }
 
-enum Status{
+enum Status {
     pending
     processing
     shipped
