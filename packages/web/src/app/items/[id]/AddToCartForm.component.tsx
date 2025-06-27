@@ -1,6 +1,7 @@
 "use client";
 import useCart from "@/lib/hooks/cart/useCart.hook";
 import { useState } from "react";
+import { Button } from "@headlessui/react";
 
 export default function AddToCartForm({ id }: { id: number }) {
     const [quantity, setQuantity] = useState(1);
@@ -56,12 +57,12 @@ export default function AddToCartForm({ id }: { id: number }) {
                 </button>
             </div>
             <div className="mt-6">
-                <button
+                <Button
                     onClick={addToCart}
                     type="submit"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+                    className="flex items-center justify-center w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
                     Add to cart
-                </button>
+                </Button>
             </div>
         </form>
     );

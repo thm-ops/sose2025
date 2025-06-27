@@ -36,10 +36,10 @@ export default function ShoppingCart() {
         setIsClient(true);
     }, []);
 
-    // Calculate subtotal, tax and shipping for display
+    // Calculating the subtotal
     const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 500;
-    const tax = subtotal * 0.14; // Assuming 14% tax
+    const shipping = 500; // 5,00 €
+    const tax = subtotal * 0.19; // assuming: 19% tax.
     const orderTotal = subtotal + shipping + tax;
 
     return (

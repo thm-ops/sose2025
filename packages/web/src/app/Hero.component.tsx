@@ -77,7 +77,7 @@ function HeroContent() {
                     <div className="mt-10 flex items-center justify-center gap-x-6">
                         <Link
                             href="#productsList"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+                            className="rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             Produkte ansehen
                         </Link>
                     </div>
