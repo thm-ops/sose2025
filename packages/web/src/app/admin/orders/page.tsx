@@ -10,6 +10,7 @@ import PageHeader from "./components/PageHeader";
 import PageSection from "./components/PageSection";
 import StatsGrid from "./components/StatsGrid";
 import OrdersTable from "./components/OrdersTable";
+import AdminHeader from "@/app/admin/AdminHeader.component";
 
 const OrderManagementPage = () => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({
@@ -49,19 +50,22 @@ const OrderManagementPage = () => {
     ];
 
     return (
-        <div className="h-full bg-gray-50">
-            <main className="py-10">
-                <div className="px-4 sm:px-6 lg:px-8">
-                    <PageSection>
-                        <PageHeader title="Order Management" description="An overview of all customer orders.">
-                            <LiveIndicator />
-                        </PageHeader>
-                        <StatsGrid stats={stats} />
-                    </PageSection>
+        <div>
+            <AdminHeader />
+            <div className="h-full bg-gray-50 pt-[64px]">
+                <main className="py-10">
+                    <div className="px-4 sm:px-6 lg:px-8">
+                        <PageSection>
+                            <PageHeader title="Order Management" description="An overview of all customer orders.">
+                                <LiveIndicator />
+                            </PageHeader>
+                            <StatsGrid stats={stats} />
+                        </PageSection>
 
-                    <OrdersTable orders={sortedOrders} onSort={handleSort} sortConfig={sortConfig} />
-                </div>
-            </main>
+                        <OrdersTable orders={sortedOrders} onSort={handleSort} sortConfig={sortConfig} />
+                    </div>
+                </main>
+            </div>
         </div>
     );
 };
