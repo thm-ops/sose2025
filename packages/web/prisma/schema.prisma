@@ -40,26 +40,26 @@ enum Status {
     refunded
 }
 
-model Address {
-    id      Int     @id @default(autoincrement())
-    country String  @db.Varchar(255)
-    state   String  @db.VarChar(255)
-    postcode Int 
-    street  String  @db.VarChar(255)
-    hnumber String  @db.VarChar(8)
-}
-
 model Producer {
     id      Int     @id @default(autoincrement())
     name    String  @unique
     email   String  @unique @db.VarChar(320)
     phone   String? @db.VarChar(20)
-    addressId Int? 
+    address Address? @relation(fields: [addressId], references: [id]) 
+    addressId Int? @unique
     
-    address Address? @relation(fields: [addressId], references [id])
-
     ducks Duck[]
 }
+
+model Address {
+    id      Int     @id @default(autoincrement())
+    country String  @db.VarChar(255)
+    state   String  @db.VarChar(255)
+    postcode Int 
+    street  String  @db.VarChar(255)
+    producer Producer? @relation
+}
+
 
 model Brand {
     id          Int     @id @default(autoincrement())
@@ -79,10 +79,10 @@ model Origin {
 // Attributes like color, size, material brand, etc. are provided as relations - may be changed to strings for simplicity
 model Duck {
     id          Int    @id @default(autoincrement())
-    name        String @unique db.VarChar(255)
+    name        String @unique @db.VarChar(255)
     price       Int
     color       Color
-    material    String db.VarChar(255)
+    material    String @db.VarChar(255)
     size        Size
     brandId     Int?
     originId    Int
@@ -104,7 +104,7 @@ model Duck {
 
 model Order {
     id          Int         @id @default(autoincrement())
-    createdAt   Timestamp    @default(now())
+    createdAt   DateTime    @default(now()) @db.Timestamp(0)
     totalPrice  Int
     isCompleted Status       @default(pending)
     items       OrderItem[]
@@ -126,11 +126,11 @@ model Customer {
     lastName  String
     email     String
     phone     String
-    homeAdressId?  Int
-    billingAdressId Int
+    homeAddressId Int? // Optional field syntax: `Int?`
+    billingAddressId Int // Required field syntax: `Int`
 
-    homeAddress Address? @relation(fields: [homeAddressId], references [id])
-    billingAddress Address? @relation(fields: [billingAddressId], references [id])
+    homeAddress Address? @relation(name: "HomeAddressRelation", fields: [homeAddressId], references: [id])
+    billingAddress Address @relation(name: "BillingAddressRelation", fields: [billingAddressId], references: [id])
 
     order Order?
 }
