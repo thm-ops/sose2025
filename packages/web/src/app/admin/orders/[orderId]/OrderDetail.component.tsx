@@ -237,6 +237,12 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                             </h1>
                         </div>
                         <div className="flex items-center gap-x-4 sm:gap-x-6">
+                            {/* Edit Order Button */}
+                            <Link
+                                href={`/admin/orders/${order.orderId}/edit`} // Placeholder link for editing
+                                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                Edit Order
+                            </Link>
                             <Link href="/admin/orders" className="text-sm/6 font-semibold text-gray-900">
                                 Back to Orders
                             </Link>
@@ -355,7 +361,13 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                 {order.items.map((item) => (
                                     <tr key={item.id} className="border-b border-gray-100">
                                         <td className="px-0 py-5 align-top flex">
-                                            <Image src={"https://picsum.photos/100/100?random=" + item.duck.id} alt={item.duck.name} width={50} height={50} className="inline-block mr-4 rounded" />
+                                            <Image
+                                                src={"https://picsum.photos/100/100?random=" + item.duck.id}
+                                                alt={item.duck.name}
+                                                width={50}
+                                                height={50}
+                                                className="inline-block mr-4 rounded"
+                                            />
                                             <div>
                                                 <div className="truncate font-medium text-gray-900">{item.duck.name}</div>
                                                 <div className="truncate text-gray-500">
