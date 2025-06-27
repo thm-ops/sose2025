@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { UserCircleIcon, CalendarIcon, CreditCardIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 // Mock data based on Prisma schema
 const ducksData = [
@@ -353,13 +354,16 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                             <tbody>
                                 {order.items.map((item) => (
                                     <tr key={item.id} className="border-b border-gray-100">
-                                        <td className="max-w-0 px-0 py-5 align-top">
-                                            <div className="truncate font-medium text-gray-900">{item.duck.name}</div>
-                                            <div className="truncate text-gray-500">
-                                                {capitalizeFirst(item.duck.color)} • {capitalizeFirst(item.duck.size)} •{" "}
-                                                {item.duck.material}
+                                        <td className="px-0 py-5 align-top flex">
+                                            <Image src={"https://picsum.photos/100/100?random=" + item.duck.id} alt={item.duck.name} width={50} height={50} className="inline-block mr-4 rounded" />
+                                            <div>
+                                                <div className="truncate font-medium text-gray-900">{item.duck.name}</div>
+                                                <div className="truncate text-gray-500">
+                                                    {capitalizeFirst(item.duck.color)} • {capitalizeFirst(item.duck.size)} •{" "}
+                                                    {item.duck.material}
+                                                </div>
+                                                <div className="truncate text-gray-400 text-xs">Weight: {item.duck.weight}kg</div>
                                             </div>
-                                            <div className="truncate text-gray-400 text-xs">Weight: {item.duck.weight}kg</div>
                                         </td>
                                         {/* Due to spellcheck issues, we use a workaround to prevent spellcheck errors */}
                                         <td
