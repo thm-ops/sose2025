@@ -31,19 +31,39 @@ enum Color {
     white
 }
 
+enum Status{
+    pending
+    processing
+    shipped
+    delivered
+    canceled
+    refunded
+}
+
+model Address {
+    id      Int     @id @default(autoincrement())
+    country String  @db.Varchar(255)
+    state   String  @db.VarChar(255)
+    postcode Int 
+    street  String  @db.VarChar(255)
+    hnumber String  @db.VarChar(8)
+}
+
 model Producer {
     id      Int     @id @default(autoincrement())
     name    String  @unique
-    email   String  @unique @db.VarChar(130)
-    phone   String?
-    address String?
+    email   String  @unique @db.VarChar(320)
+    phone   String? @db.VarChar(20)
+    addressId Int? 
+    
+    address Address? @relation(fields: [addressId], references [id])
 
     ducks Duck[]
 }
 
 model Brand {
     id          Int     @id @default(autoincrement())
-    name        String  @unique
+    name        String  @unique @db.VarChar(255)
     description String?
 
     ducks Duck[]
@@ -51,7 +71,7 @@ model Brand {
 
 model Origin {
     id    Int    @id @default(autoincrement())
-    name  String @unique
+    name  String @unique @db.VarChar(3)
     ducks Duck[]
 }
 
@@ -59,10 +79,10 @@ model Origin {
 // Attributes like color, size, material brand, etc. are provided as relations - may be changed to strings for simplicity
 model Duck {
     id          Int    @id @default(autoincrement())
-    name        String @unique
+    name        String @unique db.VarChar(255)
     price       Int
     color       Color
-    material    String
+    material    String db.VarChar(255)
     size        Size
     brandId     Int?
     originId    Int
@@ -84,9 +104,9 @@ model Duck {
 
 model Order {
     id          Int         @id @default(autoincrement())
-    createdAt   DateTime    @default(now())
+    createdAt   Timestamp    @default(now())
     totalPrice  Int
-    isCompleted Boolean     @default(false)
+    isCompleted Status       @default(pending)
     items       OrderItem[]
     customerId  Int         @unique
 
@@ -106,7 +126,11 @@ model Customer {
     lastName  String
     email     String
     phone     String
-    address   String
+    homeAdressId?  Int
+    billingAdressId Int
+
+    homeAddress Address? @relation(fields: [homeAddressId], references [id])
+    billingAddress Address? @relation(fields: [billingAddressId], references [id])
 
     order Order?
 }
