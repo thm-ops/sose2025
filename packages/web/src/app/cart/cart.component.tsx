@@ -13,25 +13,23 @@ export type ShoppingCartItem = RubberDuck & {
 };
 
 export default function ShoppingCart() {
-    const [cart] = useCart();
+    const [cart, setCart] = useCart();
     const [isClient, setIsClient] = useState(false);
     const [items, setItems] = useState<ShoppingCartItem[]>([]);
 
     const handleQuantityChange = (id: number, delta: number) => {
-        setItems((prevItems) =>
-            prevItems.map((item) =>
-                item.id === id
-                    ? { ...item, quantity: Math.max(1, item.quantity + delta) } // mind. 1
-                    : item,
-            ),
-        );
+        const currentItem = cart.find((item)=>item.id === id)
+        if(currentItem !== undefined) {
+            const currentQty = currentItem.qty + delta;
+            setCart([...cart.filter(item => item.id !== id), {id, qty: currentQty}]);
+        }
     };
 
     /**
      * Update on cart change
      */
     useEffect(() => {
-        setItems(fetchProductsForCart(cart));
+        setItems(fetchProductsForCart(cart).sort((a,b) => a.id - b.id));
     }, [cart]);
 
     useEffect(() => {
@@ -47,9 +45,6 @@ export default function ShoppingCart() {
     return (
         <main className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Warenkorb</h1>
-            <hr />
-            <div>{JSON.stringify(cart)}</div>
-            <hr />
             <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
                 <section aria-labelledby="cart-heading" className="lg:col-span-7">
                     <h2 id="cart-heading" className="sr-only">
