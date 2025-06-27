@@ -1,6 +1,6 @@
-import { ShoppingCartItem } from "@/app/cart/page";
 import React from "react";
 import CartItem from "./CartItem.component";
+import { ShoppingCartItem } from "./cart.component";
 
 type CartItemListProps = {
     items: ShoppingCartItem[];

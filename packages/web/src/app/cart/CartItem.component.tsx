@@ -1,8 +1,8 @@
-import { ShoppingCartItem } from "@/app/cart/page";
 import React from "react";
 import Image from "next/image";
 import { Utils } from "@/lib/utils/mod";
 import QuantityControl from "./QuantityControl.component";
+import { ShoppingCartItem } from "./cart.component";
 
 type CartItemProps = {
     item: ShoppingCartItem;

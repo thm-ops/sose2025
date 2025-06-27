@@ -29,7 +29,7 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                         {/* Retaining the layout container for product info and form */}
                         <ProductInfo duck={duck} />
                         <ProductDetails duck={duck} />
-                        <AddToCartForm /> {/* May need duckId or other info as props */}
+                        <AddToCartForm id={duckId} />
                     </div>
                 </div>
             </main>
