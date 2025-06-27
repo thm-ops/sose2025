@@ -21,8 +21,8 @@ const CartItem: React.FC<CartItemProps> = ({ item, onQuantityChange, onDeleteIte
         <li className="flex py-6 sm:py-10">
             <div className="shrink-0">
                 <Image
-                    alt="https://picsum.photos/800/450"
-                    src="https://picsum.photos/800/450"
+                    src={`/media/products/${item.id}`}
+                    alt={item.name}
                     width={100}
                     height={100}
                     className="size-10 rounded-md object-cover sm:size-25"
