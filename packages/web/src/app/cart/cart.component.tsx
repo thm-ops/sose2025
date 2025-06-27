@@ -18,10 +18,10 @@ export default function ShoppingCart() {
     const [items, setItems] = useState<ShoppingCartItem[]>([]);
 
     const handleQuantityChange = (id: number, delta: number) => {
-        const currentItem = cart.find((item)=>item.id === id)
-        if(currentItem !== undefined) {
+        const currentItem = cart.find((item) => item.id === id);
+        if (currentItem !== undefined) {
             const currentQty = currentItem.qty + delta;
-            setCart([...cart.filter(item => item.id !== id), {id, qty: currentQty}]);
+            setCart([...cart.filter((item) => item.id !== id), { id, qty: currentQty }]);
         }
     };
 
@@ -29,7 +29,7 @@ export default function ShoppingCart() {
      * Update on cart change
      */
     useEffect(() => {
-        setItems(fetchProductsForCart(cart).sort((a,b) => a.id - b.id));
+        setItems(fetchProductsForCart(cart).sort((a, b) => a.id - b.id));
     }, [cart]);
 
     useEffect(() => {
