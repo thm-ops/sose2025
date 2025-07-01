@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { SortConfig, SortableOrderKeys, StatItem } from "./utils/types";
+import React, { useMemo, useState } from "react";
+import { OrderStatus, SortableOrderKeys, SortConfig, SortDirection, StatItem } from "./utils/types";
 import { ordersData } from "./orderData";
-import { formatPrice } from "./utils/formatters";
+import { Price } from "@/lib/utils/price";
 
 import LiveIndicator from "./components/LiveIndicator";
 import PageHeader from "./components/PageHeader";
@@ -15,7 +15,7 @@ import AdminHeader from "@/app/admin/AdminHeader.component";
 const OrderManagementPage = () => {
     const [sortConfig, setSortConfig] = useState<SortConfig>({
         key: "orderDate",
-        direction: "descending",
+        direction: SortDirection.Descending,
     });
 
     const sortedOrders = useMemo(() => {
@@ -23,10 +23,10 @@ const OrderManagementPage = () => {
         if (sortConfig.key) {
             sortableItems.sort((a, b) => {
                 if (a[sortConfig.key!] < b[sortConfig.key!]) {
-                    return sortConfig.direction === "ascending" ? -1 : 1;
+                    return sortConfig.direction === SortDirection.Ascending ? -1 : 1;
                 }
                 if (a[sortConfig.key!] > b[sortConfig.key!]) {
-                    return sortConfig.direction === "ascending" ? 1 : -1;
+                    return sortConfig.direction === SortDirection.Ascending ? 1 : -1;
                 }
                 return 0;
             });
@@ -35,17 +35,19 @@ const OrderManagementPage = () => {
     }, [sortConfig]);
 
     const handleSort = (key: SortableOrderKeys) => {
-        let direction: "ascending" | "descending" = "ascending";
-        if (sortConfig.key === key && sortConfig.direction === "ascending") {
-            direction = "descending";
+        let direction: SortDirection;
+        if (sortConfig.key === key && sortConfig.direction === SortDirection.Ascending) {
+            direction = SortDirection.Descending;
+        } else {
+            direction = SortDirection.Ascending;
         }
         setSortConfig({ key, direction });
     };
 
     const stats: StatItem[] = [
         { name: "Total Orders", value: ordersData.length.toString() },
-        { name: "Pending Orders", value: ordersData.filter((o) => o.status === "Pending").length.toString() },
-        { name: "Total Revenue", value: formatPrice(ordersData.reduce((acc, o) => acc + o.totalAmount, 0)) },
+        { name: "Pending Orders", value: ordersData.filter((o) => o.status === OrderStatus.Pending).length.toString() },
+        { name: "Total Revenue", value: Price.display(ordersData.reduce((acc, o) => acc + o.totalAmount, 0)) },
         { name: "Success Rate", value: "99.8%" },
     ];
 
