@@ -2,19 +2,25 @@
  * @interface Order
  * @description Defines the structure for an order object.
  */
+export enum OrderStatus {
+    Pending = "Pending",
+    Shipped = "Shipped",
+    Delivered = "Delivered",
+    Cancelled = "Cancelled",
+}
+
 export interface Order {
     orderId: string;
     customerName: string;
-    orderDate: string;
+    orderDate: Date;
     totalAmount: number;
-    status: "Pending" | "Shipped" | "Delivered" | "Cancelled";
 }
 
 /**
  * @type SortableOrderKeys
  * @description Defines the keys of the Order interface that are allowed to be sorted.
  */
-export type SortableOrderKeys = keyof Omit<Order, "status">;
+export type SortableOrderKeys = keyof Omit<Order, "customer" | "items">;
 
 /**
  * @type SortConfig
@@ -22,8 +28,13 @@ export type SortableOrderKeys = keyof Omit<Order, "status">;
  */
 export type SortConfig = {
     key: SortableOrderKeys | null;
-    direction: "ascending" | "descending";
+    direction: SortDirection; // Changed to use the enum
 };
+
+export enum SortDirection {
+    Ascending = "ascending",
+    Descending = "descending",
+}
 
 /**
  * @interface StatItem

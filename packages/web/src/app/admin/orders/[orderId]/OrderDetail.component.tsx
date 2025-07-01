@@ -4,6 +4,49 @@ import React from "react";
 import Link from "next/link";
 import { UserCircleIcon, CalendarIcon, CreditCardIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { Price } from "@/lib/utils/price";
+
+export enum OrderStatus {
+    Pending = "Pending",
+    Shipped = "Shipped",
+    Delivered = "Delivered",
+    Cancelled = "Cancelled",
+}
+
+export interface Order {
+    orderId: string;
+    createdAt: Date;
+    totalPrice: number;
+    status: OrderStatus;
+    customerId: number;
+    customer: {
+        id: number;
+        firstName: string;
+        lastName: string;
+        email: string;
+        phone: string;
+        street: string;
+        houseNumber: string;
+        postalCode: string;
+        city: string;
+        country: string;
+    };
+    items: Array<{
+        id: number;
+        duckId: number;
+        quantity: number;
+        duck: {
+            id: number;
+            name: string;
+            price: number;
+            color: string;
+            material: string;
+            size: string;
+            weight: number;
+            description: string;
+        };
+    }>;
+}
 
 // Mock data based on Prisma schema
 const ducksData = [
@@ -48,12 +91,13 @@ const ducksData = [
         description: "Set of 3 mini ducks",
     },
 ];
+
 const ordersData = [
     {
         orderId: "ORD001",
-        createdAt: "2025-06-15T10:30:00Z",
+        createdAt: new Date("2025-06-15T10:30:00Z"),
         totalPrice: 15999,
-        isCompleted: true,
+        status: OrderStatus.Delivered,
         customerId: 1,
         customer: {
             id: 1,
@@ -61,7 +105,11 @@ const ordersData = [
             lastName: "Smith",
             email: "alice.smith@email.com",
             phone: "+49 176 12345678",
-            address: "Musterstraße 123, 10115 Berlin, Germany",
+            street: "Musterstraße",
+            houseNumber: "123",
+            postalCode: "10115",
+            city: "Berlin",
+            country: "Germany",
         },
         items: [
             { id: 1, duckId: 1, quantity: 2, duck: ducksData[0] },
@@ -70,9 +118,9 @@ const ordersData = [
     },
     {
         orderId: "ORD002",
-        createdAt: "2025-06-14T14:22:00Z",
+        createdAt: new Date("2025-06-14T14:22:00Z"),
         totalPrice: 7550,
-        isCompleted: false,
+        status: OrderStatus.Pending,
         customerId: 2,
         customer: {
             id: 2,
@@ -80,7 +128,11 @@ const ordersData = [
             lastName: "Johnson",
             email: "bob.johnson@email.com",
             phone: "+49 175 87654321",
-            address: "Hauptstraße 456, 20095 Hamburg, Germany",
+            street: "Hauptstraße",
+            houseNumber: "456",
+            postalCode: "20095",
+            city: "Hamburg",
+            country: "Germany",
         },
         items: [
             { id: 3, duckId: 3, quantity: 1, duck: ducksData[2] },
@@ -89,9 +141,9 @@ const ordersData = [
     },
     {
         orderId: "ORD003",
-        createdAt: "2025-06-12T10:30:00Z",
+        createdAt: new Date("2025-06-12T10:30:00Z"),
         totalPrice: 22000,
-        isCompleted: true,
+        status: OrderStatus.Shipped,
         customerId: 3,
         customer: {
             id: 3,
@@ -99,15 +151,19 @@ const ordersData = [
             lastName: "Brown",
             email: "charlie.brown@email.com",
             phone: "+49 174 98765432",
-            address: "Bahnhofstraße 789, 50667 Köln, Germany",
+            street: "Bahnhofstraße",
+            houseNumber: "789",
+            postalCode: "50667",
+            city: "Köln",
+            country: "Germany",
         },
         items: [{ id: 5, duckId: 3, quantity: 1, duck: ducksData[2] }],
     },
     {
         orderId: "ORD004",
-        createdAt: "2025-06-10T09:15:00Z",
+        createdAt: new Date("2025-06-15T10:30:00Z"),
         totalPrice: 4999,
-        isCompleted: false,
+        status: OrderStatus.Pending,
         customerId: 4,
         customer: {
             id: 4,
@@ -115,7 +171,11 @@ const ordersData = [
             lastName: "Prince",
             email: "diana.prince@email.com",
             phone: "+49 173 11223344",
-            address: "Königsallee 321, 40212 Düsseldorf, Germany",
+            street: "Königsallee",
+            houseNumber: "321",
+            postalCode: "40212",
+            city: "Düsseldorf",
+            country: "Germany",
         },
         items: [
             { id: 6, duckId: 4, quantity: 5, duck: ducksData[3] },
@@ -124,9 +184,9 @@ const ordersData = [
     },
     {
         orderId: "ORD005",
-        createdAt: "2025-06-16T16:45:00Z",
+        createdAt: new Date("2025-06-16T16:45:00Z"),
         totalPrice: 12500,
-        isCompleted: false,
+        status: OrderStatus.Cancelled,
         customerId: 5,
         customer: {
             id: 5,
@@ -134,7 +194,11 @@ const ordersData = [
             lastName: "Kent",
             email: "clark.kent@email.com",
             phone: "+49 172 55443322",
-            address: "Marienplatz 654, 80331 München, Germany",
+            street: "Marienplatz",
+            houseNumber: "654",
+            postalCode: "80331",
+            city: "München",
+            country: "Germany",
         },
         items: [
             { id: 8, duckId: 1, quantity: 4, duck: ducksData[0] },
@@ -143,9 +207,9 @@ const ordersData = [
     },
     {
         orderId: "ORD006",
-        createdAt: "2025-06-13T11:20:00Z",
+        createdAt: new Date("2025-06-13T11:20:00Z"),
         totalPrice: 30000,
-        isCompleted: true,
+        status: OrderStatus.Delivered,
         customerId: 6,
         customer: {
             id: 6,
@@ -153,7 +217,11 @@ const ordersData = [
             lastName: "Wayne",
             email: "bruce.wayne@email.com",
             phone: "+49 171 99887766",
-            address: "Unter den Linden 987, 10117 Berlin, Germany",
+            street: "Unter den Linden",
+            houseNumber: "987",
+            postalCode: "10117",
+            city: "Berlin",
+            country: "Germany",
         },
         items: [
             { id: 10, duckId: 3, quantity: 10, duck: ducksData[2] },
@@ -162,27 +230,35 @@ const ordersData = [
     },
 ];
 
-const formatPrice = (priceInCents: number): string => (priceInCents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
-const formatDate = (dateString: string): string =>
-    new Date(dateString).toLocaleDateString("de-DE", {
+const formatDate = (date: string | Date): string => {
+    const dateObj = date instanceof Date ? date : new Date(date);
+    return dateObj.toLocaleDateString("de-DE", {
         year: "numeric",
         month: "long",
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit",
     });
-
-const getStatusStyles = (isCompleted: boolean): string => {
-    return isCompleted ? "bg-green-50 text-green-600 ring-green-600/20" : "bg-yellow-100 text-yellow-800 ring-yellow-600/20";
 };
 
-const getStatusText = (isCompleted: boolean): string => {
-    return isCompleted ? "Completed" : "Pending";
+const getStatusStyles = (status: OrderStatus): string => {
+    switch (status) {
+        case OrderStatus.Delivered:
+            return "bg-green-50 text-green-600 ring-green-600/20";
+        case OrderStatus.Shipped:
+            return "bg-blue-50 text-blue-600 ring-blue-600/20";
+        case OrderStatus.Pending:
+            return "bg-yellow-100 text-yellow-800 ring-yellow-600/20";
+        case OrderStatus.Cancelled:
+            return "bg-red-50 text-red-600 ring-red-600/20";
+        default:
+            return "bg-gray-50 text-gray-600 ring-gray-600/20";
+    }
 };
 
-const capitalizeFirst = (str: string): string => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+const getStatusText = (status: OrderStatus): string => {
+    return status;
 };
 
 interface Props {
@@ -204,6 +280,19 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
             </div>
         );
     }
+
+    // Helper function to get ISO string, as order.createdAt is a string
+    const getIsoString = (dateString: Date): string => {
+        // Create a Date object from the string and then call toISOString
+        return new Date(dateString).toISOString();
+    };
+
+    // Function to format the full address for display
+    const formatFullAddress = (customer: Order['customer']): string => {
+        const houseNum = customer.houseNumber ? ` ${customer.houseNumber}` : '';
+        return `${customer.street}${houseNum}, ${customer.postalCode} ${customer.city}, ${customer.country}`;
+    };
+
 
     return (
         <main className="bg-gray-50 min-h-screen">
@@ -260,13 +349,13 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                             <dl className="flex flex-wrap">
                                 <div className="flex-auto pt-6 pl-6">
                                     <dt className="text-sm/6 font-semibold text-gray-900">Total Amount</dt>
-                                    <dd className="mt-1 text-base font-semibold text-gray-900">{formatPrice(order.totalPrice)}</dd>
+                                    <dd className="mt-1 text-base font-semibold text-gray-900">{Price.display(order.totalPrice)}</dd>
                                 </div>
                                 <div className="flex-none self-end px-6 pt-4">
                                     <dt className="sr-only">Status</dt>
                                     <dd
-                                        className={`rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusStyles(order.isCompleted)}`}>
-                                        {getStatusText(order.isCompleted)}
+                                        className={`rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusStyles(order.status)}`}>
+                                        {getStatusText(order.status)}
                                     </dd>
                                 </div>
                                 <div className="mt-6 flex w-full flex-none gap-x-4 border-t border-gray-900/5 px-6 pt-6">
@@ -284,7 +373,8 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                         <CalendarIcon aria-hidden="true" className="h-6 w-5 text-gray-400" />
                                     </dt>
                                     <dd className="text-sm/6 text-gray-500">
-                                        <time dateTime={order.createdAt}>{formatDate(order.createdAt)}</time>
+                                        {/* Use getIsoString here */}
+                                        <time dateTime={getIsoString(order.createdAt)}>{formatDate(order.createdAt)}</time>
                                     </dd>
                                 </div>
                                 <div className="mt-4 flex w-full flex-none gap-x-4 px-6">
@@ -292,7 +382,12 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                         <span className="sr-only">Payment Status</span>
                                         <CreditCardIcon aria-hidden="true" className="h-6 w-5 text-gray-400" />
                                     </dt>
-                                    <dd className="text-sm/6 text-gray-500">Payment {order.isCompleted ? "Completed" : "Pending"}</dd>
+                                    <dd className="text-sm/6 text-gray-500">
+                                        Payment{" "}
+                                        {order.status === OrderStatus.Delivered || order.status === OrderStatus.Shipped
+                                            ? "Completed"
+                                            : "Pending"}
+                                    </dd>
                                 </div>
                             </dl>
                             <div className="mt-6 border-t border-gray-900/5 px-6 py-6">
@@ -313,8 +408,9 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                             </div>
                             <div className="mt-2 sm:mt-0 sm:pl-4">
                                 <dt className="inline text-gray-500">Order Date</dt>{" "}
-                                <dd className="inline text-gray-700">
-                                    <time dateTime={order.createdAt}>{formatDate(order.createdAt)}</time>
+                                <dd className="text-sm/6 text-gray-500">
+                                    {/* Use getIsoString here */}
+                                    <time dateTime={getIsoString(order.createdAt)}>{formatDate(order.createdAt)}</time>
                                 </dd>
                             </div>
                             <div className="mt-6 border-t border-gray-900/5 pt-6 sm:pr-4">
@@ -329,7 +425,7 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                             </div>
                             <div className="mt-6 border-t border-gray-900/5 pt-6 sm:pl-4">
                                 <dt className="font-semibold text-gray-900">Delivery Address</dt>
-                                <dd className="mt-2 text-gray-500">{order.customer.address}</dd>
+                                <dd className="mt-2 text-gray-500">{formatFullAddress(order.customer)}</dd>
                             </div>
                         </dl>
 
@@ -366,27 +462,28 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                                 alt={item.duck.name}
                                                 width={50}
                                                 height={50}
+                                                align-item="center"
                                                 className="inline-block mr-4 rounded"
                                             />
                                             <div>
                                                 <div className="truncate font-medium text-gray-900">{item.duck.name}</div>
                                                 <div className="truncate text-gray-500">
-                                                    {capitalizeFirst(item.duck.color)} • {capitalizeFirst(item.duck.size)} •{" "}
+                                                    {item.duck.color} • {item.duck.size} •{" "}
                                                     {item.duck.material}
                                                 </div>
                                                 <div className="truncate text-gray-400 text-xs">Weight: {item.duck.weight}kg</div>
                                             </div>
                                         </td>
-                                        {/* Due to spellcheck issues, we use a workaround to prevent spellcheck errors */}
+
                                         <td
                                             className={`hidden py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nu${"ms"} sm:table-cell`}>
                                             {item.quantity}
                                         </td>
                                         <td className={`py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nu${"ms"}`}>
-                                            {formatPrice(item.duck.price)}
+                                            {Price.display(item.duck.price)}
                                         </td>
                                         <td className={`py-5 pr-0 pl-8 text-right align-top text-gray-700 tabular-nu${"ms"}`}>
-                                            {formatPrice(item.duck.price * item.quantity)}
+                                            {Price.display(item.duck.price * item.quantity)}
                                         </td>
                                     </tr>
                                 ))}
@@ -397,7 +494,7 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                         Total
                                     </th>
                                     <td className={`pt-6 pr-0 pl-8 text-right font-semibold text-gray-900 tabular-nu${"ms"}`}>
-                                        {formatPrice(order.totalPrice)}
+                                        {Price.display(order.totalPrice)}
                                     </td>
                                 </tr>
                             </tfoot>
