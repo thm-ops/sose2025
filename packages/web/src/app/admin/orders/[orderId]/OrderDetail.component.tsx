@@ -230,7 +230,6 @@ const ordersData = [
     },
 ];
 
-
 const formatDate = (date: string | Date): string => {
     const dateObj = date instanceof Date ? date : new Date(date);
     return dateObj.toLocaleDateString("de-DE", {
@@ -288,11 +287,10 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
     };
 
     // Function to format the full address for display
-    const formatFullAddress = (customer: Order['customer']): string => {
-        const houseNum = customer.houseNumber ? ` ${customer.houseNumber}` : '';
+    const formatFullAddress = (customer: Order["customer"]): string => {
+        const houseNum = customer.houseNumber ? ` ${customer.houseNumber}` : "";
         return `${customer.street}${houseNum}, ${customer.postalCode} ${customer.city}, ${customer.country}`;
     };
-
 
     return (
         <main className="bg-gray-50 min-h-screen">
@@ -468,8 +466,7 @@ const OrderDetailPage: React.FC<Props> = ({ orderId }) => {
                                             <div>
                                                 <div className="truncate font-medium text-gray-900">{item.duck.name}</div>
                                                 <div className="truncate text-gray-500">
-                                                    {item.duck.color} • {item.duck.size} •{" "}
-                                                    {item.duck.material}
+                                                    {item.duck.color} • {item.duck.size} • {item.duck.material}
                                                 </div>
                                                 <div className="truncate text-gray-400 text-xs">Weight: {item.duck.weight}kg</div>
                                             </div>

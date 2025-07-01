@@ -7,7 +7,7 @@ export enum SortDirection {
 
 interface SortIndicatorIconProps {
     isSorted: boolean;
-    direction: SortDirection; // Changed to use the SortDirection enum
+    direction: SortDirection;
 }
 
 const SortIndicatorIcon: React.FC<SortIndicatorIconProps> = ({ isSorted, direction }) => {

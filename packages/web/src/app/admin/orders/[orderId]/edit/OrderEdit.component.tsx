@@ -40,8 +40,7 @@ export default function EditOrderPage({ orderId }: Props) {
                                             id="orderStatus"
                                             name="orderStatus"
                                             className="block w-full pl-4 pr-10 py-2.5 text-base border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white transition duration-150 ease-in-out"
-                                            defaultValue={OrderStatus.Pending}
-                                        >
+                                            defaultValue={OrderStatus.Pending}>
                                             <option value={OrderStatus.Pending}>Pending</option>
                                             <option value={OrderStatus.Shipped}>Shipped</option>
                                             <option value={OrderStatus.Delivered}>Delivered</option>

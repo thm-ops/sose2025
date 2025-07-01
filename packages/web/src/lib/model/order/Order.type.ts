@@ -28,7 +28,7 @@ export type SortableOrderKeys = keyof Omit<Order, "customer" | "items">;
  */
 export type SortConfig = {
     key: SortableOrderKeys | null;
-    direction: SortDirection; // Changed to use the enum
+    direction: SortDirection;
 };
 
 export enum SortDirection {
@@ -43,4 +43,9 @@ export enum SortDirection {
 export interface StatItem {
     name: string;
     value: string;
+}
+
+export interface SortIndicatorIconProps {
+    isSorted: boolean;
+    direction: SortDirection;
 }

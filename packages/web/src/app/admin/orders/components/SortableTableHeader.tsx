@@ -1,5 +1,6 @@
+import React from "react";
 import { SortableOrderKeys, SortConfig } from "../utils/types";
-import SortIndicatorIcon from "./SortIndicatorIcon";
+import SortIndicatorIcon, { SortDirection } from "./SortIndicatorIcon";
 import { classNames } from "../utils/classNames";
 
 interface SortableTableHeaderProps {
@@ -20,7 +21,7 @@ const SortableTableHeader: React.FC<SortableTableHeaderProps> = ({ name, sortKey
             }}
             className="group inline-flex">
             {name}
-            <SortIndicatorIcon isSorted={sortConfig.key === sortKey} direction={sortConfig.direction} />
+            <SortIndicatorIcon isSorted={sortConfig.key === sortKey} direction={SortDirection.Descending} />
         </a>
     </th>
 );
