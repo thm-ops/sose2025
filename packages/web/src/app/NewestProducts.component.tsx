@@ -32,7 +32,7 @@ export default async function NewestProducts() {
                                     {/* Bild ohne Padding */}
                                     <div className="aspect-square w-full">
                                         <Image
-                                            src={`https://picsum.photos/seed/${product.id}/800/800`}
+                                            src={`/media/products/${product.id}`}
                                             alt={product.name}
                                             width={800}
                                             height={800}

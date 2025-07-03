@@ -9,3 +9,6 @@ dist
 # misc
 .DS_Store
 *.pem
+
+# JetBrains IDEs
+.idea
