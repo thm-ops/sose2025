@@ -23,7 +23,7 @@ export default async function NewestProducts() {
                 </div>
 
                 <div className="mt-10">
-                    <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                    <ul className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                         {products.map((product) => (
                             <li key={product.id} className="group transition-transform duration-200 hover:scale-105">
                                 <Link
