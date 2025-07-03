@@ -1,7 +1,7 @@
 "use client";
 
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 /**
  * @component AdminEmailField
@@ -69,6 +69,13 @@ function PasswordField() {
  * @description The Two-Factor Authentication Field of the AdminLoginPage
  */
 function TwoFA() {
+    const [twoFactorCode, setTwoFactorCode] = useState("");
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        const sanitizedValue = inputValue.replace(/[^0-9]/g, "");
+        setTwoFactorCode(sanitizedValue);
+    };
     return (
         <div className="space-y-2">
             <label htmlFor="2fa-code" className="font-medium text-gray-700">
@@ -78,9 +85,12 @@ function TwoFA() {
                 id="2fa-code"
                 name="2fa-code"
                 type="text"
-                autoComplete="one-time-code"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 required
                 placeholder="123456"
+                value={twoFactorCode}
+                onChange={handleInputChange}
                 className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 transition-all duration-300 placeholder:text-gray-400 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/50"
             />
         </div>
@@ -94,12 +104,11 @@ function TwoFA() {
 function LoginButton() {
     return (
         <div>
-            <button
+            <input
                 type="submit"
-                onClick={(e) => e.preventDefault()}
-                className="w-full rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
-                Anmelden
-            </button>
+                className="w-full rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                value="Anmelden"
+            />
         </div>
     );
 }
@@ -110,7 +119,7 @@ function LoginButton() {
  */
 function LoginForm() {
     return (
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
             <EmailField />
             <PasswordField />
             <TwoFA />
