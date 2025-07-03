@@ -123,11 +123,11 @@ model Order {
 
 model Customer {
     id               Int    @id @default(autoincrement())
-    firstName        String
-    lastName         String
-    email            String
-    phone            String
-    homeAddressId    Int? // Optional field syntax: `Int?`
+    firstName        String @db.VarChar(255)
+    lastName         String @db.VarChar(255)
+    email            String @db.VarChar(320)
+    phone            String @db.VarChar(20)
+    homeAddressId    Int // Optional field syntax: `Int?`
     billingAddressId Int // Required field syntax: `Int`
 
     homeAddress    Address? @relation("HomeAddressRelation", fields: [homeAddressId], references: [id])
@@ -156,4 +156,16 @@ model OrderItem {
 
     order Order @relation(fields: [orderId], references: [id])
     duck  Duck  @relation(fields: [duckId], references: [id])
+}
+
+enum Role {
+    SUPER_ADMIN
+    ADMIN
+}
+
+model Admin {
+    id       Int    @id @default(autoincrement())
+    name     String @unique
+    password String @db.VarChar(128)
+    role     Role
 }

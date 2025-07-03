@@ -7,6 +7,9 @@ CREATE TYPE "Color" AS ENUM ('red', 'green', 'blue', 'yellow', 'black', 'white')
 -- CreateEnum
 CREATE TYPE "Status" AS ENUM ('pending', 'processing', 'shipped', 'delivered', 'canceled', 'refunded');
 
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('SUPER_ADMIN', 'ADMIN');
+
 -- CreateTable
 CREATE TABLE "Producer" (
     "id" SERIAL NOT NULL,
@@ -77,11 +80,11 @@ CREATE TABLE "Order" (
 -- CreateTable
 CREATE TABLE "Customer" (
     "id" SERIAL NOT NULL,
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "phone" TEXT NOT NULL,
-    "homeAddressId" INTEGER,
+    "firstName" VARCHAR(255) NOT NULL,
+    "lastName" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(320) NOT NULL,
+    "phone" VARCHAR(20) NOT NULL,
+    "homeAddressId" INTEGER NOT NULL,
     "billingAddressId" INTEGER NOT NULL,
 
     CONSTRAINT "Customer_pkey" PRIMARY KEY ("id")
@@ -104,6 +107,16 @@ CREATE TABLE "OrderItem" (
     "quantity" INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Admin" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "password" VARCHAR(128) NOT NULL,
+    "role" "Role" NOT NULL,
+
+    CONSTRAINT "Admin_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -151,6 +164,9 @@ CREATE UNIQUE INDEX "PaypalTransaction_transactionId_key" ON "PaypalTransaction"
 -- CreateIndex
 CREATE INDEX "PaypalTransaction_orderId_idx" ON "PaypalTransaction"("orderId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_name_key" ON "Admin"("name");
+
 -- AddForeignKey
 ALTER TABLE "Producer" ADD CONSTRAINT "Producer_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -167,7 +183,7 @@ ALTER TABLE "Duck" ADD CONSTRAINT "Duck_producerId_fkey" FOREIGN KEY ("producerI
 ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Customer" ADD CONSTRAINT "Customer_homeAddressId_fkey" FOREIGN KEY ("homeAddressId") REFERENCES "Address"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Customer" ADD CONSTRAINT "Customer_homeAddressId_fkey" FOREIGN KEY ("homeAddressId") REFERENCES "Address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Customer" ADD CONSTRAINT "Customer_billingAddressId_fkey" FOREIGN KEY ("billingAddressId") REFERENCES "Address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
