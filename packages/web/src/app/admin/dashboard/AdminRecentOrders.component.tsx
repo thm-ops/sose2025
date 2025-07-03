@@ -1,56 +1,56 @@
 "use client";
 import React, { Fragment, FunctionComponent } from "react";
 import Link from "next/link";
-
-type Props = {
-    statuses: Record<string, string>;
-};
+import { OrderStatus } from "@/app/admin/orders/utils/types";
+import { getStatusStyles } from "@/app/admin/orders/utils/getStatusStyles";
+import { Price } from "@/lib/utils/price";
 
 /**
  * @constant days
- * @type {Array<{ date: string, dateTime: string, transactions: Array<{ id: number, orderNumber: string, amount: string, status: string, customer: string, itemCount: number }> }>}
+ * @type {Array<{ dateTime: string, transactions: Array<{ id: number, orderNumber: string, amount: number, status: OrderStatus, customer: string, itemCount: number }> }>}
  * @description Contains the recent transaction data grouped by day.
  */
-const days = [
+const days: Array<{
+    dateTime: string;
+    transactions: Array<{ id: number; orderNumber: string; amount: number; status: OrderStatus; customer: string; itemCount: number }>;
+}> = [
     {
-        date: "Heute",
         dateTime: "2023-03-22",
         transactions: [
             {
                 id: 1,
                 orderNumber: "ORD001",
-                amount: "20,99 €",
-                status: "Captured",
+                amount: 2099,
+                status: OrderStatus.Delivered,
                 customer: "Max Mustermann",
                 itemCount: 3,
             },
             {
                 id: 2,
                 orderNumber: "ORD002",
-                amount: "15,99 €",
-                status: "Bezahlt",
+                amount: 1599,
+                status: OrderStatus.Cancelled,
                 customer: "Tom Cook",
                 itemCount: 2,
             },
             {
                 id: 3,
                 orderNumber: "ORD003",
-                amount: "7,99 €",
-                status: "Offen",
+                amount: 799,
+                status: OrderStatus.Pending,
                 customer: "Reform Corp.",
                 itemCount: 1,
             },
         ],
     },
     {
-        date: "Gestern",
         dateTime: "2023-03-21",
         transactions: [
             {
                 id: 4,
                 orderNumber: "ORD004",
-                amount: "12,99 €",
-                status: "Captured",
+                amount: 1299,
+                status: OrderStatus.Shipped,
                 customer: "Jane Doe",
                 itemCount: 5,
             },
@@ -61,9 +61,8 @@ const days = [
 /**
  * @component AdminRecentOrders
  * @description Displays a list of recent orders with their statuses, prices, and customer information.
- * @param statuses - A record containing the CSS classes for different transaction statuses.
  */
-const AdminRecentOrders: FunctionComponent<Props> = ({ statuses }) => {
+const AdminRecentOrders: FunctionComponent = () => {
     return (
         <div>
             <AdminRecentOrdersHeader />
@@ -77,7 +76,7 @@ const AdminRecentOrders: FunctionComponent<Props> = ({ statuses }) => {
                                         <AdminRecentOrdersDayHeader day={day} />
                                         {day.transactions.map((transaction) => (
                                             <tr key={transaction.id}>
-                                                <AdminRecentOrdersTransactionStatus transaction={transaction} statuses={statuses} />
+                                                <AdminRecentOrdersTransactionStatus transaction={transaction} />
                                                 <AdminRecentOrdersTransactionPrice transaction={transaction} />
                                                 <AdminRecentOrdersTransactionInfo transaction={transaction} />
                                             </tr>
@@ -113,11 +112,18 @@ function AdminRecentOrdersHeader() {
  * @description Renders the header for each day in the recent orders table.
  * @param day - An object containing the date and dateTime for the header.
  */
-function AdminRecentOrdersDayHeader({ day }: { day: { date: string; dateTime: string } }) {
+function AdminRecentOrdersDayHeader({ day }: { day: { dateTime: string } }) {
     return (
         <tr className="text-sm/6 text-gray-900">
             <th scope="colgroup" colSpan={3} className="relative isolate py-2 font-semibold">
-                <time dateTime={day.dateTime}>{day.date}</time>
+                <time dateTime={day.dateTime}>
+                    {new Date(day.dateTime).toLocaleDateString("de-DE", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    })}
+                </time>
                 <div className="absolute inset-y-0 right-full -z-10 w-screen border-b border-gray-200 bg-gray-50" />
                 <div className="absolute inset-y-0 left-0 -z-10 w-screen border-b border-gray-200 bg-gray-50" />
             </th>
@@ -131,20 +137,15 @@ function AdminRecentOrdersDayHeader({ day }: { day: { date: string; dateTime: st
  * @param transaction - An object containing the customer name and status of the transaction.
  * @param statuses - A record containing the CSS classes for different transaction statuses.
  */
-function AdminRecentOrdersTransactionStatus({
-    transaction,
-    statuses,
-}: {
-    transaction: { customer: string; status: string };
-    statuses: Record<string, string>;
-}) {
+function AdminRecentOrdersTransactionStatus({ transaction }: { transaction: { customer: string; status: OrderStatus } }) {
     return (
         <td className="relative py-5 pr-6">
             <div className="flex gap-x-6">
                 <div className="flex-auto">
                     <div className="flex items-start gap-x-3">
                         <div className="text-sm/6 font-medium text-gray-900">{transaction.customer}</div>
-                        <div className={`${statuses[transaction.status]} rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset`}>
+                        <div
+                            className={`${getStatusStyles(transaction.status)} rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset`}>
                             {transaction.status}
                         </div>
                     </div>
@@ -161,10 +162,10 @@ function AdminRecentOrdersTransactionStatus({
  * @description Renders the price and item count of a transaction.
  * @param transaction - An object containing the amount and item count of the transaction.
  */
-function AdminRecentOrdersTransactionPrice({ transaction }: { transaction: { amount: string; itemCount: number } }) {
+function AdminRecentOrdersTransactionPrice({ transaction }: { transaction: { amount: number; itemCount: number } }) {
     return (
         <td className="hidden py-5 pr-6 sm:table-cell">
-            <div className="text-sm/6 text-gray-900 font-semibold">{transaction.amount}</div>
+            <div className="text-sm/6 text-gray-900 font-semibold">{Price.display(transaction.amount)}</div>
             <div className="mt-1 text-xs/5 text-gray-500">{transaction.itemCount} Artikel</div>
         </td>
     );

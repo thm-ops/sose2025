@@ -1,13 +1,10 @@
 "use client";
 import React, { FunctionComponent } from "react";
+import { classNames } from "@/app/admin/orders/utils/classNames";
 
 type Props = {
     cashflowDays: number;
 };
-
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(" ");
-}
 
 /**
  * @constant stats

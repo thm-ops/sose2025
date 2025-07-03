@@ -3,10 +3,10 @@
  * @description Defines the possible statuses for an order.
  */
 export enum OrderStatus {
-    Pending = "Pending",
-    Shipped = "Shipped",
-    Delivered = "Delivered",
-    Cancelled = "Cancelled",
+    Pending = "Ausstehend",
+    Shipped = "Versendet",
+    Delivered = "Geliefert",
+    Cancelled = "Storniert",
 }
 
 /**

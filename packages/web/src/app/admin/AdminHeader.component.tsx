@@ -62,9 +62,11 @@ function AdminHeaderLogo({ setMobileMenuOpen }: { setMobileMenuOpen: (open: bool
 function AdminHeaderLogoutButton() {
     return (
         <div className="flex flex-1 items-center justify-end gap-x-8">
-            <a href="#" className="-m-1.5 p-1.5">
-                <span className="sr-only">Abmelden</span>
+            <a
+                href="#"
+                className="-m-1.5 p-1.5 flex items-center gap-x-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:scale-105 transition-transform">
                 <PowerIcon aria-hidden="true" className="size-6 text-gray-900" />
+                <span className="">Abmelden</span>
             </a>
         </div>
     );
@@ -98,10 +100,10 @@ function AdminMobileMenu({ mobileMenuOpen, setMobileMenuOpen }: { mobileMenuOpen
                 <div className="-ml-0.5 flex h-16 items-center gap-x-6">
                     <AdminMobileMenuCloseButton setMobileMenuOpen={setMobileMenuOpen} />
                     <div className="-ml-0.5">
-                        <a href="#" className="-m-1.5 block p-1.5">
+                        <Link href="/admin/dashboard" className="-m-1.5 block p-1.5">
                             <span className="sr-only">Rubber Ducking</span>
                             <Image alt="Logo" src={Logo} className="h-8 w-auto" />
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <AdminMobileItems />
@@ -136,8 +138,8 @@ function AdminMobileItems() {
 function AdminHeaderItems() {
     return (
         <nav className="hidden md:flex md:gap-x-11 md:text-sm/6 md:font-semibold md:text-gray-700">
-            {navigation.map((item, itemIdx) => (
-                <a key={itemIdx} href={item.href}>
+            {navigation.map((item) => (
+                <a key={item.name} href={item.href}>
                     {item.name}
                 </a>
             ))}
