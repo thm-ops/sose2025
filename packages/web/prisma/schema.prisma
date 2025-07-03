@@ -41,25 +41,27 @@ enum Status {
 }
 
 model Producer {
-    id      Int     @id @default(autoincrement())
-    name    String  @unique
-    email   String  @unique @db.VarChar(320)
-    phone   String? @db.VarChar(20)
-    address Address? @relation(fields: [addressId], references: [id]) 
-    addressId Int? @unique
-    
+    id        Int      @id @default(autoincrement())
+    name      String   @unique @db.VarChar(255)
+    email     String   @unique @db.VarChar(320)
+    phone     String?  @db.VarChar(20)
+    address   Address? @relation(fields: [addressId], references: [id])
+    addressId Int?     @unique
+
     ducks Duck[]
 }
 
 model Address {
-    id      Int     @id @default(autoincrement())
-    country String  @db.VarChar(255)
-    state   String  @db.VarChar(255)
-    postcode Int 
-    street  String  @db.VarChar(255)
+    id       Int       @id @default(autoincrement())
+    country  String    @db.VarChar(255)
+    state    String    @db.VarChar(255)
+    postcode Int
+    street   String    @db.VarChar(255)
     producer Producer? @relation
-}
 
+    customersAdresses Customer[] @relation("HomeAddressRelation")
+    customersBillings Customer[] @relation("BillingAddressRelation")
+}
 
 model Brand {
     id          Int     @id @default(autoincrement())
@@ -71,7 +73,7 @@ model Brand {
 
 model Origin {
     id    Int    @id @default(autoincrement())
-    name  String @unique @db.VarChar(3)
+    name  String @unique @db.VarChar(255)
     ducks Duck[]
 }
 
@@ -106,7 +108,7 @@ model Order {
     id          Int         @id @default(autoincrement())
     createdAt   DateTime    @default(now()) @db.Timestamp(0)
     totalPrice  Int
-    isCompleted Status       @default(pending)
+    isCompleted Status      @default(pending)
     items       OrderItem[]
     customerId  Int         @unique
 
@@ -119,18 +121,17 @@ model Order {
     @@index([isCompleted])
 }
 
-// Subtable of Order to store customer information for delievery; not intended to be used for authentication
 model Customer {
-    id        Int    @id @default(autoincrement())
-    firstName String
-    lastName  String
-    email     String
-    phone     String
-    homeAddressId Int? // Optional field syntax: `Int?`
+    id               Int    @id @default(autoincrement())
+    firstName        String
+    lastName         String
+    email            String
+    phone            String
+    homeAddressId    Int? // Optional field syntax: `Int?`
     billingAddressId Int // Required field syntax: `Int`
 
-    homeAddress Address? @relation(name: "HomeAddressRelation", fields: [homeAddressId], references: [id])
-    billingAddress Address @relation(name: "BillingAddressRelation", fields: [billingAddressId], references: [id])
+    homeAddress    Address? @relation("HomeAddressRelation", fields: [homeAddressId], references: [id])
+    billingAddress Address  @relation("BillingAddressRelation", fields: [billingAddressId], references: [id])
 
     order Order?
 }

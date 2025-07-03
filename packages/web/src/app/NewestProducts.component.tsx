@@ -1,32 +1,18 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { z } from "zod";
-import RubberDuck, { RubberDuckSchema } from "@/lib/model/rubberduck/Rubberduck.type";
 import { Utils } from "@/lib/utils/mod";
-import { useState, useEffect } from "react";
-
-const DucksArraySchema = z.array(RubberDuckSchema);
+import prisma from "@/lib/prisma";
 
 /**
  * @component NewestProducts
  * @description Displays a list of the newest products in a grid layout.
  */
-export default function NewestProducts() {
-    const [products, setProducts] = useState<RubberDuck[]>([]);
-
-    useEffect(() => {
-        fetch("/api/ducks")
-            .then((res) => res.json())
-            .then((data) => {
-                setProducts(DucksArraySchema.parse(data));
-            })
-            .catch((error) => {
-                console.error("Error fetching products:", error);
-                setProducts([]); // Set to empty array on error
-            });
-    }, []);
+export default async function NewestProducts() {
+    const products = await prisma.duck.findMany({
+        include: {
+            brand: true,
+        },
+    });
 
     return (
         <div className="bg-white">
@@ -60,7 +46,7 @@ export default function NewestProducts() {
                                             <h3>{product.name.length > 30 ? product.name.slice(0, 30) + "…" : product.name}</h3>
                                             <p>{Utils.price.display(product.price)}</p>
                                         </div>
-                                        <p className="mt-1 text-sm text-gray-500">{product.producer}</p>
+                                        <p className="mt-1 text-sm text-gray-500">{product.brand?.name}</p>
                                     </div>
                                 </Link>
                             </li>

@@ -1,8 +1,8 @@
+import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
 import Image from "next/image";
-import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 
 interface ProductImageProps {
-    duck: RubberDuck;
+    readonly duck: RubberDuck;
 }
 
 export default function ProductImage({ duck }: ProductImageProps) {

@@ -1,8 +1,8 @@
-import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
 import { Utils } from "@/lib/utils/mod";
 
 interface ProductInfoProps {
-    duck: RubberDuck;
+    readonly duck: RubberDuck;
 }
 
 export default function ProductInfo({ duck }: ProductInfoProps) {

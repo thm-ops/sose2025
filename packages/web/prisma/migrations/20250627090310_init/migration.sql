@@ -4,21 +4,35 @@ CREATE TYPE "Size" AS ENUM ('s', 'm', 'l', 'xl', 'xxl');
 -- CreateEnum
 CREATE TYPE "Color" AS ENUM ('red', 'green', 'blue', 'yellow', 'black', 'white');
 
+-- CreateEnum
+CREATE TYPE "Status" AS ENUM ('pending', 'processing', 'shipped', 'delivered', 'canceled', 'refunded');
+
 -- CreateTable
 CREATE TABLE "Producer" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "phone" TEXT,
-    "address" TEXT,
+    "name" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(320) NOT NULL,
+    "phone" VARCHAR(20),
+    "addressId" INTEGER,
 
     CONSTRAINT "Producer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "Address" (
+    "id" SERIAL NOT NULL,
+    "country" VARCHAR(255) NOT NULL,
+    "state" VARCHAR(255) NOT NULL,
+    "postcode" INTEGER NOT NULL,
+    "street" VARCHAR(255) NOT NULL,
+
+    CONSTRAINT "Address_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Brand" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
     "description" TEXT,
 
     CONSTRAINT "Brand_pkey" PRIMARY KEY ("id")
@@ -27,7 +41,7 @@ CREATE TABLE "Brand" (
 -- CreateTable
 CREATE TABLE "Origin" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
 
     CONSTRAINT "Origin_pkey" PRIMARY KEY ("id")
 );
@@ -35,10 +49,10 @@ CREATE TABLE "Origin" (
 -- CreateTable
 CREATE TABLE "Duck" (
     "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
     "price" INTEGER NOT NULL,
     "color" "Color" NOT NULL,
-    "material" TEXT NOT NULL,
+    "material" VARCHAR(255) NOT NULL,
     "size" "Size" NOT NULL,
     "brandId" INTEGER,
     "originId" INTEGER NOT NULL,
@@ -52,9 +66,9 @@ CREATE TABLE "Duck" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "totalPrice" INTEGER NOT NULL,
-    "isCompleted" BOOLEAN NOT NULL DEFAULT false,
+    "isCompleted" "Status" NOT NULL DEFAULT 'pending',
     "customerId" INTEGER NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
@@ -67,7 +81,8 @@ CREATE TABLE "Customer" (
     "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
+    "homeAddressId" INTEGER,
+    "billingAddressId" INTEGER NOT NULL,
 
     CONSTRAINT "Customer_pkey" PRIMARY KEY ("id")
 );
@@ -96,6 +111,9 @@ CREATE UNIQUE INDEX "Producer_name_key" ON "Producer"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Producer_email_key" ON "Producer"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Producer_addressId_key" ON "Producer"("addressId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Brand_name_key" ON "Brand"("name");
@@ -134,6 +152,9 @@ CREATE UNIQUE INDEX "PaypalTransaction_transactionId_key" ON "PaypalTransaction"
 CREATE INDEX "PaypalTransaction_orderId_idx" ON "PaypalTransaction"("orderId");
 
 -- AddForeignKey
+ALTER TABLE "Producer" ADD CONSTRAINT "Producer_addressId_fkey" FOREIGN KEY ("addressId") REFERENCES "Address"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Duck" ADD CONSTRAINT "Duck_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "Brand"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -146,6 +167,12 @@ ALTER TABLE "Duck" ADD CONSTRAINT "Duck_producerId_fkey" FOREIGN KEY ("producerI
 ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "Customer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Customer" ADD CONSTRAINT "Customer_homeAddressId_fkey" FOREIGN KEY ("homeAddressId") REFERENCES "Address"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Customer" ADD CONSTRAINT "Customer_billingAddressId_fkey" FOREIGN KEY ("billingAddressId") REFERENCES "Address"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "PaypalTransaction" ADD CONSTRAINT "PaypalTransaction_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -153,7 +180,3 @@ ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("or
 
 -- AddForeignKey
 ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_duckId_fkey" FOREIGN KEY ("duckId") REFERENCES "Duck"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- Limit the length of the email
-ALTER TABLE "Producer" ALTER COLUMN "email" TYPE VARCHAR(130);
-
