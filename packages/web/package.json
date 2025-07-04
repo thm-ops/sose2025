@@ -7,13 +7,22 @@
         "build": "next build",
         "start": "next start",
         "lint": "tsc --project tsconfig.json --noemit && next lint --max-warnings=0 && prettier --check . --config .prettierrc",
-        "format": "prettier --write . --config .prettierrc"
+        "format": "prettier --write . --config .prettierrc",
+        "prisma:generate": "prisma generate",
+        "prisma:migrate": "prisma migrate dev",
+        "prisma:seed": "tsx prisma/seed.ts",
+        "prisma:push": "prisma db push",
+        "prisma:studio": "prisma studio",
+        "prisma:reset": "prisma migrate reset",
+        "prepare": "npm run prisma:generate"
     },
     "dependencies": {
         "@headlessui/react": "^2.2.4",
         "@heroicons/react": "^2.2.0",
         "@paypal/paypal-server-sdk": "^1.1.0",
         "@paypal/react-paypal-js": "^8.8.3",
+        "@prisma/client": "^6.9.0",
+        "@prisma/extension-accelerate": "^2.0.1",
         "next": "15.3.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
@@ -30,7 +39,9 @@
         "eslint": "^9",
         "eslint-config-next": "15.3.1",
         "prettier": "3.5.3",
+        "prisma": "^6.9.0",
         "tailwindcss": "^4",
+        "tsx": "^4.20.3",
         "typescript": "^5",
         "typescript-eslint": "^8.31.1"
     }

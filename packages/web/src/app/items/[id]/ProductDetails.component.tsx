@@ -1,7 +1,7 @@
-import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
 
 interface ProductDetailsProps {
-    duck: RubberDuck;
+    readonly duck: RubberDuck;
 }
 
 export default function ProductDetails({ duck }: ProductDetailsProps) {
@@ -18,14 +18,14 @@ export default function ProductDetails({ duck }: ProductDetailsProps) {
                 <strong>Material:</strong> {duck.material}
             </div>
             <div>
-                <strong>Brand:</strong> {duck.brand ?? "–"}
+                <strong>Brand:</strong> {duck.brand?.name ?? "–"}
+            </div>
+            {/*<div>
+                <strong>Origin:</strong> {duck.origin.name}
             </div>
             <div>
-                <strong>Origin:</strong> {duck.origin}
-            </div>
-            <div>
-                <strong>Producer:</strong> {duck.producer}
-            </div>
+                <strong>Producer:</strong> {duck.producer.name}
+    </div>*/}
             <div>
                 <strong>Weight:</strong> {duck.weight} kg
             </div>

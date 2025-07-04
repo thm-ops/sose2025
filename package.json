@@ -7,13 +7,19 @@
   "private": true,
   "scripts": {
     "build": "npm run build --workspaces",
-    "lint":  "npm run lint --workspaces",
-    "format":  "npm run format --workspaces",
+    "lint": "npm run lint --workspaces",
+    "format": "npm run format --workspaces",
     "dev:web": "npm run dev --workspace=@sose2025/web",
     "build:web": "npm run build --workspace=@sose2025/web",
-    "start:web": "npm run start --workspace=@sose2025/web"
+    "start:web": "npm run start --workspace=@sose2025/web",
+    "prisma:generate": "npm run prisma:generate --workspace=@sose2025/web",
+    "prisma:migrate": "npm run prisma:migrate --workspace=@sose2025/web",
+    "prisma:seed": "npm run prisma:seed --workspace=@sose2025/web",
+    "prisma:studio": "npm run prisma:studio --workspace=@sose2025/web",
+    "prisma:reset": "npm run prisma:reset --workspace=@sose2025/web",
+    "prisma:push": "npm run prisma:push --workspace=@sose2025/web",
+    "prepare": "npm run prepare --workspace=@sose2025/web"
   },
-  
   "workspaces": [
     "packages/*"
   ]

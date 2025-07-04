@@ -2,20 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
+import getDucks from "../lib/actions/rubberduck/getDucks";
 import React, { useState, useEffect } from "react";
-import { rubberDuckData } from "@/data/data";
-import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import { Utils } from "@/lib/utils/mod";
 import SearchBar from "@/app/SeachBar.component";
-
-const allProducts: Omit<RubberDuck, "image">[] = rubberDuckData;
+import { notFound } from "next/navigation";
 
 /**
  * @component ProductCard
  * @description Shows a single ProductCard.
- * @param {Omit<RubberDuck, "image">} product - The product object.
+ * @param {RubberDuck} product - The product object.
  */
-const ProductCard = ({ product }: { product: Omit<RubberDuck, "image"> }) => (
+const ProductCard = ({ product }: { product: RubberDuck }) => (
     <li key={product.id} className="group transition-transform duration-200 hover:scale-105">
         <Link
             href={`/items/${product.id}`}
@@ -34,7 +33,7 @@ const ProductCard = ({ product }: { product: Omit<RubberDuck, "image"> }) => (
                     <h3 className="pr-2">{product.name.length > 30 ? product.name.slice(0, 30) + "…" : product.name}</h3>
                     <p className="flex-shrink-0">{Utils.price.display(product.price)}</p>
                 </div>
-                <p className="mt-1 text-sm text-gray-500">{product.producer}</p>
+                <p className="mt-1 text-sm text-gray-500">{product.producer.name}</p>
             </div>
         </Link>
     </li>
@@ -43,10 +42,10 @@ const ProductCard = ({ product }: { product: Omit<RubberDuck, "image"> }) => (
 /**
  * @component ProductGrid
  * @description Shows a grid of product cards.
- * @param {Omit<RubberDuck, "image">[]} products - An array of products.
+ * @param {RubberDuck[]} products - An array of products.
  */
-const ProductGrid = ({ products }: { products: Omit<RubberDuck, "image">[] }) => (
-    <ul role="list" className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+const ProductGrid = ({ products }: { products: RubberDuck[] }) => (
+    <ul className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
         {products.map((product) => (
             <ProductCard key={product.id} product={product} />
         ))}
@@ -70,20 +69,28 @@ const NoResults = () => (
  */
 export default function NewestProducts() {
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredProducts, setFilteredProducts] = useState(allProducts);
+    const [products, setProducts] = useState<RubberDuck[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<RubberDuck[]>([]);
 
-    // Effekt for filtering the products when the search term changes
+    // Fetch products on mount
+    useEffect(() => {
+        getDucks()
+            .then((ducks) => setProducts(ducks))
+            .catch(notFound);
+    }, []);
+
+    // Effekt for filtering the products when the search term or products change
     useEffect(() => {
         const lowercasedFilter = searchTerm.toLowerCase();
-        const filtered = allProducts.filter(
+        const filtered = products.filter(
             (product) =>
                 product.name.toLowerCase().includes(lowercasedFilter) ||
-                product.producer.toLowerCase().includes(lowercasedFilter) ||
+                product.producer.name.toLowerCase().includes(lowercasedFilter) ||
                 product.color.toLowerCase().includes(lowercasedFilter) ||
                 product.size.toLowerCase().includes(lowercasedFilter),
         );
         setFilteredProducts(filtered);
-    }, [searchTerm]);
+    }, [searchTerm, products]);
 
     return (
         <div className="bg-white">
