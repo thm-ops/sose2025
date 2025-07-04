@@ -1,22 +1,24 @@
-import prisma from "@/lib/prisma";
+"use client";
 import Header from "@/app/Header.component"; // Assumption: Header.component.tsx exists in src/app/
 import ProductImage from "./ProductImage.component";
 import ProductInfo from "./ProductInfo.component";
 import ProductDetails from "./ProductDetails.component";
 import AddToCartForm from "./AddToCartForm.component";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
 
-export default async function ItemsPage({ params }: Readonly<{ params: Promise<{ id: string }> }>) {
-    const { id } = await params;
-    const duckId = parseInt(id, 10);
-    const duck = await prisma.duck.findUnique({
-        where: { id: duckId },
-        include: {
-            brand: true,
-            origin: true,
-            producer: true,
-        },
-    });
+export default function ItemsPage() {
+    const params = useParams();
+    const id = Number(params?.id);
+    const [duck, setDuck] = useState<RubberDuck | null>(null);
+
+    useEffect(() => {
+        fetch(`api/ducks/${id}`)
+            .then((res) => res.json())
+            .then((duck: RubberDuck) => setDuck(duck))
+            .catch((reason) => console.log("Fetching duck error: " + reason));
+    }, [id]);
 
     if (!duck) {
         notFound();
