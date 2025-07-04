@@ -29,7 +29,7 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                         <ProductInfo duck={duck} />
                         <ProductDetails duck={duck} />
                         <AddToCartForm />
-                        <QuickBuy duck={duck} /> {/* Hinzufügen der neuen Komponente */}
+                        <QuickBuy duck={duck} />
                     </div>
                 </div>
             </main>
