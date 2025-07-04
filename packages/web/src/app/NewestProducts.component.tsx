@@ -1,23 +1,15 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Utils } from "@/lib/utils/mod";
-import { useEffect, useState } from "react";
 import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
+import getDucks from "../lib/actions/rubberduck/getDucks";
 
 /**
  * @component NewestProducts
  * @description Displays a list of the newest products in a grid layout.
  */
-export default function NewestProducts() {
-    const [products, setProducts] = useState<RubberDuck[]>([]);
-
-    useEffect(() => {
-        fetch("api/ducks")
-            .then((res) => res.json())
-            .then((ducks: RubberDuck[]) => setProducts(ducks))
-            .catch((reason) => console.log("Fetching ducks error: " + reason));
-    }, []);
+export default async function NewestProducts() {
+    const products: RubberDuck[] = await getDucks();
 
     return (
         <div className="bg-white">

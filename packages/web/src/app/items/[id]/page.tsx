@@ -1,26 +1,15 @@
-"use client";
 import Header from "@/app/Header.component"; // Assumption: Header.component.tsx exists in src/app/
 import ProductImage from "./ProductImage.component";
 import ProductInfo from "./ProductInfo.component";
 import ProductDetails from "./ProductDetails.component";
 import AddToCartForm from "./AddToCartForm.component";
-import { notFound, useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
+import { notFound } from "next/navigation";
+import getDuck from "../../../lib/actions/rubberduck/getDuckById";
 
-export default function ItemsPage() {
-    const params = useParams();
-    const id = Number(params?.id);
-    const [duck, setDuck] = useState<RubberDuck | null>(null);
+type ItemsPageProps = Readonly<{ params: { id: string } }>;
 
-    useEffect(() => {
-        fetch(`/api/ducks/${id}`)
-            .then((res) => res.json())
-            .then((duck: RubberDuck) => setDuck(duck))
-            .catch((reason) => console.log("Fetching duck error: " + reason));
-    }, [id]);
-
-    if (duck) {
+export default async function ItemsPage({ params }: ItemsPageProps) {
+    const duck = await getDuck(parseInt(params.id)).catch(notFound);
 
     return (
         <div className="min-h-screen bg-white">
@@ -38,5 +27,4 @@ export default function ItemsPage() {
             </main>
         </div>
     );
-    }
 }
