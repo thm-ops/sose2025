@@ -1,10 +1,11 @@
-import Header from "@/app/Header.component"; // Assumption: Header.component.tsx exists in src/app/
+import { notFound } from "next/navigation";
+import Header from "@/app/Header.component";
 import ProductImage from "./ProductImage.component";
 import ProductInfo from "./ProductInfo.component";
 import ProductDetails from "./ProductDetails.component";
 import AddToCartForm from "./AddToCartForm.component";
-import { notFound } from "next/navigation";
-import getDuck from "../../../lib/actions/rubberduck/getDuckById";
+import QuickBuy from "./QuickBuy.component"; // Import der neuen Komponente
+import getDuck from "@/lib/actions/rubberduck/getDuckById";
 
 type ItemsPageProps = Readonly<{ params: { id: string } }>;
 
@@ -21,7 +22,8 @@ export default async function ItemsPage({ params }: ItemsPageProps) {
                         {/* Retaining the layout container for product info and form */}
                         <ProductInfo duck={duck} />
                         <ProductDetails duck={duck} />
-                        <AddToCartForm /> {/* May need duckId or other info as props */}
+                        <AddToCartForm />
+                        <QuickBuy duck={duck} />
                     </div>
                 </div>
             </main>
