@@ -10,7 +10,7 @@ import { PayPalApiService } from "@/lib/paypal";
  * @returns A promise that resolves to the unique identifier (ID) of the created order.
  */
 export async function placeOrder(cart: Cart): Promise<string> {
-    const order = await new PayPalApiService().createOrder(cart);
+    const order = await PayPalApiService.createOrder(cart);
     return order.id!;
 }
 

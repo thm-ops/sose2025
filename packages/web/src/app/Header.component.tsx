@@ -43,7 +43,7 @@ const Header: FunctionComponent<HeaderProps> = ({ absolute = false, dark = false
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link href="#" className={`text-sm/6 font-semibold ${dark && "text-white"}`}>
+                    <Link href="/cart" className={`text-sm/6 font-semibold ${dark && "text-white"}`}>
                         Warenkorb <span aria-hidden="true">&rarr;</span>
                     </Link>
                 </div>

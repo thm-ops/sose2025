@@ -18,7 +18,7 @@ export default function Checkout() {
     return (
         <PayPalScriptProvider
             options={{
-                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+                clientId: "AaSSId07SE-NneCnC6AntNjZS2Km5889IOj-3YC6KPv0gDE05aIUEHi5VyalbTKtHZGdkjyMWXW2LpEE",
                 currency: "EUR",
                 intent: "capture",
             }}>
@@ -35,3 +35,4 @@ export default function Checkout() {
         </PayPalScriptProvider>
     );
 }
+
