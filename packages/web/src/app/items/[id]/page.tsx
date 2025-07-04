@@ -1,11 +1,12 @@
 import { rubberDuckData } from "@/data/data";
 import { RubberDuckSchema } from "@/lib/model/rubberduck/Rubberduck.type";
 import { notFound } from "next/navigation";
-import Header from "@/app/Header.component"; // Assumption: Header.component.tsx exists in src/app/
+import Header from "@/app/Header.component";
 import ProductImage from "./ProductImage.component";
 import ProductInfo from "./ProductInfo.component";
 import ProductDetails from "./ProductDetails.component";
 import AddToCartForm from "./AddToCartForm.component";
+import QuickBuy from "./QuickBuy.component"; // Import der neuen Komponente
 
 export default async function ItemsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -25,11 +26,10 @@ export default async function ItemsPage({ params }: { params: Promise<{ id: stri
                 <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-8">
                     <ProductImage duck={duck} />
                     <div>
-                        {" "}
-                        {/* Retaining the layout container for product info and form */}
                         <ProductInfo duck={duck} />
                         <ProductDetails duck={duck} />
-                        <AddToCartForm /> {/* May need duckId or other info as props */}
+                        <AddToCartForm />
+                        <QuickBuy duck={duck} />
                     </div>
                 </div>
             </main>
