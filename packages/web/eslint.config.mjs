@@ -34,7 +34,7 @@ const eslintConfig = [
                     cspell: {
                         import: ["@cspell/dict-de-de/cspell-ext.json"],
                         language: "en-US,de-DE",
-                        words: ["Gurkistan", "picsum", "unsplash", "PAYPAL", "paypal", "dicebear"],
+                        words: ["Gurkistan", "picsum", "unsplash", "PAYPAL", "paypal", "buynow", "dicebear"],
                     },
                 },
             ],
