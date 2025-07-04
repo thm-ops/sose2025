@@ -11,11 +11,11 @@ type Props = {
  * @type {Array<{name: string, value: string, change: string, changeType: 'positive' | 'negative'}>}
  * @description Contains the key statistics displayed in the AdminStats component, including products, orders, customers, and revenue.
  */
-const stats: Array<{ name: string; value: string; change: string; changeType: "positive" | "negative" }> = [
-    { name: "Produkte", value: "69 Produkte", change: "+54.02%", changeType: "positive" },
-    { name: "Bestellungen", value: "28 Bestellungen", change: "-20.02%", changeType: "negative" },
-    { name: "Kunden", value: "20 Kunden", change: "+54.02%", changeType: "positive" },
-    { name: "Umsatz", value: "245,98 €", change: "-1.39%", changeType: "negative" },
+const stats: Array<{ name: string; value: string; change: string; positive: boolean }> = [
+    { name: "Produkte", value: "69 Produkte", change: "+54.02%", positive: true },
+    { name: "Bestellungen", value: "28 Bestellungen", change: "-20.02%", positive: false },
+    { name: "Kunden", value: "20 Kunden", change: "+54.02%", positive: true },
+    { name: "Umsatz", value: "245,98 €", change: "-1.39%", positive: false },
 ];
 
 /**
@@ -37,7 +37,7 @@ const AdminStats: FunctionComponent<Props> = ({}) => {
                         <dt className="text-sm/6 font-medium text-gray-500">{stat.name}</dt>
                         <dd
                             className={classNames(
-                                stat.changeType === "negative" ? "text-rose-600" : "text-gray-700",
+                                stat.positive ? "text-gray-700" : "text-rose-600",
                                 "text-xs font-medium",
                             )}>
                             {stat.change}
