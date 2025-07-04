@@ -7,10 +7,16 @@ import AddToCartForm from "./AddToCartForm.component";
 import QuickBuy from "./QuickBuy.component"; // Import der neuen Komponente
 import getDuck from "@/lib/actions/rubberduck/getDuckById";
 
-type ItemsPageProps = Readonly<{ params: { id: string } }>;
+interface ItemsPageProps {
+    params: Promise<{
+        id: string;
+    }>;
+}
 
-export default async function ItemsPage({ params }: ItemsPageProps) {
-    const duck = await getDuck(parseInt(params.id)).catch(notFound);
+export default async function ItemsPage({ params }: Readonly<ItemsPageProps>) {
+    const { id } = await params;
+
+    const duck = await getDuck(parseInt(id)).catch(notFound);
 
     return (
         <div className="min-h-screen bg-white">
@@ -19,7 +25,6 @@ export default async function ItemsPage({ params }: ItemsPageProps) {
                 <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-8">
                     <ProductImage duck={duck} />
                     <div>
-                        {/* Retaining the layout container for product info and form */}
                         <ProductInfo duck={duck} />
                         <ProductDetails duck={duck} />
                         <AddToCartForm />
