@@ -11,7 +11,8 @@
     "format":  "npm run format --workspaces",
     "dev:web": "npm run dev --workspace=@sose2025/web",
     "build:web": "npm run build --workspace=@sose2025/web",
-    "start:web": "npm run start --workspace=@sose2025/web"
+    "start:web": "npm run start --workspace=@sose2025/web",
+    "dev:https": "npm exec next dev --workspace=@sose2025/web -- --experimental-https"
   },
   
   "workspaces": [
