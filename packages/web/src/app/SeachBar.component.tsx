@@ -28,7 +28,7 @@ export default function SearchBar({
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full sm:w-64 lg:w-80 px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
             />
-            <MagnifyingGlassIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-6" />
+            <MagnifyingGlassIcon className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-6 pointer-events-none" />
         </div>
     );
 }
