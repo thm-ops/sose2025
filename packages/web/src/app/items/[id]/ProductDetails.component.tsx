@@ -20,12 +20,12 @@ export default function ProductDetails({ duck }: ProductDetailsProps) {
             <div>
                 <strong>Brand:</strong> {duck.brand?.name ?? "–"}
             </div>
-            <div>
+            {/*<div>
                 <strong>Origin:</strong> {duck.origin.name}
             </div>
             <div>
                 <strong>Producer:</strong> {duck.producer.name}
-            </div>
+    </div>*/}
             <div>
                 <strong>Weight:</strong> {duck.weight} kg
             </div>

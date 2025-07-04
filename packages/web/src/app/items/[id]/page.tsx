@@ -14,15 +14,13 @@ export default function ItemsPage() {
     const [duck, setDuck] = useState<RubberDuck | null>(null);
 
     useEffect(() => {
-        fetch(`api/ducks/${id}`)
+        fetch(`/api/ducks/${id}`)
             .then((res) => res.json())
             .then((duck: RubberDuck) => setDuck(duck))
             .catch((reason) => console.log("Fetching duck error: " + reason));
     }, [id]);
 
-    if (!duck) {
-        notFound();
-    }
+    if (duck) {
 
     return (
         <div className="min-h-screen bg-white">
@@ -40,4 +38,5 @@ export default function ItemsPage() {
             </main>
         </div>
     );
+    }
 }
