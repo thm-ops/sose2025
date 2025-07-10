@@ -81,7 +81,7 @@ export default function OrderConfirmationPage() {
                 console.log("Order data received:", data.order);
                 setOrderDetails(data.order);
 
-                // Traiter les articles...
+                // Processing items
             } catch (err) {
                 console.error("Error fetching order details:", err);
                 setError(err instanceof Error ? err.message : "Impossible de récupérer les détails de la commande.");

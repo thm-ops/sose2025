@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PayPalApiService } from '@/lib/paypal';
 
-// Types pour le cache (identiques à ceux de la route orders)
 interface CartItem {
     id: number;
     qty: number;
@@ -22,7 +21,7 @@ interface CachedOrder {
     capturedAt?: string;
 }
 
-// Cache typé (partagé entre les routes)
+// Typed cache (shared between routes)
 const orderCache = new Map<string, CachedOrder>();
 
 export async function POST(request: NextRequest) {
@@ -47,7 +46,7 @@ export async function POST(request: NextRequest) {
 
             const order = await PayPalApiService.createOrder(cart as CartItem[]);
 
-            // Sauvegarder les détails de la commande avec les infos du panier
+            // Save order details with basket info
             const orderData = {
                 paypalOrder: order,
                 cart: cart as CartItem[],
@@ -80,10 +79,10 @@ export async function POST(request: NextRequest) {
                 );
             }
 
-            // Capturer la commande
+            // Captur order
             const captureResult = await PayPalApiService.captureOrder(orderId as string);
 
-            // Mettre à jour le cache avec les détails complets
+            // Update cache with full details
             const cachedOrder = orderCache.get(orderId as string);
             if (cachedOrder) {
                 orderCache.set(orderId as string, {
@@ -116,5 +115,5 @@ export async function POST(request: NextRequest) {
     }
 }
 
-// Exporter le cache pour l'utiliser dans d'autres routes
+// Export cache for use in other routes
 export { orderCache };

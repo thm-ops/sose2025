@@ -17,12 +17,12 @@ export async function GET(
             );
         }
 
-        // Vérifier d'abord dans le cache
+        // First check the cache
         const cachedOrder = orderCache.get(orderId);
         if (cachedOrder) {
             console.log('Found order in cache:', cachedOrder);
 
-            // Calculer les montants à partir du cache
+            // Calculate amounts from cache
             const subtotal = cachedOrder.subtotal || 0;
             const shipping = cachedOrder.shipping || 500; // 5€ par défaut
             const tax = cachedOrder.tax || (subtotal * 0.19);
@@ -61,7 +61,7 @@ export async function GET(
 
             return NextResponse.json({ order: orderResponse });
         }
-        // Essayer de récupérer depuis PayPal (ne marchera pas pour les commandes capturées)
+        // Trying to recover from PayPal
         try {
             const order = await PayPalApiService.getOrder(orderId);
 

@@ -45,7 +45,7 @@ export default function ShoppingCart() {
 
     // PayPal configuration
     const initialOptions = {
-        clientId:  "AaSSId07SE-NneCnC6AntNjZS2Km5889IOj-3YC6KPv0gDE05aIUEHi5VyalbTKtHZGdkjyMWXW2LpEE",
+        clientId:  process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || ' ',
         currency: "EUR",
         intent: "capture",
     };
@@ -78,13 +78,12 @@ export default function ShoppingCart() {
     };
 
     // Handle PayPal approval
-// Dans votre composant ShoppingCart
     const onApprove = async (data: any) => {
         try {
             console.log('=== PAYPAL APPROVAL ===');
             console.log('Order ID:', data.orderID);
 
-            // Récupérer les détails de la commande AVANT la capture
+            // Recover order details BEFORE capture
             const orderDetailsResponse = await fetch(`/orders/${data.orderID}`);
             let orderDetails = null;
 
@@ -94,7 +93,7 @@ export default function ShoppingCart() {
                 console.log('Order details before capture:', orderDetails);
             }
 
-            // Capturer la commande
+            // Capture order
             const response = await fetch('/paypal', {
                 method: 'POST',
                 headers: {
@@ -116,10 +115,8 @@ export default function ShoppingCart() {
             const captureData = await response.json();
             console.log('Payment captured successfully:', captureData);
 
-            // Clear cart after successful payment
             setCart([]);
 
-            // Redirect to order confirmation
             router.push(`/order-confirmation/${data.orderID}`);
         } catch (error) {
             console.error('Error capturing payment:', error);
