@@ -37,8 +37,8 @@ export class PayPalApiService {
      */
     public static getClient(): Client {
         if (!PayPalApiService.instance) {
-            const clientId = "AaSSId07SE-NneCnC6AntNjZS2Km5889IOj-3YC6KPv0gDE05aIUEHi5VyalbTKtHZGdkjyMWXW2LpEE";
-            const secret = "EAcyPQY4Fq8K8wrx0PohVW-jtRfGKdyP7CjVhJNbJoz8o-IHPZwaXJyGJnS1dRKcysnJ5SupBSqd15xK";
+            const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+            const secret = process.env.PAYPAL_SECRET;
             if (!clientId || !secret) {
                 throw new Error("PayPal client ID and secret must be set");
             }
@@ -245,6 +245,7 @@ export class PayPalApiService {
 
             const captureRequest = {
                 id: id,
+                // Make sure to include proper headers
                 prefer: "return=representation"
             };
 
