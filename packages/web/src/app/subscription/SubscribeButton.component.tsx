@@ -35,7 +35,6 @@ export default function SubscribeButton({ subscription }: SubscribeButtonProps) 
                                 plan_id: planId,
                             })
                             .then((orderId) => {
-                                console.log(orderId);
                                 return orderId;
                             });
                     }}
