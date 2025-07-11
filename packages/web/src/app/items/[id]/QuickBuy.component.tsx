@@ -1,11 +1,11 @@
 "use client";
 
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
-import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
+import { RubberDuck } from "@/lib/model/rubberduck/prisma/Rubberduck.type";
 import { captureOrder, placeOrder } from "@/app/demo/checkout/Checkout.actions";
 
 interface QuickBuyProps {
-    duck: RubberDuck;
+    readonly duck: RubberDuck;
 }
 
 /**
