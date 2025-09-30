@@ -35,6 +35,7 @@ export class PayPalApiService {
      * @returns {Client} A configured instance of the PayPal client.
      * @throws {Error} If the client ID or secret is not set in the environment variables.
      */
+
     public static getClient(): Client {
         if (!PayPalApiService.instance) {
             const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
@@ -65,23 +66,6 @@ export class PayPalApiService {
         return PayPalApiService.instance;
     }
 
-    /**
-     * Retrieves a PayPal order by its ID.
-     *
-     * This method fetches the details of an existing PayPal order using the provided order ID.
-     *
-     * @param {string} id - The PayPal order ID to retrieve.
-     * @returns {Promise<Order>} A promise that resolves to the retrieved PayPal order.
-     */
-    async getOrder(id: string): Promise<Order> {
-        const client: Client = PayPalApiService.getClient();
-        const ordersController = new OrdersController(client);
-        const order = await ordersController.getOrder({
-            id: id,
-            fields: "purchase_units"
-        });
-        return order.result;
-    }
 
     /**
      * Creates a PayPal order based on the provided cart data.
@@ -92,6 +76,7 @@ export class PayPalApiService {
      * @param {Cart} cart - The shopping cart containing product IDs and quantities.
      * @returns {Promise<Order>} A promise that resolves to the created PayPal order.
      */
+
     public static async createOrder(cart: Cart): Promise<Order> {
         const client = PayPalApiService.getClient();
         const ordersController = new OrdersController(client);
@@ -100,8 +85,10 @@ export class PayPalApiService {
         let total = 0;
         for (const entry of cart) {
             const item = rubberDuckData.find((x) => x.id == entry.id);
+
             if (item) {
                 total += item.price * entry.qty;
+
                 items.push({
                     name: item.name,
                     quantity: entry.qty.toString(),
@@ -191,7 +178,6 @@ export class PayPalApiService {
      * @param {string} id - The PayPal order ID to be captured.
      * @returns {Promise<Order>} A promise that resolves to the captured order result.
      */
-// In your PayPal service file
     static async captureOrder(orderId: string) {
         try {
             const client: Client = PayPalApiService.getClient();
@@ -199,7 +185,6 @@ export class PayPalApiService {
 
             const captureRequest = {
                 id: orderId,
-                // Make sure to include proper headers
                 prefer: "return=representation"
             };
 
@@ -211,7 +196,16 @@ export class PayPalApiService {
         }
     }
 
-    // Dans votre service PayPal
+    /**
+     * Retrieves a PayPal order by ID with enhanced logging and error handling.
+     *
+     * This method is useful for debugging, as it logs both the request and the response,
+     * and returns null if the order cannot be retrieved instead of throwing an error.
+     *
+     * @param {string} orderId - The PayPal order ID to retrieve.
+     * @returns {Promise<Order | null>} A promise that resolves to the order result, or null if an error occurs.
+     */
+
     public static async getOrder(orderId: string): Promise<Order | null> {
         try {
             console.log('=== PAYPAL GET ORDER ===');
@@ -238,6 +232,16 @@ export class PayPalApiService {
             return null;
         }
     }
+    /**
+     * Captures a PayPal order by its ID (instance method version).
+     *
+     * This method is similar to the static ⁠ captureOrder ⁠ method, but provided as an
+     * instance method for flexibility in usage.
+     *
+     * @param {string} id - The PayPal order ID to capture.
+     * @returns {Promise<Order>} A promise that resolves to the captured PayPal order.
+     */
+
     async captureOrder(id: string) {
         try {
             const client: Client = PayPalApiService.getClient();

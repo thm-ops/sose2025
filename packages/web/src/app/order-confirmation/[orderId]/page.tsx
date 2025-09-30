@@ -1,37 +1,67 @@
-// src/app/order-confirmation/[orderId]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { PayPalOrder, PayPalItem } from '@/types/paypal';
-import {ShoppingCartItem} from "@/app/cart/cart.component";
-import {rubberDuckData} from "@/data/data";
+import { ShoppingCartItem } from "@/app/cart/cart.component";
+import { rubberDuckData } from "@/data/data";
 
-
-// Add a type for the API response
+/**
+ * API response when an order is successfully retrieved.
+ */
 interface OrderResponse {
     order: PayPalOrder;
 }
 
+/**
+ * API response in case of an error.
+ */
 interface ErrorResponse {
     error: string;
 }
 
-export default function OrderConfirmationPage() {
+/**
+ * @page OrderConfirmationPage
+ * @description
+ * React page that displays the confirmation details of a PayPal order.
+ * Route: `/order-confirmation/[orderId]`
+ *
+ * It fetches the PayPal order using its ID, then displays:
+ * - Order status
+ * - Ordered items with subtotal
+ * - Shipping cost
+ * - Taxes and total
+ *
+ * Includes error handling and loading states.
+ *
+ * @returns {JSX.Element} The order confirmation page.
+ */
+export default function OrderConfirmationPage(){
     const params = useParams();
     const orderId = params.orderId as string;
 
+    /** PayPal order object retrieved from the API */
     const [orderDetails, setOrderDetails] = useState<PayPalOrder | null>(null);
+
+    /** Local representation of the order items (mapped for display) */
     const [orderItems, setOrderItems] = useState<ShoppingCartItem[]>([]);
+
+    /** Loading state while fetching order */
     const [loading, setLoading] = useState<boolean>(true);
+
+    /** Error message if the API request fails */
     const [error, setError] = useState<string | null>(null);
+
+    /** Flag to ensure this only runs client-side */
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
     }, []);
 
-    // Type guard function to check if response is an order
+    /**
+     * Type guard: checks if data is `OrderResponse`.
+     */
     const isOrderResponse = (data: unknown): data is OrderResponse => {
         return (
             typeof data === 'object' &&
@@ -41,17 +71,20 @@ export default function OrderConfirmationPage() {
         );
     };
 
-    // Type guard function to check if response is an error
+    /**
+     * Type guard: checks if data is `ErrorResponse`.
+     */
     const isErrorResponse = (data: unknown): data is ErrorResponse => {
         return (
             typeof data === 'object' &&
             data !== null &&
-            'error' in data &&
-            true
+            'error' in data
         );
     };
 
-    // Type guard for PayPal items
+    /**
+     * Type guard: checks if data is `PayPalItem`.
+     */
     const isPayPalItem = (item: unknown): item is PayPalItem => {
         return (
             typeof item === 'object' &&
@@ -62,7 +95,10 @@ export default function OrderConfirmationPage() {
         );
     };
 
-// src/app/order-confirmation/[orderId]/page.tsx
+    /**
+     * Fetches order details from the backend API (`/orders/[orderId]`).
+     * Handles both success (PayPal order returned) and error states.
+     */
     useEffect(() => {
         async function fetchOrderDetails() {
             if (!orderId) return;
@@ -71,7 +107,7 @@ export default function OrderConfirmationPage() {
                 setLoading(true);
                 setError(null);
 
-                const response = await fetch(`/orders/${orderId}`); // <- Cette URL doit correspondre à votre route
+                const response = await fetch(`/orders/${orderId}`); // <- Must match your API route
                 const data = await response.json();
 
                 if (!response.ok) {
@@ -79,12 +115,13 @@ export default function OrderConfirmationPage() {
                 }
 
                 console.log("Order data received:", data.order);
+
                 setOrderDetails(data.order);
 
-                // Processing items
+
             } catch (err) {
                 console.error("Error fetching order details:", err);
-                setError(err instanceof Error ? err.message : "Impossible de récupérer les détails de la commande.");
+                setError(err instanceof Error ? err.message : "Unable to fetch order details.");
             } finally {
                 setLoading(false);
             }
@@ -94,12 +131,16 @@ export default function OrderConfirmationPage() {
             fetchOrderDetails();
         }
     }, [orderId, isClient]);
-    // Calculate totals
+
+    /**
+     * Calculate subtotal, shipping, tax and total values.
+     */
     const subtotal = orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 500; // 5,00 €
-    const tax = subtotal * 0.19; // 19% TVA
+    const shipping = 500;          // Fixed 5.00 € shipping cost
+    const tax = subtotal * 0.19;   // 19% VAT
     const orderTotal = subtotal + shipping + tax;
 
+    // === UI States ===
     if (loading) {
         return (
             <div className="container mx-auto px-4 py-8">
@@ -118,7 +159,7 @@ export default function OrderConfirmationPage() {
             <div className="container mx-auto px-4 py-8">
                 <div className="max-w-2xl mx-auto">
                     <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                        <h2 className="text-lg font-semibold text-red-800 mb-2">Erreur</h2>
+                        <h2 className="text-lg font-semibold text-red-800 mb-2">Error</h2>
                         <p className="text-red-700">{error}</p>
                     </div>
                 </div>
@@ -126,31 +167,32 @@ export default function OrderConfirmationPage() {
         );
     }
 
+    // === Main Render ===
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="max-w-2xl mx-auto">
                 <h1 className="text-3xl font-bold text-center mb-8">
-                    Bestätigung der Bestellung
+                    Order Confirmation
                 </h1>
 
                 {orderDetails && (
                     <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
                         <h2 className="text-xl font-semibold mb-4">
-                            Commande #{orderDetails.id}
+                            Order #{orderDetails.id}
                         </h2>
                         <p className="text-gray-600 mb-4">
-                            Statut: <span className="font-semibold">{orderDetails.status}</span>
+                            Status: <span className="font-semibold">{orderDetails.status}</span>
                         </p>
 
                         {orderItems.length > 0 && (
                             <div className="space-y-4">
-                                <h3 className="text-lg font-semibold">Articles commandés:</h3>
+                                <h3 className="text-lg font-semibold">Ordered Items:</h3>
                                 {orderItems.map((item, index) => (
                                     <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded">
                                         <div>
                                             <h4 className="font-medium">{item.name}</h4>
                                             <p className="text-sm text-gray-600">
-                                                Quantité: {item.quantity}
+                                                Quantity: {item.quantity}
                                             </p>
                                         </div>
                                         <div className="text-right">
@@ -163,18 +205,19 @@ export default function OrderConfirmationPage() {
                             </div>
                         )}
 
+                        {/* Totals */}
                         <div className="mt-6 pt-6 border-t">
                             <div className="space-y-2">
                                 <div className="flex justify-between">
-                                    <span>Sous-total:</span>
+                                    <span>Subtotal:</span>
                                     <span>{(subtotal / 100).toFixed(2)} €</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span>Frais de port:</span>
+                                    <span>Shipping:</span>
                                     <span>{(shipping / 100).toFixed(2)} €</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span>TVA (19%):</span>
+                                    <span>VAT (19%):</span>
                                     <span>{(tax / 100).toFixed(2)} €</span>
                                 </div>
                                 <div className="flex justify-between font-bold text-lg border-t pt-2">

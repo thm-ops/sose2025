@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Utils } from "@/lib/utils/mod";
 import useCart from "@/lib/hooks/cart/useCart.hook";
 import RubberDuck from "@/lib/model/rubberduck/Rubberduck.type";
 import { fetchProductsForCart } from "./fetchProductsForCart.function";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 export type ShoppingCartItem = RubberDuck & {
@@ -21,12 +21,30 @@ export default function ShoppingCart() {
     const [items, setItems] = useState<ShoppingCartItem[]>([]);
     const [showPayPal, setShowPayPal] = useState(false);
 
+    /**
+     * Update item quantity
+     * If new quantity <= 0 → remove item from cart
+     */
     const handleQuantityChange = (id: number, delta: number) => {
         const currentItem = cart.find((item) => item.id === id);
         if (currentItem !== undefined) {
-            const currentQty = currentItem.qty + delta;
-            setCart([...cart.filter((item) => item.id !== id), { id, qty: currentQty }]);
+            const newQty = currentItem.qty + delta;
+            if (newQty <= 0) {
+                setCart(cart.filter((item) => item.id !== id));
+            } else {
+                setCart([
+                    ...cart.filter((item) => item.id !== id),
+                    { id, qty: newQty },
+                ]);
+            }
         }
+    };
+
+    /**
+     * Remove item completely from the cart
+     */
+    const handleRemoveItem = (id: number) => {
+        setCart(cart.filter((item) => item.id !== id));
     };
 
     useEffect(() => {
@@ -37,15 +55,15 @@ export default function ShoppingCart() {
         setIsClient(true);
     }, []);
 
-    // Calculating the subtotal
+    // Calculating totals
     const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const shipping = 500; // 5,00 €
-    const tax = subtotal * 0.19; // assuming: 19% tax.
+    const shipping = 500; // 5.00 €
+    const tax = subtotal * 0.19; // assuming 19% VAT
     const orderTotal = subtotal + shipping + tax;
 
     // PayPal configuration
     const initialOptions = {
-        clientId:  process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || ' ',
+        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || " ",
         currency: "EUR",
         intent: "capture",
     };
@@ -53,26 +71,25 @@ export default function ShoppingCart() {
     // Create PayPal order
     const createOrder = async () => {
         try {
-            const response = await fetch('/paypal', {
-                method: 'POST',
+            const response = await fetch("/paypal", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    action: 'create-order',
+                    action: "create-order",
                     cart: cart,
                 }),
             });
-
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-            return data.id as string; // Return the order ID from the response
+            return data.id as string;
         } catch (error) {
-            console.error('Error creating PayPal order:', error);
+            console.error("Error creating PayPal order:", error);
             throw error;
         }
     };
@@ -80,52 +97,51 @@ export default function ShoppingCart() {
     // Handle PayPal approval
     const onApprove = async (data: any) => {
         try {
-            console.log('=== PAYPAL APPROVAL ===');
-            console.log('Order ID:', data.orderID);
+            console.log("=== PAYPAL APPROVAL ===");
+            console.log("Order ID:", data.orderID);
 
-            // Recover order details BEFORE capture
             const orderDetailsResponse = await fetch(`/orders/${data.orderID}`);
             let orderDetails = null;
 
             if (orderDetailsResponse.ok) {
                 const orderData = await orderDetailsResponse.json();
                 orderDetails = orderData.order;
-                console.log('Order details before capture:', orderDetails);
+                console.log("Order details before capture:", orderDetails);
             }
 
-            // Capture order
-            const response = await fetch('/paypal', {
-                method: 'POST',
+            const response = await fetch("/paypal", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    action: 'capture-order',
+                    action: "capture-order",
                     orderId: data.orderID,
-                    orderDetails: orderDetails // Passer les détails
+                    orderDetails: orderDetails,
                 }),
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Capture error:', errorData);
+                console.error("Capture error:", errorData);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const captureData = await response.json();
-            console.log('Payment captured successfully:', captureData);
+            console.log("Payment captured successfully:", captureData);
 
             setCart([]);
 
             router.push(`/order-confirmation/${data.orderID}`);
         } catch (error) {
-            console.error('Error capturing payment:', error);
-            alert('Payment capture failed. Please try again.');
+            console.error("Error capturing payment:", error);
+            alert("Payment capture failed. Please try again.");
         }
     };
+
     const handleProceedToPayment = () => {
         if (items.length === 0) {
-            alert('Your cart is empty!');
+            alert("Your cart is empty!");
             return;
         }
         setShowPayPal(true);
@@ -133,20 +149,26 @@ export default function ShoppingCart() {
 
     return (
         <main className="mx-auto max-w-2xl px-4 pt-16 pb-24 sm:px-6 lg:max-w-7xl lg:px-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Warenkorb</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Shopping Cart
+            </h1>
 
             <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+                {/* Cart section */}
                 <section aria-labelledby="cart-heading" className="lg:col-span-7">
                     <h2 id="cart-heading" className="sr-only">
-                        Ware in deinem Warenkorb
+                        Your cart items
                     </h2>
 
                     {items.length === 0 ? (
                         <div className="text-center py-12">
-                            <p className="text-gray-500">Ihr Warenkorb ist leer</p>
+                            <p className="text-gray-500">Your cart is currently empty.</p>
                         </div>
                     ) : (
-                        <ul role="list" className="divide-y divide-gray-200 border-t border-b border-gray-200">
+                        <ul
+                            role="list"
+                            className="divide-y divide-gray-200 border-t border-b border-gray-200"
+                        >
                             {items.map((product) => (
                                 <li key={product.id} className="flex py-6 sm:py-10">
                                     <div className="shrink-0">
@@ -166,41 +188,53 @@ export default function ShoppingCart() {
                                                     <h3 className="text-sm">
                                                         <a
                                                             href={"/items/" + product.id}
-                                                            className="font-medium text-gray-700 hover:text-gray-800">
+                                                            className="font-medium text-gray-700 hover:text-gray-800"
+                                                        >
                                                             {product.name}
                                                         </a>
                                                     </h3>
                                                 </div>
+                                                <p className="mt-1 text-sm font-medium text-gray-900">
+                                                    {Utils.price.display(product.price)}
+                                                </p>
+
+                                                {/* Quantity controls */}
                                                 <div className="mt-1 flex text-sm">
-                                                    <p className="text-gray-500">{product.color}</p>
-                                                    {product.size && (
-                                                        <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{product.size}</p>
-                                                    )}
-                                                </div>
-                                                <p className="mt-1 text-sm font-medium text-gray-900">{Utils.price.display(product.price)}</p>
-                                                <div className="mt-1 flex text-sm">
-                                                    <div key={product.id} className="flex items-center gap-2 mb-4">
+                                                    <div className="flex items-center gap-2 mb-4">
                                                         <button
                                                             type="button"
-                                                            onClick={() => handleQuantityChange(product.id, -1)}
-                                                            className="btn btn-blue text-sm">
+                                                            onClick={() =>
+                                                                handleQuantityChange(product.id, -1)
+                                                            }
+                                                            className="rounded bg-gray-200 px-2 py-1 text-gray-700 hover:bg-gray-300"
+                                                        >
                                                             -
                                                         </button>
-                                                        <p key={"q" + product.id} className="text-sm font-medium text-gray-900">
+                                                        <p className="text-sm font-medium text-gray-900">
                                                             x{product.quantity}
                                                         </p>
                                                         <button
                                                             type="button"
-                                                            onClick={() => handleQuantityChange(product.id, 1)}
-                                                            className="btn btn-blue text-sm">
+                                                            onClick={() =>
+                                                                handleQuantityChange(product.id, 1)
+                                                            }
+                                                            className="rounded bg-gray-200 px-2 py-1 text-gray-700 hover:bg-gray-300"
+                                                        >
                                                             +
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div className="mt-4 sm:mt-0 sm:pr-9">
-                                                <div className="absolute top-0 right-0"></div>
+                                            {/* Remove button */}
+                                            <div className="mt-4 sm:mt-0 sm:pr-9 text-right">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveItem(product.id)}
+                                                    className="text-sm font-medium text-red-600 hover:text-red-800"
+                                                >
+                                                    Remove
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -210,23 +244,25 @@ export default function ShoppingCart() {
                     )}
                 </section>
 
+                {/* Summary section */}
                 <section
                     aria-labelledby="summary-heading"
-                    className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
+                    className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+                >
                     <h2 id="summary-heading" className="text-lg font-medium text-gray-900">
-                        Zusammenfassung
+                        Order Summary
                     </h2>
 
                     <dl className="mt-6 space-y-4">
                         <div className="flex items-center justify-between">
-                            <dt className="text-sm text-gray-600">Zwischensumme</dt>
+                            <dt className="text-sm text-gray-600">Subtotal</dt>
                             <dd className="text-sm font-medium text-gray-900">
                                 {isClient ? Utils.price.display(subtotal) : null}
                             </dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="flex items-center text-sm text-gray-600">
-                                <span>Ungefähre Lieferkosten</span>
+                                <span>Estimated shipping</span>
                             </dt>
                             <dd className="text-sm font-medium text-gray-900">
                                 {Utils.price.display(shipping)}
@@ -234,14 +270,14 @@ export default function ShoppingCart() {
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                             <dt className="flex text-sm text-gray-600">
-                                <span>Ungefähre Steuern</span>
+                                <span>Estimated tax</span>
                             </dt>
                             <dd className="text-sm font-medium text-gray-900">
                                 {isClient ? Utils.price.display(tax) : null}
                             </dd>
                         </div>
                         <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                            <dt className="text-base font-medium text-gray-900">Summe</dt>
+                            <dt className="text-base font-medium text-gray-900">Total</dt>
                             <dd className="text-base font-medium text-gray-900">
                                 {isClient ? Utils.price.display(orderTotal) : null}
                             </dd>
@@ -254,8 +290,9 @@ export default function ShoppingCart() {
                                 type="button"
                                 onClick={handleProceedToPayment}
                                 disabled={items.length === 0}
-                                className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-hidden disabled:bg-gray-400 disabled:cursor-not-allowed">
-                                Zur Zahlung
+                                className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-xs hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-hidden disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            >
+                                Proceed to Payment
                             </button>
                         ) : (
                             <div className="space-y-4">
@@ -264,18 +301,19 @@ export default function ShoppingCart() {
                                         createOrder={createOrder}
                                         onApprove={onApprove}
                                         style={{
-                                            layout: 'vertical',
-                                            color: 'blue',
-                                            shape: 'rect',
-                                            label: 'paypal'
+                                            layout: "vertical",
+                                            color: "blue",
+                                            shape: "rect",
+                                            label: "paypal",
                                         }}
                                     />
                                 </PayPalScriptProvider>
                                 <button
                                     type="button"
                                     onClick={() => setShowPayPal(false)}
-                                    className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-hidden">
-                                    Zurück
+                                    className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+                                >
+                                    Back
                                 </button>
                             </div>
                         )}

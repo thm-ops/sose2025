@@ -11,30 +11,62 @@ const products: RubberDuck[] = rubberDuckData;
 
 /**
  * @component NewestProducts
- * @description Displays a list of the newest products in a grid layout with search and filter functionality.
+ * @description Displays a list of the newest products in a grid layout.
+ * Includes search, producer filter, and price range selection.
+ *
+ * Features:
+ * - Search products by name or producer
+ * - Filter by producer
+ * - Filter by maximum price
+ * - Dynamic product count display
+ *
+ * @returns {JSX.Element} A React component displaying a searchable and filterable product grid.
  */
+
 export default function NewestProducts() {
+    /**
+     * Search term entered by the user (applied to product name & producer).
+     */
     const [searchTerm, setSearchTerm] = useState("");
+
+    /**
+     * Currently selected producer filter.
+     * "all" means no filtering by producer.
+     */
     const [selectedProducer, setSelectedProducer] = useState("all");
+
+    /**
+     * Selected price range [min, max].
+     * Currently, only the max value is user adjustable via slider.
+     */
     const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
 
-    // Obtenir la liste unique des producteurs
+    /**
+     * Computes a list of unique producers from the available products.
+     *
+     * @returns {string[]} Sorted list of distinct producers.
+     */
     const producers = useMemo(() => {
         const uniqueProducers = [...new Set(products.map(p => p.producer))];
         return uniqueProducers.sort();
     }, []);
 
-    // Filtrer les produits
+    /**
+     * Filters products based on search term, selected producer, and price range.
+     *
+     * @returns {RubberDuck[]} List of products matching the selected filters.
+     */
     const filteredProducts = useMemo(() => {
         return products.filter(product => {
-            // Filtre par recherche
+
+            // Filter by search term (product name or producer)
             const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 product.producer.toLowerCase().includes(searchTerm.toLowerCase());
 
-            // Filtre par producteur
+            // Filter by producer
             const matchesProducer = selectedProducer === "all" || product.producer === selectedProducer;
 
-            // Filtre par prix
+            // Filter by price
             const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
 
             return matchesSearch && matchesProducer && matchesPrice;
@@ -44,11 +76,11 @@ export default function NewestProducts() {
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8" id="productsList">
-                {/* Titre et barre de recherche */}
+                {/* Titel and research */}
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900">Neueste Produkte</h2>
 
-                    {/* Barre de recherche */}
+                    {/* Research */}
                     <div className="relative">
                         <input
                             type="text"
@@ -72,9 +104,9 @@ export default function NewestProducts() {
                         </svg>
                     </div>
 
-                    {/* Filtres */}
+                    {/* Filters */}
                     <div className="flex flex-wrap gap-4">
-                        {/* Filtre par producteur */}
+                        {/* Filter by producer */}
                         <div className="flex-1 min-w-[200px]">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Hersteller
@@ -93,7 +125,7 @@ export default function NewestProducts() {
                             </select>
                         </div>
 
-                        {/* Filtre par prix */}
+                        {/* Filter by price */}
                         <div className="flex-1 min-w-[200px]">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Maximaler Preis: {Utils.price.display(priceRange[1])}
@@ -109,7 +141,7 @@ export default function NewestProducts() {
                         </div>
                     </div>
 
-                    {/* Nombre de résultats */}
+                    {/* Number of results */}
                     <p className="text-sm text-gray-500">
                         {filteredProducts.length} {filteredProducts.length === 1 ? 'Produkt' : 'Produkte'} gefunden
                     </p>
@@ -134,7 +166,7 @@ export default function NewestProducts() {
                                             />
                                         </div>
 
-                                        {/* Texte */}
+                                        {/* Text */}
                                         <div className="p-4">
                                             <div className="flex items-center justify-between text-base font-medium text-gray-900">
                                                 <h3>{product.name.length > 30 ? product.name.slice(0, 30) + "…" : product.name}</h3>
